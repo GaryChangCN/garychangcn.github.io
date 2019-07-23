@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <div class="div">
+        <canvas id="canvas" height="400" width="400"></canvas>
+    </div>
+</body>
+<script>
+    function go() {
+        var date=new Date();
+        var hours = date.getHours();
+        hours = hours > 12 ? hours - 12 : hours;
+        var minutes = date.getMinutes();
+        var seconds = date.getSeconds();
+        var milliSeconds=date.getMilliseconds();
+
+        var canvas = document.getElementById("canvas");
+        var ctx = canvas.getContext("2d");
+        ctx.clearRect(0,0,400,400);
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.lineWidth = "5";
+        ctx.translate(200, 200);
+        ctx.rotate(Math.PI / 6 * (hours+minutes/60));
+        ctx.moveTo(0, 20);
+        ctx.lineTo(0, -80);
+        ctx.stroke();
+        ctx.restore();
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.lineWidth = "3";
+        ctx.translate(200, 200);
+        ctx.rotate(Math.PI / 30 * (minutes+seconds/60));
+        ctx.moveTo(0, 25);
+        ctx.lineTo(0, -100);
+        ctx.stroke();
+        ctx.restore();
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.lineWidth = "1";
+        ctx.translate(200, 200);
+        ctx.rotate(Math.PI / 30 * (seconds+milliSeconds/1000));
+        ctx.moveTo(0, 30);
+        ctx.lineTo(0, -120);
+        ctx.stroke();
+        ctx.restore();
+        ctx.save();
+        ctx.beginPath();
+        ctx.strokeStyle = "#000";
+        ctx.lineWidth = "4";
+        ctx.arc(200, 200, 150, 0, Math.PI * 2, false);
+        ctx.stroke();
+        ctx.restore();
+        for (var i = 1; i <= 12; i++) {
+            ctx.save();
+            ctx.beginPath();
+            ctx.lineWidth = "3";
+            ctx.translate(200, 200);
+            ctx.rotate(Math.PI / 6 * i);
+            ctx.moveTo(0, -135);
+            ctx.lineTo(0, -150);
+            ctx.stroke();
+            ctx.restore();
+        }
+        for (var j = 1; j <= 60; j++) {
+            ctx.save();
+            ctx.beginPath();
+            ctx.lineWidth = "1";
+            ctx.translate(200, 200);
+            ctx.rotate(Math.PI / 30 * j);
+            ctx.moveTo(0, -140);
+            ctx.lineTo(0, -150);
+            ctx.stroke();
+            ctx.restore();
+        }
+        ctx.save();
+        ctx.arc(200, 200, 1, 0, Math.PI * 2, false);
+        ctx.fillStyle = "#fff";
+        ctx.fill();
+        ctx.restore();
+        requestAnimationFrame(go);
+    }
+    requestAnimationFrame(go);
+</script>
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
+    
+    body {
+        background-color: grey;
+        text-align: center;
+    }
+    .div{
+        width: 100%;
+        overflow: auto;
+    }
+    #canvas {
+        background-color: #fff;
+    }
+</style>
+
+</html>

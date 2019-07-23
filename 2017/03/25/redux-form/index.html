@@ -1,0 +1,1807 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+<title>redux-form笔记 - GaryChang的自留地</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="前言这是我在学习redux的文档记得笔记，没有教程意义。">
+<meta name="keywords" content="react">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redux-form笔记">
+<meta property="og:url" content="http://www.garychang.com/2017/03/25/redux-form/index.html">
+<meta property="og:site_name" content="GaryChang的自留地">
+<meta property="og:description" content="前言这是我在学习redux的文档记得笔记，没有教程意义。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://www.garychang.com/images/og_image.png">
+<meta property="og:updated_time" content="2019-07-22T13:23:15.636Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="redux-form笔记">
+<meta name="twitter:description" content="前言这是我在学习redux的文档记得笔记，没有教程意义。">
+<meta name="twitter:image" content="http://www.garychang.com/images/og_image.png">
+<meta name="twitter:creator" content="@garychangcn">
+
+
+
+
+
+
+
+<link rel="icon" href="/favicon.ico">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-76064421-3"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-76064421-3');
+</script>
+
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.jpg" alt="redux-form笔记" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">Home</a>
+                
+                <a class="navbar-item" href="/archives">Archives</a>
+                
+                <a class="navbar-item" href="/categories">Categories</a>
+                
+                <a class="navbar-item" href="/tags">Tags</a>
+                
+                <a class="navbar-item" href="/about">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-03-24T23:50:55.000Z">2017-03-24</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/学习笔记/">学习笔记</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    5 分钟 读完 (大约 772 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                redux-form笔记
+            
+        </h1>
+        <div class="content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这是我在学习redux的文档记得笔记，没有教程意义。</p>
+<a id="more"></a>
+
+<h2 id="简单的例子"><a href="#简单的例子" class="headerlink" title="简单的例子"></a>简单的例子</h2><figure class="highlight js hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//simpleform.jsx</span></span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SimpleForm</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Component</span> </span>&#123;</span><br><span class="line">    render()&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span>(</span><br><span class="line">            &lt;form onSubmit=&#123;<span class="hljs-keyword">this</span>.props.handleSubmit&#125;&gt;</span><br><span class="line">                &lt;Field component=<span class="hljs-string">"input"</span> name=<span class="hljs-string">"m"</span>/&gt;</span><br><span class="line">                &lt;button type=<span class="hljs-string">"submit"</span>&gt;click&lt;<span class="hljs-regexp">/button&gt;</span></span><br><span class="line"><span class="hljs-regexp">            &lt;/</span>form&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> reduxForm(&#123;</span><br><span class="line">    form:<span class="hljs-string">'simpleForm'</span></span><br><span class="line">&#125;)(SimpleForm);</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">//index.jsx</span></span><br><span class="line"><span class="hljs-keyword">import</span> SimpleForm form <span class="hljs-string">'simpleform.jsx'</span>;</span><br><span class="line"><span class="hljs-keyword">import</span> &#123;reducer <span class="hljs-keyword">as</span> reduxFormReducer&#125; <span class="hljs-keyword">from</span> <span class="hljs-string">'redux-form'</span>;</span><br><span class="line"><span class="hljs-keyword">import</span> &#123;combineReducers,createStore&#125; <span class="hljs-keyword">from</span> <span class="hljs-string">'redux'</span>;</span><br><span class="line"><span class="hljs-keyword">import</span> &#123;Provider&#125; <span class="hljs-keyword">from</span> <span class="hljs-string">'react-redux'</span>;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">var</span> reducer=combineReducers(&#123;</span><br><span class="line">    form:reduxFormReducer</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">var</span> store = createStore(reducer);</span><br><span class="line"></span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Index</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Component</span> </span>&#123;</span><br><span class="line">    render()&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span>(</span><br><span class="line">            &lt;Provider store=&#123;store&#125;&gt;</span><br><span class="line">                &lt;SimpleForm onSubmit=&#123;(value)=&gt;&#123;<span class="hljs-built_in">console</span>.log(value)&#125;&#125;/&gt;</span><br><span class="line">            &lt;<span class="hljs-regexp">/Provider&gt;</span></span><br><span class="line"><span class="hljs-regexp">        )</span></span><br><span class="line"><span class="hljs-regexp">    &#125;</span></span><br><span class="line"><span class="hljs-regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>主要方法在reduxForm 里，其会注入很多方法，包括handleSubmit。</li>
+</ul>
+<h2 id="renderField-Factory"><a href="#renderField-Factory" class="headerlink" title="renderField Factory"></a>renderField Factory</h2><p>可以使用一个函数方便的生成<code>div+label+input</code></p>
+<figure class="highlight jsx hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">renderField</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Component</span> </span>&#123;</span><br><span class="line">	render()&#123;</span><br><span class="line">		<span class="hljs-keyword">var</span> &#123;input, label, type, meta&#125;=<span class="hljs-keyword">this</span>.props;</span><br><span class="line">		<span class="hljs-keyword">var</span> &#123;touched,error,warning&#125;=meta;</span><br><span class="line">		<span class="hljs-keyword">return</span> (</span><br><span class="line">			&lt;div&gt;</span><br><span class="line">				&lt;label&gt;&#123;label&#125;&lt;<span class="hljs-regexp">/label&gt;</span></span><br><span class="line"><span class="hljs-regexp">				&lt;div&gt;</span></span><br><span class="line"><span class="hljs-regexp">					&lt;input &#123;...input&#125; type=&#123;type&#125;/</span>&gt;</span><br><span class="line">					&#123;touched&amp;&amp;((error &amp;&amp; <span class="hljs-xml"><span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>&#123; error &#125;<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span></span>) || (warning &amp;&amp; <span class="hljs-xml"><span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>&#123; warning &#125;<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span></span>))&#125;</span><br><span class="line">				&lt;<span class="hljs-regexp">/div&gt;</span></span><br><span class="line"><span class="hljs-regexp">			&lt;/</span>div&gt;</span><br><span class="line">		)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&lt;Field component=&#123;renderField&#125; type=<span class="hljs-string">"text"</span> label=<span class="hljs-string">"username"</span>/&gt;</span><br></pre></td></tr></table></figure>
+
+<p>这里可以看到 <code>input props</code> 会包含在<code>Field</code> 设置的<code>name</code> <code>value</code> 等<code>props</code>。<br><code>meta</code>则是<code>reduxForm</code>注入的。</p>
+<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><ul>
+<li>验证规则默认是blur时候触发</li>
+<li>可以写在<code>reduxForm()</code>方法中</li>
+</ul>
+<figure class="highlight js hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">const</span> validate=<span class="hljs-function">(<span class="hljs-params">value</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="hljs-keyword">const</span> errors=&#123;&#125;</span><br><span class="line">    <span class="hljs-keyword">if</span>(value.xxx)&#123;</span><br><span class="line">        errors.xxx=<span class="hljs-string">"这里写上验证失败返回字段"</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-keyword">return</span> errors;</span><br><span class="line">&#125;</span><br><span class="line">reduxForm(&#123;</span><br><span class="line">    form:<span class="hljs-string">'12ty'</span>,</span><br><span class="line">    validate,</span><br><span class="line">    warn   <span class="hljs-comment">//warn与valiate相同</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>也可以直接写在“行内”</li>
+</ul>
+<figure class="highlight jsx hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">const</span> needEnglish=<span class="hljs-function">(<span class="hljs-params">value</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="hljs-keyword">if</span>(<span class="hljs-regexp">/[a-z]&#123;1,&#125;/</span>.test(value))&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;</span><br><span class="line">    &#125;<span class="hljs-keyword">else</span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-string">"need English"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-keyword">const</span> required=<span class="hljs-function">(<span class="hljs-params">value</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> value?<span class="hljs-literal">null</span>:<span class="hljs-string">"Required"</span>;</span><br><span class="line">&#125;</span><br><span class="line">&lt;Field component=<span class="hljs-string">"input"</span> validate=&#123;[required,needEnglish]&#125; warn=&#123;&#125;/&gt;</span><br><span class="line"><span class="hljs-comment">//warn同理</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>写在submit中，在onSubmit中判断</li>
+</ul>
+<h2 id="异步验证"><a href="#异步验证" class="headerlink" title="异步验证"></a>异步验证</h2><p>在 <code>reduxForm({})</code> 声明 <code>asyncValidate</code> 函数,以及声明<code>asyncBlurFields</code>为要在blur<br>时候触发异步验证的field</p>
+<figure class="highlight jsx hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="hljs-keyword">const</span> sleep=<span class="hljs-function">(<span class="hljs-params">ms</span>)=&gt;</span><span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">reslove</span>)=&gt;</span>&#123;</span><br><span class="line">	setTimeout(reslove,ms)</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">const</span> asyncValidate=<span class="hljs-function">(<span class="hljs-params">value</span>)=&gt;</span>&#123;</span><br><span class="line">	<span class="hljs-keyword">return</span> sleep(<span class="hljs-number">1000</span>).then(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span>&#123;</span><br><span class="line">		<span class="hljs-keyword">if</span>(value.username==<span class="hljs-string">"qwerty"</span>)&#123;</span><br><span class="line">			<span class="hljs-keyword">throw</span> &#123;<span class="hljs-attr">username</span>:<span class="hljs-string">"can't ~~ qwerty"</span>&#125;;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>** 这里asyncValidate函数返回的必须是一个 <code>Promise</code>对象</p>
+<h2 id="初始化表单"><a href="#初始化表单" class="headerlink" title="初始化表单"></a>初始化表单</h2><p><code>reduxForm</code> 会给 <code>form</code> 注入一个 <code>initialvalues</code> <code>props</code>，可以用<code>connect</code>对应到<code>redux</code>中的<code>state</code><br>来实现初始化数据</p>
+<figure class="highlight js hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">mapStateToProps</span>(<span class="hljs-params">state</span>)</span>&#123;</span><br><span class="line">	<span class="hljs-keyword">var</span> state=state.initialForm;</span><br><span class="line">	<span class="hljs-keyword">return</span> &#123;</span><br><span class="line">		initialValues:state</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">mapActionToProps</span>(<span class="hljs-params">dispatch</span>)</span>&#123;</span><br><span class="line">	<span class="hljs-keyword">return</span> &#123;</span><br><span class="line">		load:<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">data</span>)</span>&#123;</span><br><span class="line">			dispatch(loadAction(data))</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> connect(mapStateToProps,mapActionToProps)(</span><br><span class="line">	reduxForm(&#123;</span><br><span class="line">		form:<span class="hljs-string">'initialForm'</span>,</span><br><span class="line">		validate,</span><br><span class="line">		warn</span><br><span class="line">	&#125;)(syncValidForm)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>上面代码中 loadAction是一个action</p>
+<h2 id="Remote-Submit-提交按钮独立出来"><a href="#Remote-Submit-提交按钮独立出来" class="headerlink" title="Remote Submit 提交按钮独立出来"></a>Remote Submit 提交按钮独立出来</h2><figure class="highlight jsx hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> &#123;submit&#125; form <span class="hljs-string">'redux-form'</span>;</span><br><span class="line"><span class="hljs-comment">//formname为reduxForm方法里传入的form名称</span></span><br><span class="line">&lt;button onClick=&#123;submit(<span class="hljs-string">'formname'</span>)&#125;&gt;submit&lt;<span class="hljs-regexp">/button&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="props"><a href="#props" class="headerlink" title="props"></a>props</h2><ul>
+<li>submitting<ul>
+<li>是够正在提交阶段（submit验证）</li>
+</ul>
+</li>
+</ul>
+<h2 id="reduxForm"><a href="#reduxForm" class="headerlink" title="reduxForm"></a>reduxForm</h2><ul>
+<li>asyncBlurFields</li>
+<li>asyncValidate</li>
+<li>destoryOnUnmount</li>
+<li>enableReinitialize<ul>
+<li>boolean 默认值的 false 当为true时候，每次initialValues props变化时候，form都会重新初始化，但是不能初始化 keepDirtyOnreinitialize设置的项</li>
+</ul>
+</li>
+<li>forceUnregisterOnUnmount<br>  * </li>
+<li>getFormState<br>  * </li>
+<li>keppDirtyOnReinitialize<ul>
+<li>与enabeReinitialize对应</li>
+</ul>
+</li>
+<li>initialValues<ul>
+<li>初始值，是个对象，可以用react-redux和store中state对应起来</li>
+</ul>
+</li>
+<li>onSubmit<ul>
+<li>当不存在handleSubmit时候替代用</li>
+</ul>
+</li>
+<li>onSubmitFail<ul>
+<li>当submission失败时候触发</li>
+</ul>
+</li>
+<li>onSubmitSuccess</li>
+<li>propNamespace</li>
+<li>pure<ul>
+<li>不懂</li>
+</ul>
+</li>
+<li>shouldValidate<ul>
+<li>控制是否进行同步验证,会传入一个参数，有以下属性<ul>
+<li>values nextProps props initialRender </li>
+<li>需要返回true或者false控制是否进行验证</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>shouldAsyncValidate<ul>
+<li>控制是否进行一步验证，传入的参数不同</li>
+</ul>
+</li>
+<li>touchOnBlur<ul>
+<li>boolean[true] 设置 fields touched 如果 没有blur事件</li>
+</ul>
+</li>
+<li>touchOnChange<ul>
+<li>同上 default为false</li>
+</ul>
+</li>
+<li>persistentSubmitErrors<ul>
+<li>boolean[false] 当change事件不存在时候不会移除submit errors</li>
+</ul>
+</li>
+<li>validate</li>
+<li>warn</li>
+</ul>
+<h2 id="实例API"><a href="#实例API" class="headerlink" title="实例API"></a>实例API</h2><p>是reduxForm指传入到组件中的props</p>
+<h3 id="dirty-boolean"><a href="#dirty-boolean" class="headerlink" title="dirty:boolean"></a>dirty:boolean</h3><p>当前值不和初始值（initialValues）相同时候为true</p>
+<h3 id="invalid-boolean"><a href="#invalid-boolean" class="headerlink" title="invalid:boolean"></a>invalid:boolean</h3><p>存在validation errors 即 true</p>
+<h3 id="pristine"><a href="#pristine" class="headerlink" title="pristine"></a>pristine</h3><p>和dirty对应</p>
+<h3 id="registeredFields-array"><a href="#registeredFields-array" class="headerlink" title="registeredFields:array"></a>registeredFields:array</h3><p>一个数组储存着所有field的name和type信息的</p>
+<h3 id="reset-function"><a href="#reset-function" class="headerlink" title="reset:function"></a>reset:function</h3><p>重置表单到 initialValues</p>
+<h3 id="submit-promise"><a href="#submit-promise" class="headerlink" title="submit:promise"></a>submit:promise</h3><h3 id="valid-boolean"><a href="#valid-boolean" class="headerlink" title="valid:boolean"></a>valid:boolean</h3><p>和 invalid对应</p>
+<h3 id="values"><a href="#values" class="headerlink" title="values"></a>values</h3><p>当前所有的field values</p>
+<h3 id="wrappedInstance-ReactElement"><a href="#wrappedInstance-ReactElement" class="headerlink" title="wrappedInstance:ReactElement"></a>wrappedInstance:ReactElement</h3>
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/react/">react</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2017/03/30/koa2-formidable/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">koa2-formidable</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2017/03/11/interninmeituan/">
+                <span class="level-item">实习</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/images/logo.jpg" alt="GaryChange">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        GaryChange
+                    </p>
+                    
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>北京</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        65
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        8
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        27
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/garychangcn" target="_blank">
+                关注我</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/garychangcn">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Twitter" href="https://twitter.com/garychangcn">
+                
+                <i class="fab fa-twitter"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Weibo" href="https://weibo.com/u/5342844904">
+                
+                <i class="fab fa-weibo"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            友链
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="http://blog.jxdjayden.cn/" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">jxdjayden</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">blog.jxdjayden.cn</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://jacobchang.cn" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">jacob</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">jacobchang.cn</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://blog.e10t.net" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">e10t</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">blog.e10t.net</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/css/">
+            <span class="level-start">
+                <span class="level-item">css</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/javascript/">
+            <span class="level-start">
+                <span class="level-item">javascript</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">24</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/react/">
+            <span class="level-start">
+                <span class="level-item">react</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/typescript/">
+            <span class="level-start">
+                <span class="level-item">typescript</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/作品/">
+            <span class="level-start">
+                <span class="level-item">作品</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">14</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/学习笔记/">
+            <span class="level-start">
+                <span class="level-item">学习笔记</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/杂/">
+            <span class="level-start">
+                <span class="level-item">杂</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/翻译/">
+            <span class="level-start">
+                <span class="level-item">翻译</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/ES6/" style="font-size: 17.14px;">ES6</a> <a href="/tags/ES7/" style="font-size: 10px;">ES7</a> <a href="/tags/angularjs/" style="font-size: 11.43px;">angularjs</a> <a href="/tags/canvas/" style="font-size: 11.43px;">canvas</a> <a href="/tags/cli/" style="font-size: 10px;">cli</a> <a href="/tags/compiler/" style="font-size: 10px;">compiler</a> <a href="/tags/css/" style="font-size: 18.57px;">css</a> <a href="/tags/electron/" style="font-size: 10px;">electron</a> <a href="/tags/go/" style="font-size: 10px;">go</a> <a href="/tags/http/" style="font-size: 10px;">http</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/lib/" style="font-size: 10px;">lib</a> <a href="/tags/mongodb/" style="font-size: 11.43px;">mongodb</a> <a href="/tags/node-js/" style="font-size: 12.86px;">node.js</a> <a href="/tags/npm/" style="font-size: 12.86px;">npm</a> <a href="/tags/other/" style="font-size: 12.86px;">other</a> <a href="/tags/react/" style="font-size: 14.29px;">react</a> <a href="/tags/template/" style="font-size: 10px;">template</a> <a href="/tags/typescript/" style="font-size: 10px;">typescript</a> <a href="/tags/vue/" style="font-size: 12.86px;">vue</a> <a href="/tags/websocket/" style="font-size: 12.86px;">websocket</a> <a href="/tags/作品/" style="font-size: 17.14px;">作品</a> <a href="/tags/教程/" style="font-size: 10px;">教程</a> <a href="/tags/杂/" style="font-size: 10px;">杂</a> <a href="/tags/算法/" style="font-size: 15.71px;">算法</a> <a href="/tags/配置/" style="font-size: 11.43px;">配置</a> <a href="/tags/音频/" style="font-size: 12.86px;">音频</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2018/02/03/audioencode/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="音频编码与容器关系">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-02-03T14:15:49.000Z">2018-02-03</time></div>
+                    <a href="/2018/02/03/audioencode/" class="has-link-black-ter is-size-6">音频编码与容器关系</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/杂/">杂</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2018/02/03/audiovisible/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="音频可视化与音频处理">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-02-03T14:12:25.000Z">2018-02-03</time></div>
+                    <a href="/2018/02/03/audiovisible/" class="has-link-black-ter is-size-6">音频可视化与音频处理</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/javascript/">javascript</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2018/02/03/audiocontext/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="使用 audioContext 演奏音乐">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-02-03T14:08:26.000Z">2018-02-03</time></div>
+                    <a href="/2018/02/03/audiocontext/" class="has-link-black-ter is-size-6">使用 audioContext 演奏音乐</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/javascript/">javascript</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2017/10/29/nirethink/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="使用 electron 编写 rethinkdb 管理软件">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2017-10-28T23:20:27.000Z">2017-10-28</time></div>
+                    <a href="/2017/10/29/nirethink/" class="has-link-black-ter is-size-6">使用 electron 编写 rethinkdb 管理软件</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/作品/">作品</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2017/08/31/react-typescript-template/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="react-typescript-template">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2017-08-30T21:30:17.000Z">2017-08-30</time></div>
+                    <a href="/2017/08/31/react-typescript-template/" class="has-link-black-ter is-size-6">react-typescript-template</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/typescript/">typescript</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/10/">
+                <span class="level-start">
+                    <span class="level-item">十月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/06/">
+                <span class="level-start">
+                    <span class="level-item">六月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/01/">
+                <span class="level-start">
+                    <span class="level-item">一月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/12/">
+                <span class="level-start">
+                    <span class="level-item">十二月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/10/">
+                <span class="level-start">
+                    <span class="level-item">十月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/09/">
+                <span class="level-start">
+                    <span class="level-item">九月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">16</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/01/">
+                <span class="level-start">
+                    <span class="level-item">一月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ES6/">
+                        <span class="tag">ES6</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ES7/">
+                        <span class="tag">ES7</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/angularjs/">
+                        <span class="tag">angularjs</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/canvas/">
+                        <span class="tag">canvas</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/cli/">
+                        <span class="tag">cli</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/compiler/">
+                        <span class="tag">compiler</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/css/">
+                        <span class="tag">css</span>
+                        <span class="tag is-grey">8</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/electron/">
+                        <span class="tag">electron</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/go/">
+                        <span class="tag">go</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/http/">
+                        <span class="tag">http</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/javascript/">
+                        <span class="tag">javascript</span>
+                        <span class="tag is-grey">37</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/lib/">
+                        <span class="tag">lib</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/mongodb/">
+                        <span class="tag">mongodb</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/node-js/">
+                        <span class="tag">node.js</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/npm/">
+                        <span class="tag">npm</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/other/">
+                        <span class="tag">other</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/react/">
+                        <span class="tag">react</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/template/">
+                        <span class="tag">template</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/typescript/">
+                        <span class="tag">typescript</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/vue/">
+                        <span class="tag">vue</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/websocket/">
+                        <span class="tag">websocket</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/作品/">
+                        <span class="tag">作品</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/教程/">
+                        <span class="tag">教程</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/杂/">
+                        <span class="tag">杂</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/算法/">
+                        <span class="tag">算法</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/配置/">
+                        <span class="tag">配置</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/音频/">
+                        <span class="tag">音频</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2018/02/03/audioencode/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="音频编码与容器关系">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-02-03T14:15:49.000Z">2018-02-03</time></div>
+                    <a href="/2018/02/03/audioencode/" class="has-link-black-ter is-size-6">音频编码与容器关系</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/杂/">杂</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2018/02/03/audiovisible/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="音频可视化与音频处理">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-02-03T14:12:25.000Z">2018-02-03</time></div>
+                    <a href="/2018/02/03/audiovisible/" class="has-link-black-ter is-size-6">音频可视化与音频处理</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/javascript/">javascript</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2018/02/03/audiocontext/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="使用 audioContext 演奏音乐">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-02-03T14:08:26.000Z">2018-02-03</time></div>
+                    <a href="/2018/02/03/audiocontext/" class="has-link-black-ter is-size-6">使用 audioContext 演奏音乐</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/javascript/">javascript</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2017/10/29/nirethink/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="使用 electron 编写 rethinkdb 管理软件">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2017-10-28T23:20:27.000Z">2017-10-28</time></div>
+                    <a href="/2017/10/29/nirethink/" class="has-link-black-ter is-size-6">使用 electron 编写 rethinkdb 管理软件</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/作品/">作品</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2017/08/31/react-typescript-template/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="react-typescript-template">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2017-08-30T21:30:17.000Z">2017-08-30</time></div>
+                    <a href="/2017/08/31/react-typescript-template/" class="has-link-black-ter is-size-6">react-typescript-template</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/typescript/">typescript</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/10/">
+                <span class="level-start">
+                    <span class="level-item">十月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/06/">
+                <span class="level-start">
+                    <span class="level-item">六月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/01/">
+                <span class="level-start">
+                    <span class="level-item">一月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/12/">
+                <span class="level-start">
+                    <span class="level-item">十二月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/10/">
+                <span class="level-start">
+                    <span class="level-item">十月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/09/">
+                <span class="level-start">
+                    <span class="level-item">九月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">16</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/01/">
+                <span class="level-start">
+                    <span class="level-item">一月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ES6/">
+                        <span class="tag">ES6</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ES7/">
+                        <span class="tag">ES7</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/angularjs/">
+                        <span class="tag">angularjs</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/canvas/">
+                        <span class="tag">canvas</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/cli/">
+                        <span class="tag">cli</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/compiler/">
+                        <span class="tag">compiler</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/css/">
+                        <span class="tag">css</span>
+                        <span class="tag is-grey">8</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/electron/">
+                        <span class="tag">electron</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/go/">
+                        <span class="tag">go</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/http/">
+                        <span class="tag">http</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/javascript/">
+                        <span class="tag">javascript</span>
+                        <span class="tag is-grey">37</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/lib/">
+                        <span class="tag">lib</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/mongodb/">
+                        <span class="tag">mongodb</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/node-js/">
+                        <span class="tag">node.js</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/npm/">
+                        <span class="tag">npm</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/other/">
+                        <span class="tag">other</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/react/">
+                        <span class="tag">react</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/template/">
+                        <span class="tag">template</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/typescript/">
+                        <span class="tag">typescript</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/vue/">
+                        <span class="tag">vue</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/websocket/">
+                        <span class="tag">websocket</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/作品/">
+                        <span class="tag">作品</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/教程/">
+                        <span class="tag">教程</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/杂/">
+                        <span class="tag">杂</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/算法/">
+                        <span class="tag">算法</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/配置/">
+                        <span class="tag">配置</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/音频/">
+                        <span class="tag">音频</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.jpg" alt="redux-form笔记" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 GaryChang&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

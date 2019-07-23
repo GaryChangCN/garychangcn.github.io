@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <title>使用media query 实现响应式布局</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+</head>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    border: 0px;
+}
+
+body {
+    background-color: #eee;
+    font-family: "微软雅黑";
+}
+
+@media screen and (min-width: 1000px) {
+    .header {
+        width: 100%;
+        padding-top: 20px;
+        background-color: #000;
+        color: #fff;
+        padding-bottom: 20px;
+    }
+    .title {
+        font-size: 40px;
+        margin-left: 40px;
+    }
+    .sub {
+        margin-left: 40px;
+    }
+    nav {
+        background-color: #444;
+        height: 50px;
+        line-height: 50px;
+        color: #fff;
+        padding-left: 40px;
+    }
+    .menu{
+    	display: none;
+    }
+    nav>ul{
+    	float: left;
+    }
+    nav>ul>li {
+        list-style: none;
+        float: left;
+        width: 60px;
+        text-align: center;
+    }
+    .search {
+        width: 70px;
+        margin-right: 140px;
+        float: right;
+    }
+    .search>input {
+        height: 30px;
+        opacity: 0.5;
+        border-radius: 5px;
+    }
+    .clear {
+        clear: both;
+    }
+    .main {
+        width: 600px;
+        height: 200px;
+        background-color: #999;
+        margin-top: 40px;
+        margin-left: 40px;
+        float: left;
+    }
+    .minor {
+        width: 300px;
+        height: 200px;
+        background-color: #999;
+        float: right;
+        margin-top: 40px;
+        margin-right: 40px;
+    }
+}
+
+@media screen and (max-width: 1000px) and (min-width: 560px) {
+    .header {
+        width: 100%;
+        padding-top: 20px;
+        background-color: #000;
+        color: #fff;
+        padding-bottom: 20px;
+    }
+    .title {
+        font-size: 40px;
+        margin-left: 40px;
+    }
+    .sub {
+        margin-left: 40px;
+    }
+    nav {
+        background-color: #444;
+        height: 50px;
+        line-height: 50px;
+        color: #fff;
+        padding-left: 40px;
+    }
+    .menu{
+    	display: none;
+    }
+    nav>ul{
+    	float: left;
+    }
+    nav>ul>li {
+        list-style: none;
+        float: left;
+        width: 60px;
+        text-align: center;
+    }
+    .search {
+        width: 170px;
+        float: right;
+        height: 30px;
+        padding-right: 40px;
+    }
+    .search>input {
+        height: 30px;
+        opacity: 0.5;
+        width: 100%;
+        border-radius: 5px;
+    }
+    .clear {
+        clear: both;
+    }
+    .main {
+        width: 90%;
+        height: 200px;
+        background-color: #999;
+        margin-top: 40px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .minor {
+        width: 90%;
+        height: 200px;
+        background-color: #999;
+        margin-top: 40px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media screen and (max-width: 560px) and (min-width: 320px){
+    .header {
+        width: 100%;
+        padding-top: 20px;
+        background-color: #000;
+        color: #fff;
+        padding-bottom: 20px;
+    }
+    .title {
+        font-size: 40px;
+        margin-left: 40px;
+    }
+    .sub {
+        margin-left: 40px;
+    }
+    nav {
+        background-color: #444;
+        height: 50px;
+        line-height: 50px;
+        color: #fff;
+        padding-left: 40px;
+        position: relative;
+    }
+    .menu{
+    	float: right;
+    	width: 38px;
+    	height: 38px;
+    	background-color: #333;
+    	margin-top: 5px;
+    	text-align: center;
+    	line-height: 40px;
+    	border-radius:2px;
+    	border:1px solid #000;
+    	margin-right: 20px;
+    }
+    .menu:hover+ul{
+    	visibility: visible;
+    	height: 250px;
+    }
+    nav>ul {
+        position: absolute;
+        right: 0px;
+        top: 50px;
+        width: 100px;
+        background-color: #444;
+        visibility: hidden;
+        height: 0px;
+        transition: all 0.1s;
+    }
+    nav>ul>li {
+        list-style: none;
+        text-align: center;
+    }
+    .search {
+        width: 70px;
+        margin-right: 140px;
+    }
+    .search>input {
+        height: 30px;
+        opacity: 0.5;
+        border-radius: 5px;
+    }
+    .clear {
+        clear: both;
+    }
+    .main {
+        width: 90%;
+        height: 200px;
+        background-color: #999;
+        margin-top: 40px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .minor {
+        width: 90%;
+        height: 200px;
+        background-color: #999;
+        margin-top: 40px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+@media screen and (max-width: 320px) {
+	.header {
+        width: 100%;
+        padding-top: 20px;
+        background-color: #000;
+        color: #fff;
+        padding-bottom: 20px;
+    }
+    .title {
+        font-size: 30px;
+        margin-left: 20px;
+    }
+    .sub {
+    	font-size: 10px;
+        margin-left: 20px;
+    }
+    nav {
+        background-color: #444;
+        height: 50px;
+        line-height: 50px;
+        color: #fff;
+        padding-left: 40px;
+        position: relative;
+    }
+    .menu{
+    	float: right;
+    	width: 38px;
+    	height: 38px;
+    	background-color: #333;
+    	margin-top: 5px;
+    	text-align: center;
+    	line-height: 40px;
+    	border-radius:2px;
+    	border:1px solid #000;
+    	margin-right: 20px;
+    }
+    .menu:hover+ul{
+    	visibility: visible;
+    	height: 250px;
+    }
+    nav>ul {
+        position: absolute;
+        right: 0px;
+        top: 50px;
+        width: 100px;
+        background-color: #444;
+        visibility: hidden;
+        height: 0px;
+        transition: all 0.1s;
+    }
+    nav>ul>li {
+        list-style: none;
+        text-align: center;
+    }
+    .search {
+        width: 60%;
+        float: left;
+        margin-left: -8%;
+    }
+    .search>input {
+    	width: 100%;
+        height: 30px;
+        opacity: 0.5;
+        border-radius: 5px;
+    }
+    .clear {
+        clear: both;
+    }
+    .main {
+        width: 90%;
+        height: 200px;
+        background-color: #999;
+        margin-top: 10px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .minor {
+        width: 90%;
+        height: 200px;
+        background-color: #999;
+        margin-top: 40px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+</style>
+
+<body>
+    <div class="header">
+        <div class="title">Demo</div>
+        <div class="sub">这里是一个media query响应式布局demo</div>
+    </div>
+    <nav>
+    	<div class="menu">M</div>
+        <ul>
+            <li>导航</li>
+            <li>导航</li>
+            <li>导航</li>
+            <li>导航</li>
+            <li>导航</li>
+            <div class="clear"></div>
+        </ul>
+        <div class="search">
+            <input type="search">
+        </div>
+    </nav>
+    <div class="content">
+        <div class="main">
+            这里是文章主题内容。 此demo只使用了响应式布局，并未做字体适配。 我在上一篇文章说明了
+            <br><a href="http://garychang.cn/2016/08/16/8/" target="_Blank">使用rem来做页面适配</a>
+        </div>
+        <div class="minor">
+            当屏幕宽度小于1000px时候，这个栏会放到底部
+        </div>
+        <div class="clear"></div>
+    </div>
+</body>
+
+</html>

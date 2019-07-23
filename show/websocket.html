@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <title>websocket 聊天室</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+</head>
+<style>
+* {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    font-family: "微软雅黑";
+    list-style-type: none;
+}
+
+.container {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+}
+
+ul {
+    background-color: #eee;
+}
+
+#ul {
+    height: 90vh;
+    overflow: auto;
+    width: 70vw;
+    float: left;
+}
+
+#ul>li,
+#user>li {
+    min-height: 40px;
+    line-height: 40px;
+    padding-left: 10px;
+}
+
+#ul>li:nth-child(odd) {
+    background-color: #999;
+    color: #eee;
+}
+
+#ul>li:first-child,
+#user>li:first-child {
+    padding-left: 0;
+    text-align: center;
+    font-size: 20px;
+    height: 50px;
+    line-height: 50px;
+    background-color: #666;
+    color: #fff;
+}
+
+#user {
+    float: left;
+    width: 29vw;
+    height: 90vh;
+    border-left: 1vw solid #ddd;
+}
+
+form {
+    float: left;
+    height: 10vh;
+    background-color: #666;
+    width: 100vw;
+}
+
+#input {
+    width: 48vw;
+    height: 6vh;
+    margin-top: 2vh;
+    opacity: 0.5;
+    padding-left: 2vw;
+    margin-left: 15vw;
+}
+
+#submit {
+    width: 20vw;
+    height: 6vh;
+    margin-top: 2vh;
+}
+
+#cover {
+    position: fixed;
+    width: inherit;
+    height: inherit;
+    background-color: #111;
+    z-index: 99;
+}
+
+#username {
+    width: 50vw;
+    height: 6vh;
+    margin-left: 25vw;
+    margin-top: 40vh;
+    display: inherit;
+}
+
+#ok {
+    width: 20vw;
+    display: inherit;
+    height: 5vh;
+    margin-left: 40vw;
+    margin-top: 20vh;
+    background-color: #fff;
+}
+</style>
+
+<body>
+    <div class="container">
+        <div id="cover">
+            <input type="text" id="username" placeholder="请输入昵称">
+            <input type="submit" id="ok" value="确定">
+        </div>
+        <ul id="ul">
+            <li>聊天室</li>
+        </ul>
+        <ul id="user">
+        </ul>
+        <form action>
+            <input type="text" id="input" required="required">
+            <input type="submit" value="submit" id="submit">
+        </form>
+    </div>
+</body>
+<script>
+var ul = document.getElementById("ul");
+ul.append = function(text) {
+    var li = document.createElement("li");
+    li.innerText = text;
+    this.appendChild(li);
+}
+var msg = {
+    "name": "匿名",
+    "msg": "未知消息",
+    "log": null
+}
+var socket = new WebSocket("ws://new.garychang.cn:7777");
+document.getElementById("ok").onclick = function() {
+    var value = document.getElementById("username").value;
+    var name = value ? value : "匿名";
+    document.getElementById("cover").style.display = "none";
+    msg.name = name;
+    msg.log = 0;
+    socket.send(JSON.stringify(msg));
+    msg.log = 1;
+}
+window.addEventListener("beforeunload", function(e) {
+    msg.log = 2;
+    socket.send(JSON.stringify(msg));
+    socket.close();
+    var confirmationMessage = '确定离开此页吗？';
+    (e || window.event).returnValue = confirmationMessage;
+    return confirmationMessage;
+});
+socket.onmessage = function(event) {
+    var json = JSON.parse(event.data);
+    ul.append(json.msg);
+    var tmp = "<li>当前成员</li>";
+    json.list.forEach(function(e) {
+        tmp += "<li>" + e + "</li>";
+    });
+    document.getElementById("user").innerHTML = tmp;
+}
+window.onunload = function() {
+    msg.log = 2;
+    socket.send(JSON.stringify(msg));
+    socket.close();
+}
+socket.onclose = function() {
+    socket.close();
+}
+document.getElementById("submit").addEventListener("click", function(event) {
+    event.preventDefault();
+    msg.msg = document.getElementById("input").value;
+    socket.send(JSON.stringify(msg));
+    document.getElementById("input").value="";
+});
+</script>
+
+</html>

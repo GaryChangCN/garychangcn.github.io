@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <title>模拟alert confirm prompt</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <style>
+    body {
+        bottom: 0;
+        border: 0;
+        padding: 0;
+        font-family: "微软雅黑";
+        background-color: #eee;
+    }
+    
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        width: 300px;
+        margin: 0px auto;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .container>div {
+        width: 100%;
+        text-align: center;
+        font-size: 20px;
+        padding-bottom: 10px;
+        padding-top: 10px;
+        margin-bottom: 10px;
+        border-top: 1px solid #333;
+        margin-top: 15px;
+    }
+    
+    button {
+        background-color: #fff;
+        border: 1px solid #999;
+        height: 25px;
+        margin: 0px 5px;
+    }
+    
+    button:hover {
+        background-color: #ddd;
+    }
+    
+    .layout {
+        position: fixed;
+        width: 300px;
+        min-height: 100px;
+        background-color: #fff;
+        border: 1px solid #000;
+        left: 25%;
+        left: calc(50% - 150px);
+        top: 100px;
+        box-shadow: 0px 3px 3px 3px #ddd;
+        display: none;
+    }
+    
+    .title {
+        width: 100%;
+        color: #fff;
+        background-color: #000;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        font-size: 20px;
+    }
+    
+    .close {
+        position: absolute;
+        top: 5px;
+        right: 10px;
+        color: #fff;
+        font-size: 20px;
+        transform: rotate(45deg);
+        cursor: pointer;
+    }
+    
+    .close:hover {
+        color: #999;
+    }
+    
+    .content {
+        margin-top: 10px;
+        padding: 20px;
+        margin-bottom: 10px;
+    }
+    
+    .control {
+        background-color: #000;
+        height: 40px;
+    }
+    
+    .layout a:link {
+        color: #fff;
+        text-decoration: none;
+        display: block;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+    }
+    
+    .layout a:visited {
+        color: #fff;
+        text-decoration: none;
+    }
+    
+    .layout a:hover {
+        background-color: #666;
+    }
+    
+    .confirm a {
+        width: 50%;
+        float: left;
+    }
+    .prompt>input{
+    	margin: 15px 4%;
+    	width: 90%;
+		height: 30px;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="alert layout">
+        <div class="title">提示</div>
+        <div class="close">+</div>
+        <div class="content"></div>
+        <div class="control">
+            <a href="#" class="enter" id="alertEnter">确定</a>
+        </div>
+    </div>
+    <div class="confirm layout">
+        <div class="title">提示</div>
+        <div class="close">+</div>
+        <div class="content"></div>
+        <div class="control">
+            <a href="#" class="enter" id="confirmEnter">确定</a>
+            <a href="#" class="cancel" id="confirmCancel">取消</a>
+        </div>
+    </div>
+    <div class="prompt layout">
+        <div class="title">输入内容</div>
+        <div class="close">+</div>
+        <input type="text" id="userInput">
+        <div class="control">
+            <a href="#" class="enter" id="promptEnter">确定</a>
+        </div>
+    </div>
+    <div class="container">
+        <div>alert</div>
+        <button id="oAlert">原生alert</button>
+        <button id="iAlert">模拟alert</button>
+        <div>confirm</div>
+        <button id="oConfirm">原生confirm</button>
+        <button id="iConfirm">模拟confirm</button>
+        <div>prompt</div>
+        <button id="oPrompt">原生prompt</button>
+        <button id="iPrompt">模拟prompt</button>
+    </div>
+</body>
+<script>
+function Layout() {
+    this._confirm = null;
+    this._prompt=null;
+}
+Layout.prototype.$watch = function(obj, prop, callback) {
+    if (!obj.$property) {
+        obj.$property = function(prop, value) {
+            if (this[prop] != value) {
+                this[prop] = value;
+                return callback(this);
+            }
+            return this;
+        };
+    }
+}
+Layout.prototype.close = function() {
+    var layout = document.querySelectorAll(".layout");
+    Array.prototype.slice.apply(layout).forEach(function(e) {
+        e.style.display = "none";
+    });
+}
+Layout.prototype.alert = function(data) {
+    var _this = this;
+    document.querySelector(".alert>.content").innerText = data;
+    document.querySelector(".alert").style.display = "block";
+    document.querySelector(".alert>.close").onclick = function() {
+        _this.close();
+    }
+    document.querySelector("#alertEnter").onclick = function() {
+        _this.close();
+    }
+}
+Layout.prototype.confirm = function(data) {
+    var _this = this;
+    document.querySelector(".confirm>.content").innerText = data;
+    document.querySelector(".confirm").style.display = "block";
+    document.querySelector(".confirm>.close").onclick = function() {
+        _this.close();
+    }
+    document.querySelector("#confirmEnter").onclick = function() {
+        _this.close();
+        _this.$property('_confirm', true);
+    }
+    document.querySelector("#confirmCancel").onclick = function() {
+        _this.close();
+        _this.$property('_confirm', false);
+    }
+}
+Layout.prototype.prompt=function(data){
+	var _this = this;
+    document.querySelector(".prompt>.title").innerText = data;
+    document.getElementById("userInput").value="";
+    document.querySelector(".prompt").style.display = "block";
+    document.querySelector(".prompt>.close").onclick = function() {
+        _this.close();
+    }
+    document.querySelector("#promptEnter").onclick = function() {
+    	var value=document.getElementById("userInput").value;
+        _this.close();
+        _this.$property('_prompt', value);
+    }
+}
+document.getElementById("oAlert").onclick = function() {
+    alert("这是原生alert");
+}
+document.getElementById("iAlert").onclick = function() {
+    var a = new Layout();
+    a.alert("这是模拟alert");
+}
+document.getElementById("oConfirm").onclick = function() {
+    var c = confirm("这是原生confirm");
+    if (c) {
+        alert("刚点击了确认");
+    } else {
+        alert("刚点击了取消");
+    }
+}
+document.getElementById("iConfirm").onclick = function() {
+    var a = new Layout();
+    a.confirm("这是模拟confirm");
+    a.$watch(a, '_confirm', function(obj) {
+        if(a._confirm){
+        	a.alert("刚点击了确认");
+        }else{
+        	a.alert("刚点击了取消");
+        }
+    });
+}
+document.getElementById("oPrompt").onclick=function(){
+	var p=prompt("这是原生prompt","")
+	if(p){
+		alert("刚刚输入的是:"+p);
+	}
+}
+document.getElementById("iPrompt").onclick=function(){
+	var a=new Layout();
+	a.prompt("这是模拟prompt");
+	a.$watch(a, '_prompt', function(obj) {
+        if(a._prompt){
+        	a.alert("刚刚输入的是:"+obj._prompt);
+        }else{
+        	a.alert("刚刚输入的是:"+obj+_prompt);
+        }
+    });
+}
+</script>
+
+</html>

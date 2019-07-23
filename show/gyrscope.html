@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+	<head><meta name="generator" content="Hexo 3.9.0">
+		<meta charset="UTF-8">
+		<title>利用手机陀螺仪控制长方体运动</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+	</head>
+	<body>
+		<div id="console" style="color:orange"></div>
+	</body>
+	<script>
+		window.addEventListener("deviceorientation",function(event){
+			//alpha 一般正北为0
+			var console=document.getElementById("console");
+			console.innerHTML="Z轴："+event.alpha+"</br>X轴："+event.beta+"</br>Y轴："+event.gamma;
+		});
+	</script>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <title>基于rem的适配方案</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+</head>
+<style>
+html {
+    font-family: "微软雅黑";
+}
+
+nav {
+    height: 1rem;
+    background-color: #eee;
+    font-size: 0.5rem;
+    line-height: 1rem;
+}
+.mit{
+	width: 9rem;
+	margin: 0.5rem auto;
+	border:2px solid #eee;
+	padding: 0.2rem;
+}
+.pic {
+    width: 0.7rem;
+    height: 0.7em;
+    background-color: red;
+    float: left;
+}
+
+.name {
+    font-size: 0.3rem;
+    float: left;
+    height: 0.7rem;
+    line-height: 0.7rem;
+    margin-left: 0.5rem;
+}
+
+.clean {
+    clear: both;
+}
+
+.commit {
+    font-size: 0.5rem;
+    width: 8rem;
+    margin: 0.3rem auto;
+    border:2px solid #eee;;
+}
+</style>
+
+<body>
+    <nav>
+        这里是导航栏
+    </nav>
+    <div class="mit">
+        <div class="pic"></div>
+        <div class="name">用户名</div>
+        <div class="clean"></div>
+        <div class="commit">这里是评论,这里是评论这里是评论,这里是评论这里是评论,这里是评论这里是评论,这里是评论这里是评论,这里是评论</div>
+    </div>
+</body>
+
+</html>
+<script>
+function setRem() {
+    var width = document.documentElement.clientWidth ? document.documentElement.clientWidth : window.innerWidth;
+    var rem = width / 10;
+    document.querySelector("html").style.fontSize = rem + "px";
+}
+setRem();
+window.addEventListener("resize", function() {
+    setRem();
+});
+</script>

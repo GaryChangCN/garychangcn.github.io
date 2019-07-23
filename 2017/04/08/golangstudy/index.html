@@ -1,0 +1,1857 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+<title>Go学习笔记 - GaryChang的自留地</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="包程序运行入口是 main 包 1package go  导入使用 import 导入包">
+<meta name="keywords" content="go">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go学习笔记">
+<meta property="og:url" content="http://www.garychang.com/2017/04/08/golangstudy/index.html">
+<meta property="og:site_name" content="GaryChang的自留地">
+<meta property="og:description" content="包程序运行入口是 main 包 1package go  导入使用 import 导入包">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://www.garychang.com/images/og_image.png">
+<meta property="og:updated_time" content="2019-07-22T13:23:15.626Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Go学习笔记">
+<meta name="twitter:description" content="包程序运行入口是 main 包 1package go  导入使用 import 导入包">
+<meta name="twitter:image" content="http://www.garychang.com/images/og_image.png">
+<meta name="twitter:creator" content="@garychangcn">
+
+
+
+
+
+
+
+<link rel="icon" href="/favicon.ico">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-76064421-3"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-76064421-3');
+</script>
+
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.jpg" alt="Go学习笔记" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">Home</a>
+                
+                <a class="navbar-item" href="/archives">Archives</a>
+                
+                <a class="navbar-item" href="/categories">Categories</a>
+                
+                <a class="navbar-item" href="/tags">Tags</a>
+                
+                <a class="navbar-item" href="/about">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-04-07T22:07:43.000Z">2017-04-07</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/学习笔记/">学习笔记</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    15 分钟 读完 (大约 2232 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Go学习笔记
+            
+        </h1>
+        <div class="content">
+            <h2 id="包"><a href="#包" class="headerlink" title="包"></a>包</h2><p>程序运行入口是 main 包</p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">package</span> <span class="hljs-keyword">go</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="导入"><a href="#导入" class="headerlink" title="导入"></a>导入</h2><p>使用 import 导入包</p>
+<a id="more"></a>
+
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> (</span><br><span class="line">    <span class="hljs-string">"fmt"</span></span><br><span class="line">    <span class="hljs-string">"math/rand"</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>可以一次导入多个包</p>
+<h2 id="导出"><a href="#导出" class="headerlink" title="导出"></a>导出</h2><p>首字母大写是被导出的</p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">package</span> main</span><br><span class="line"><span class="hljs-keyword">import</span> (</span><br><span class="line">    <span class="hljs-string">"fmt"</span></span><br><span class="line">    <span class="hljs-string">"math"</span></span><br><span class="line">)</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">    fmt.Println(math.Pi)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里 PrintLn 和 Pi 首字母大写</p>
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><p>函数可以没有参数或者接受多个参数</p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">import</span> <span class="hljs-string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">add</span><span class="hljs-params">(x <span class="hljs-keyword">int</span>,y <span class="hljs-keyword">int</span>)</span> <span class="hljs-title">int</span></span>&#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> x+y</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">    fmt.Println(add(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里会做设定变量类型设定，类型在变量名之后， 在大括号前做返回类型设定</p>
+<p>函数可以<strong>返回多个值</strong>，如果连续多个函数参数都是同种类型，则类型判定可以写在最后</p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">import</span> <span class="hljs-string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">swap</span><span class="hljs-params">(x,y <span class="hljs-keyword">string</span>)</span><span class="hljs-params">(<span class="hljs-keyword">string</span>,<span class="hljs-keyword">string</span>)</span></span>&#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> y,x</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">    a,b :=swap(<span class="hljs-string">"hello"</span>,<span class="hljs-string">"world"</span>)</span><br><span class="line">    fmt.Println(a,b)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的 <code>a,b:=xxxx</code>类似解构复制</p>
+<h3 id="命名返回值"><a href="#命名返回值" class="headerlink" title="命名返回值"></a>命名返回值</h3><p>在函数大括号前的返回类型设定可以直接命名返回值，并且若返回值类型相同，类型也可以写在最后<br>函数体内的 return 可以没有参数，此时会返回哥哥变量的当前值，此种方法被称为<strong>裸返回</strong>，返回<br>的变量的名称应当有一定意义。</p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">import</span> <span class="hljs-string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">split</span><span class="hljs-params">(sum <span class="hljs-keyword">int</span>)</span><span class="hljs-params">(x,y <span class="hljs-keyword">int</span>)</span></span>&#123;</span><br><span class="line">    x=sum *<span class="hljs-number">4</span> /<span class="hljs-number">2</span></span><br><span class="line">    y=sum-x</span><br><span class="line">    <span class="hljs-keyword">return</span> </span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">    fmt.Println(split(<span class="hljs-number">20</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><p>使用 var 定义一个变量列表，类型在变量后面，var 可以写在包或者函数内<br>当定义变量时候没有初始化赋值，会赋值 <code>零值</code></p>
+<ul>
+<li>数值类型为 0</li>
+<li>布尔类型为 false</li>
+<li>字符串为 “” 空字符串</li>
+</ul>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">import</span> <span class="hljs-string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">var</span> js, c, java <span class="hljs-keyword">bool</span></span><br><span class="line"><span class="hljs-keyword">var</span> golang <span class="hljs-keyword">int</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;</span><br><span class="line">	<span class="hljs-keyword">var</span> i <span class="hljs-keyword">int</span></span><br><span class="line">	fmt.Println(i, js, c, java, golang)</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-comment">// 0 false false false  0</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="初始化变量"><a href="#初始化变量" class="headerlink" title="初始化变量"></a>初始化变量</h2><p>定义变量时候可以包含初始值</p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> i,j <span class="hljs-keyword">int</span>=<span class="hljs-number">1</span>,<span class="hljs-number">2</span></span><br><span class="line"><span class="hljs-keyword">var</span> c,py,java=<span class="hljs-literal">true</span>,<span class="hljs-literal">false</span>,<span class="hljs-string">"java8"</span></span><br></pre></td></tr></table></figure>
+
+<p>如果初始化变量时候使用表达式，则可以省略定义类型，<strong>变量直接从初始值中获取类型</strong></p>
+<h2 id="短声明变量"><a href="#短声明变量" class="headerlink" title="短声明变量"></a>短声明变量</h2><p><strong>函数中</strong> <code>:=</code>简介赋值语句在明确类型的地方可以代替 <code>var</code> 的定义，其不能用在函数外</p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">package</span> main </span><br><span class="line"><span class="hljs-keyword">import</span> <span class="hljs-string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">    <span class="hljs-keyword">var</span> i,j=<span class="hljs-number">1</span>,<span class="hljs-number">2</span></span><br><span class="line">    k:=<span class="hljs-number">3</span></span><br><span class="line">    c,py,java:=<span class="hljs-literal">true</span>,<span class="hljs-literal">false</span>,<span class="hljs-string">"java8"</span></span><br><span class="line">    fmt.Println(i,j,k,c,py,java)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="打包声明"><a href="#打包声明" class="headerlink" title="打包声明"></a>打包声明</h3><p>同打包引入一样，变量也可以打包声明</p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> (</span><br><span class="line">    j <span class="hljs-keyword">int</span> =<span class="hljs-number">1</span></span><br><span class="line">    i =<span class="hljs-number">3</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h2 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h2><ul>
+<li>bool</li>
+<li>string</li>
+<li>int<ul>
+<li>int</li>
+<li>int8 (byte)</li>
+<li>int16 </li>
+<li>int32 (rune)</li>
+<li>int64</li>
+<li>uint</li>
+<li>uint8</li>
+<li>uint16</li>
+<li>uint32</li>
+<li>uint64</li>
+<li>uintptr</li>
+</ul>
+</li>
+<li>float32</li>
+<li>float63</li>
+<li>complex64</li>
+<li>complex128</li>
+</ul>
+<p>当无特别理由时候，定义整数类型时，首选 int</p>
+<h2 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h2><p>直接使用‘基本类型方法’转换即可，例如</p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> i <span class="hljs-keyword">int</span>=<span class="hljs-number">42</span></span><br><span class="line"><span class="hljs-keyword">var</span> f <span class="hljs-keyword">float64</span> =<span class="hljs-keyword">float64</span>(i)</span><br></pre></td></tr></table></figure>
+
+<p>go 需要显式转换<br>或者使用 <code>:=</code></p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">i:=<span class="hljs-number">42</span></span><br><span class="line">f:=<span class="hljs-keyword">float64</span>(i)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">package</span> main</span><br><span class="line"><span class="hljs-keyword">import</span> <span class="hljs-string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="类型推导"><a href="#类型推导" class="headerlink" title="类型推导"></a>类型推导</h2><p>在下面这个例子中，使用了类型推导</p>
+<p><code>i:=42</code> 这里i为int类型，当为浮点数时，这个类型推导取决于赋值的常量精度。此时使用 <code>fmt.Printf</code><br>会<strong>返回变量类型</strong></p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">import</span> <span class="hljs-string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;</span><br><span class="line">	v := <span class="hljs-string">"232eqw4"</span></span><br><span class="line">	fmt.Printf(<span class="hljs-string">"type %T\n"</span>, v)</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-comment">//type string</span></span><br></pre></td></tr></table></figure>
+
+<p>上面这个 <code>%T\n</code> 会对返回的值做一次处理，不加上的话会返回</p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">type</span>%!(EXTRA <span class="hljs-keyword">string</span>=<span class="hljs-number">232</span>eqw4)%</span><br></pre></td></tr></table></figure>
+
+<h2 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h2><p>常量使用 <code>const</code> 定义</p>
+<h2 id="for循环"><a href="#for循环" class="headerlink" title="for循环"></a>for循环</h2><p>go只有一种循环。for 循环</p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">import</span> <span class="hljs-string">"fmt"</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">    sum:=<span class="hljs-number">0</span></span><br><span class="line">    <span class="hljs-keyword">for</span> i:=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">10</span>;i++&#123;</span><br><span class="line">        sum+=<span class="hljs-number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">    fmt.Println(sum)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>和js很像，只是没了 for 后面的条件语句的括号，并且<br>这个初始化语句和后置语句都是可选的。</p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">import</span> <span class="hljs-string">"fmt"</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">    sum:=<span class="hljs-number">0</span></span><br><span class="line">    <span class="hljs-keyword">for</span> ;i&lt;<span class="hljs-number">10</span>;&#123;</span><br><span class="line">        sum+=<span class="hljs-number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">    fmt.Println(sum)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="省略分号"><a href="#省略分号" class="headerlink" title="省略分号"></a>省略分号</h3><p>当省略分号时候，for循环即变成了 “while”循环</p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">import</span> <span class="hljs-string">"fmt"</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">    sum:=<span class="hljs-number">0</span></span><br><span class="line">    <span class="hljs-keyword">for</span> i&lt;<span class="hljs-number">10</span>&#123;</span><br><span class="line">        sum+=<span class="hljs-number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">    fmt.Println(sum)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="if语句"><a href="#if语句" class="headerlink" title="if语句"></a>if语句</h2><p>同for语句，if语句也不需要把条件用括号括起来。并且在条件语句中执行的简单语句<br>作用域在其花括号之内，也可以在其对应的else块中使用</p>
+<h2 id="switch语句"><a href="#switch语句" class="headerlink" title="switch语句"></a>switch语句</h2><p>同if语句，其执行顺序是从上到下，当匹配成功时候停止执行，当switch没有设置条件时候<br>等同于设置了 switch true，然后可以在case里面写判断条件，类似于 if else if else</p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">import</span> (</span><br><span class="line">    <span class="hljs-string">"fmt"</span></span><br><span class="line">    <span class="hljs-string">"time"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span></span><br><span class="line"><span class="hljs-function">    <span class="hljs-title">t</span>:=<span class="hljs-title">time</span>.<span class="hljs-title">Now</span><span class="hljs-params">()</span></span></span><br><span class="line"><span class="hljs-function">    <span class="hljs-title">switch</span></span> &#123;</span><br><span class="line">        <span class="hljs-keyword">case</span> t.Hour()&lt;<span class="hljs-number">12</span>:</span><br><span class="line">            fmt.Println(<span class="hljs-string">"good morning"</span>)</span><br><span class="line">        <span class="hljs-keyword">case</span> t.Hour&lt;<span class="hljs-number">17</span>:</span><br><span class="line">            fmt.Println(<span class="hljs-string">"good afternoon"</span>)</span><br><span class="line">        <span class="hljs-keyword">default</span> :</span><br><span class="line">            fmt.Println(<span class="hljs-string">"good eveneing"</span>)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="defer语句"><a href="#defer语句" class="headerlink" title="defer语句"></a>defer语句</h2><p>defer语句会延迟函数的执行，直到上层函数返回,<br>延迟调用的参数会立刻生成，但是在上层函数返回前函数都不会被调用</p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">import</span> <span class="hljs-string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">    <span class="hljs-keyword">defer</span> fmt.Println(<span class="hljs-string">"world"</span>)</span><br><span class="line">    fmt.Println(<span class="hljs-string">"hello"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// hello world</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="defer-栈"><a href="#defer-栈" class="headerlink" title="defer 栈"></a>defer 栈</h2><p>延时调用的函数会被压入到一个栈中，当函数调用时，会按照后进先出顺序</p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">import</span> <span class="hljs-string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">for</span> i:=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">10</span>;i++&#123;</span><br><span class="line">    <span class="hljs-keyword">defer</span> fmt.Println(i)</span><br><span class="line">&#125;</span><br><span class="line">fmt.Println(<span class="hljs-string">"start"</span>)</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// start</span></span><br><span class="line"><span class="hljs-comment">// 9876543210</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h2><p>&amp; 符号会生成一个作用其对象的指针， * 符号表示指针指向其底层的值</p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">import</span> <span class="hljs-string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">    i:=<span class="hljs-number">13</span></span><br><span class="line">    p:=&amp;i</span><br><span class="line">    fmt.Println(*p)   <span class="hljs-comment">//13</span></span><br><span class="line">    *p=<span class="hljs-number">233</span></span><br><span class="line">    fmt.Println(i) <span class="hljs-comment">//233</span></span><br><span class="line">    fmt.Println(*p) <span class="hljs-comment">//233</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h2><p>struct 就是一个字段的集合，和js的对象相似</p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">import</span> <span class="hljs-string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">type</span> Vertex <span class="hljs-keyword">struct</span>&#123;</span><br><span class="line">    X <span class="hljs-keyword">int</span></span><br><span class="line">    Y <span class="hljs-keyword">int</span></span><br><span class="line">    Z <span class="hljs-keyword">int</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">    v:=Vertex&#123;<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">4</span>&#125;</span><br><span class="line">    fmt.Println(v.X) <span class="hljs-comment">//1    </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过 . 来读取和写入</p>
+<h2 id="结构体指针"><a href="#结构体指针" class="headerlink" title="结构体指针"></a>结构体指针</h2><figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">package</span> main</span><br><span class="line"><span class="hljs-keyword">import</span> <span class="hljs-string">"fmt"</span></span><br><span class="line"><span class="hljs-keyword">type</span> Vertex <span class="hljs-keyword">struct</span> &#123;</span><br><span class="line">    X <span class="hljs-keyword">int</span></span><br><span class="line">    Y <span class="hljs-keyword">int</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;</span><br><span class="line">    v := Vertex&#123;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>&#125;</span><br><span class="line">    p := &amp;v</span><br><span class="line">    p.X = <span class="hljs-number">3</span></span><br><span class="line">    fmt.Println(v)</span><br><span class="line">    fmt.Println(*p)</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-comment">//&#123;3,2&#125;</span></span><br><span class="line"><span class="hljs-comment">//&#123;3,2&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">package</span> main</span><br><span class="line"><span class="hljs-keyword">import</span> <span class="hljs-string">"fmt"</span></span><br><span class="line"><span class="hljs-keyword">type</span> Vertex <span class="hljs-keyword">struct</span> &#123;</span><br><span class="line">    X <span class="hljs-keyword">int</span></span><br><span class="line">    Y <span class="hljs-keyword">int</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;</span><br><span class="line">    v := Vertex&#123;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>&#125;</span><br><span class="line">    p := v</span><br><span class="line">    p.X = <span class="hljs-number">3</span></span><br><span class="line">    fmt.Println(v)</span><br><span class="line">    fmt.Println(p)</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-comment">//&#123;1,2&#125;</span></span><br><span class="line"><span class="hljs-comment">//&#123;3,2&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>这里go和js第对象处理不同，js对象是引用传递的（默认就是传指针）</p>
+<h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">import</span> <span class="hljs-string">"fmt"</span></span><br><span class="line"><span class="hljs-keyword">var</span> a [<span class="hljs-number">10</span>]<span class="hljs-keyword">int</span> <span class="hljs-comment">//10个整数的数组</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">    <span class="hljs-keyword">var</span> b [<span class="hljs-number">2</span>]<span class="hljs-keyword">string</span></span><br><span class="line">    b[<span class="hljs-number">0</span>]=<span class="hljs-string">"hello"</span></span><br><span class="line">    b[<span class="hljs-number">1</span>]=<span class="hljs-string">"world"</span></span><br><span class="line">    fmt.Println(b[<span class="hljs-number">0</span>],b[<span class="hljs-number">1</span>])  <span class="hljs-comment">//hello world</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="数组slice"><a href="#数组slice" class="headerlink" title="数组slice"></a>数组slice</h2><p>可以通过以下方式赋值</p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">    a:=[]<span class="hljs-keyword">int</span>&#123;<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里的slice可以理解和数组的项，数组的slice也可以为一个slice，这样就可以是多维数组</p>
+<h2 id="对slice切片"><a href="#对slice切片" class="headerlink" title="对slice切片"></a>对slice切片</h2><figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">import</span> <span class="hljs-string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;</span><br><span class="line">	s := []<span class="hljs-keyword">int</span>&#123;<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">5</span>, <span class="hljs-number">7</span>, <span class="hljs-number">11</span>, <span class="hljs-number">13</span>&#125;</span><br><span class="line">	fmt.Println(<span class="hljs-string">"s =="</span>, s)</span><br><span class="line">	<span class="hljs-comment">//[,2,3,5,7,11,13]</span></span><br><span class="line">	</span><br><span class="line">	fmt.Println(<span class="hljs-string">"s[1:4] =="</span>, s[<span class="hljs-number">1</span>:<span class="hljs-number">4</span>])</span><br><span class="line">    <span class="hljs-comment">//[2,3,7]</span></span><br><span class="line">    </span><br><span class="line">	<span class="hljs-comment">// 省略下标代表从 0 开始</span></span><br><span class="line">	fmt.Println(<span class="hljs-string">"s[:3] =="</span>, s[:<span class="hljs-number">3</span>])</span><br><span class="line">    <span class="hljs-comment">//[2,3,5]</span></span><br><span class="line">    </span><br><span class="line">	<span class="hljs-comment">// 省略上标代表到 len(s) 结束</span></span><br><span class="line">	fmt.Println(<span class="hljs-string">"s[4:] =="</span>, s[<span class="hljs-number">4</span>:])</span><br><span class="line">	<span class="hljs-comment">//[11,13]</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里slice用法和js相同。</p>
+<h2 id="构造-slice"><a href="#构造-slice" class="headerlink" title="构造 slice"></a>构造 slice</h2><p>slice可以由函数 make 创建。会分配一个全是零值的数组并返回一个slice指向这个数组</p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a:=<span class="hljs-built_in">make</span>([]<span class="hljs-keyword">int</span>,<span class="hljs-number">5</span>)  <span class="hljs-comment">//len(a)=5</span></span><br></pre></td></tr></table></figure>
+
+<p>make函数接受三个参数，</p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">b:=<span class="hljs-built_in">make</span>([]<span class="hljs-keyword">int</span>,<span class="hljs-number">0</span>,<span class="hljs-number">5</span>) <span class="hljs-comment">//len(b)=0  cap(b)=5</span></span><br></pre></td></tr></table></figure>
+
+<p>这里cap是内建函数 容量</p>
+<h2 id="nil-slice"><a href="#nil-slice" class="headerlink" title="nil slice"></a>nil slice</h2><p>slice 的零值是 nil</p>
+<p>一个nil 的slice的长度和容量是0</p>
+<h2 id="向slice末尾添加元素"><a href="#向slice末尾添加元素" class="headerlink" title="向slice末尾添加元素"></a>向slice末尾添加元素</h2><p>使用内建函数 append,类似于js push</p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">import</span> <span class="hljs-string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">    <span class="hljs-keyword">var</span> a[]<span class="hljs-keyword">int</span>;</span><br><span class="line">    printSlice(<span class="hljs-string">"a"</span>,a); </span><br><span class="line">    a=<span class="hljs-built_in">append</span>(a,<span class="hljs-number">0</span>);</span><br><span class="line">    printSlice(<span class="hljs-string">"a"</span>,a);</span><br><span class="line">    a=<span class="hljs-built_in">append</span>(a,<span class="hljs-number">1</span>);</span><br><span class="line">    printSlice(<span class="hljs-string">"a"</span>,a);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">printSlice</span><span class="hljs-params">(s <span class="hljs-keyword">string</span>,x []<span class="hljs-keyword">int</span>)</span></span>&#123;</span><br><span class="line">    fmt.printf(<span class="hljs-string">"%s len=%d cap=%d %v\n"</span>,</span><br><span class="line">    s,<span class="hljs-built_in">len</span>(x),<span class="hljs-built_in">cap</span>(x),x)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// a len=0 cap=0 []</span></span><br><span class="line"><span class="hljs-comment">// a len=1 cap=2 [0]</span></span><br><span class="line"><span class="hljs-comment">// a len=2 cap=2 [0,1]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="range"><a href="#range" class="headerlink" title="range"></a>range</h2><p>for 循环的 range 格式可以对 slice 或者 map 进行迭代循环。</p>
+<p>当使用 for 循环遍历一个slice时，没戏迭代range将返回两个值，一个是当前slice下标，一个是该<br>下标对应元素的一个拷贝。</p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">import</span> <span class="hljs-string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">var</span> pow = []<span class="hljs-keyword">int</span>&#123;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;</span><br><span class="line">	<span class="hljs-keyword">for</span> i, v := <span class="hljs-keyword">range</span> pow &#123;</span><br><span class="line">		fmt.Println(i, v)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 0 1</span></span><br><span class="line"><span class="hljs-comment">// 1 2</span></span><br><span class="line"><span class="hljs-comment">// 2 3</span></span><br><span class="line"><span class="hljs-comment">// 3 4</span></span><br></pre></td></tr></table></figure>
+
+<p>这里如果要忽略索引值可以把 i 换成 _ ，如果需要忽略value值，则把 v 和前面逗号删除即可。</p>
+<h2 id="map"><a href="#map" class="headerlink" title="map"></a>map</h2><p>map 映射键到值</p>
+<p>map在使用之前必须用make来创建；值为 nil 的 map 是空的，并且不能对其赋值。</p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">import</span> <span class="hljs-string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">type</span> Vertex <span class="hljs-keyword">struct</span> &#123;</span><br><span class="line">	x, y <span class="hljs-keyword">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">var</span> m <span class="hljs-keyword">map</span>[<span class="hljs-keyword">string</span>]Vertex</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;</span><br><span class="line">	m = <span class="hljs-built_in">make</span>(<span class="hljs-keyword">map</span>[<span class="hljs-keyword">string</span>]Vertex)</span><br><span class="line">	m[<span class="hljs-string">"index"</span>] = Vertex&#123;</span><br><span class="line">		<span class="hljs-number">1</span>, <span class="hljs-number">2</span>,</span><br><span class="line">	&#125;</span><br><span class="line">	fmt.Println(m[<span class="hljs-string">"index"</span>])</span><br><span class="line">	fmt.Println(m)</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-comment">//&#123;1,2&#125;</span></span><br><span class="line"><span class="hljs-comment">//map[index:&#123;1,2&#125;]</span></span><br></pre></td></tr></table></figure>
+
+<p>map有点像对象数组</p>
+<h2 id="map-语法"><a href="#map-语法" class="headerlink" title="map 语法"></a>map 语法</h2><p>map语法和结构体语法类似，不过必须有键名。</p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">import</span> <span class="hljs-string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">type</span> Vertex <span class="hljs-keyword">struct</span> &#123;</span><br><span class="line">	x, y <span class="hljs-keyword">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">var</span> m = <span class="hljs-keyword">map</span>[<span class="hljs-keyword">string</span>]Vertex&#123;</span><br><span class="line">	<span class="hljs-string">"index1"</span>: Vertex&#123;</span><br><span class="line">		<span class="hljs-number">1</span>, <span class="hljs-number">2</span>,</span><br><span class="line">	&#125;,</span><br><span class="line">	<span class="hljs-string">"index2"</span>: Vertex&#123;</span><br><span class="line">		<span class="hljs-number">3</span>, <span class="hljs-number">4</span>,</span><br><span class="line">	&#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;</span><br><span class="line">	fmt.Println(m)</span><br><span class="line">	fmt.Println(m[<span class="hljs-string">"index2"</span>])</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-comment">// map[index1:&#123;1,2&#125; index2:&#123;3,4&#125;]</span></span><br><span class="line"><span class="hljs-comment">//&#123;3,4&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>这里看到 map 和js中的对象是非常类似的。<br>但是注意是每个 “键值对” 末尾都要有逗号，结构体也是</p>
+<h2 id="操作map"><a href="#操作map" class="headerlink" title="操作map"></a>操作map</h2><p>在 map m中插入或者修改一个元素</p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">m[key]=elem</span><br></pre></td></tr></table></figure>
+
+<p>获取元素</p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">elem=m[key]</span><br></pre></td></tr></table></figure>
+
+<p>删除元素,使用内建函数delete</p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-built_in">delete</span>(m,key)</span><br></pre></td></tr></table></figure>
+
+<p>通过<strong>双赋值</strong>检测某个键是否存在</p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">elem,ok = m[key]</span><br></pre></td></tr></table></figure>
+
+<p>如果key在m中，则ok为 true，否则，ok为false，并且elem值是map这个元素类型的零值。<br>同样的，当从map中读取某个不存在的键是，结果是map的元素类型的零值。</p>
+<h2 id="函数的闭包"><a href="#函数的闭包" class="headerlink" title="函数的闭包"></a>函数的闭包</h2><p>Go函数可以是一个闭包。闭包是一个函数值，他引用了函数体之外的变量。这个函数可以对这个引用的变量进行访问赋值。</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/go/">go</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2017/04/21/react-setSate/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">setState异步问题</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2017/03/30/koa2-formidable/">
+                <span class="level-item">koa2-formidable</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/images/logo.jpg" alt="GaryChange">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        GaryChange
+                    </p>
+                    
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>北京</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        65
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        8
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        27
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/garychangcn" target="_blank">
+                关注我</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/garychangcn">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Twitter" href="https://twitter.com/garychangcn">
+                
+                <i class="fab fa-twitter"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Weibo" href="https://weibo.com/u/5342844904">
+                
+                <i class="fab fa-weibo"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            友链
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="http://blog.jxdjayden.cn/" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">jxdjayden</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">blog.jxdjayden.cn</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://jacobchang.cn" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">jacob</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">jacobchang.cn</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://blog.e10t.net" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">e10t</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">blog.e10t.net</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/css/">
+            <span class="level-start">
+                <span class="level-item">css</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/javascript/">
+            <span class="level-start">
+                <span class="level-item">javascript</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">24</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/react/">
+            <span class="level-start">
+                <span class="level-item">react</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/typescript/">
+            <span class="level-start">
+                <span class="level-item">typescript</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/作品/">
+            <span class="level-start">
+                <span class="level-item">作品</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">14</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/学习笔记/">
+            <span class="level-start">
+                <span class="level-item">学习笔记</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/杂/">
+            <span class="level-start">
+                <span class="level-item">杂</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/翻译/">
+            <span class="level-start">
+                <span class="level-item">翻译</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/ES6/" style="font-size: 17.14px;">ES6</a> <a href="/tags/ES7/" style="font-size: 10px;">ES7</a> <a href="/tags/angularjs/" style="font-size: 11.43px;">angularjs</a> <a href="/tags/canvas/" style="font-size: 11.43px;">canvas</a> <a href="/tags/cli/" style="font-size: 10px;">cli</a> <a href="/tags/compiler/" style="font-size: 10px;">compiler</a> <a href="/tags/css/" style="font-size: 18.57px;">css</a> <a href="/tags/electron/" style="font-size: 10px;">electron</a> <a href="/tags/go/" style="font-size: 10px;">go</a> <a href="/tags/http/" style="font-size: 10px;">http</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/lib/" style="font-size: 10px;">lib</a> <a href="/tags/mongodb/" style="font-size: 11.43px;">mongodb</a> <a href="/tags/node-js/" style="font-size: 12.86px;">node.js</a> <a href="/tags/npm/" style="font-size: 12.86px;">npm</a> <a href="/tags/other/" style="font-size: 12.86px;">other</a> <a href="/tags/react/" style="font-size: 14.29px;">react</a> <a href="/tags/template/" style="font-size: 10px;">template</a> <a href="/tags/typescript/" style="font-size: 10px;">typescript</a> <a href="/tags/vue/" style="font-size: 12.86px;">vue</a> <a href="/tags/websocket/" style="font-size: 12.86px;">websocket</a> <a href="/tags/作品/" style="font-size: 17.14px;">作品</a> <a href="/tags/教程/" style="font-size: 10px;">教程</a> <a href="/tags/杂/" style="font-size: 10px;">杂</a> <a href="/tags/算法/" style="font-size: 15.71px;">算法</a> <a href="/tags/配置/" style="font-size: 11.43px;">配置</a> <a href="/tags/音频/" style="font-size: 12.86px;">音频</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2018/02/03/audioencode/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="音频编码与容器关系">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-02-03T14:15:49.000Z">2018-02-03</time></div>
+                    <a href="/2018/02/03/audioencode/" class="has-link-black-ter is-size-6">音频编码与容器关系</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/杂/">杂</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2018/02/03/audiovisible/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="音频可视化与音频处理">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-02-03T14:12:25.000Z">2018-02-03</time></div>
+                    <a href="/2018/02/03/audiovisible/" class="has-link-black-ter is-size-6">音频可视化与音频处理</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/javascript/">javascript</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2018/02/03/audiocontext/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="使用 audioContext 演奏音乐">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-02-03T14:08:26.000Z">2018-02-03</time></div>
+                    <a href="/2018/02/03/audiocontext/" class="has-link-black-ter is-size-6">使用 audioContext 演奏音乐</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/javascript/">javascript</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2017/10/29/nirethink/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="使用 electron 编写 rethinkdb 管理软件">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2017-10-28T23:20:27.000Z">2017-10-28</time></div>
+                    <a href="/2017/10/29/nirethink/" class="has-link-black-ter is-size-6">使用 electron 编写 rethinkdb 管理软件</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/作品/">作品</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2017/08/31/react-typescript-template/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="react-typescript-template">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2017-08-30T21:30:17.000Z">2017-08-30</time></div>
+                    <a href="/2017/08/31/react-typescript-template/" class="has-link-black-ter is-size-6">react-typescript-template</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/typescript/">typescript</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/10/">
+                <span class="level-start">
+                    <span class="level-item">十月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/06/">
+                <span class="level-start">
+                    <span class="level-item">六月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/01/">
+                <span class="level-start">
+                    <span class="level-item">一月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/12/">
+                <span class="level-start">
+                    <span class="level-item">十二月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/10/">
+                <span class="level-start">
+                    <span class="level-item">十月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/09/">
+                <span class="level-start">
+                    <span class="level-item">九月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">16</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/01/">
+                <span class="level-start">
+                    <span class="level-item">一月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ES6/">
+                        <span class="tag">ES6</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ES7/">
+                        <span class="tag">ES7</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/angularjs/">
+                        <span class="tag">angularjs</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/canvas/">
+                        <span class="tag">canvas</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/cli/">
+                        <span class="tag">cli</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/compiler/">
+                        <span class="tag">compiler</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/css/">
+                        <span class="tag">css</span>
+                        <span class="tag is-grey">8</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/electron/">
+                        <span class="tag">electron</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/go/">
+                        <span class="tag">go</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/http/">
+                        <span class="tag">http</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/javascript/">
+                        <span class="tag">javascript</span>
+                        <span class="tag is-grey">37</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/lib/">
+                        <span class="tag">lib</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/mongodb/">
+                        <span class="tag">mongodb</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/node-js/">
+                        <span class="tag">node.js</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/npm/">
+                        <span class="tag">npm</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/other/">
+                        <span class="tag">other</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/react/">
+                        <span class="tag">react</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/template/">
+                        <span class="tag">template</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/typescript/">
+                        <span class="tag">typescript</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/vue/">
+                        <span class="tag">vue</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/websocket/">
+                        <span class="tag">websocket</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/作品/">
+                        <span class="tag">作品</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/教程/">
+                        <span class="tag">教程</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/杂/">
+                        <span class="tag">杂</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/算法/">
+                        <span class="tag">算法</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/配置/">
+                        <span class="tag">配置</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/音频/">
+                        <span class="tag">音频</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2018/02/03/audioencode/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="音频编码与容器关系">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-02-03T14:15:49.000Z">2018-02-03</time></div>
+                    <a href="/2018/02/03/audioencode/" class="has-link-black-ter is-size-6">音频编码与容器关系</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/杂/">杂</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2018/02/03/audiovisible/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="音频可视化与音频处理">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-02-03T14:12:25.000Z">2018-02-03</time></div>
+                    <a href="/2018/02/03/audiovisible/" class="has-link-black-ter is-size-6">音频可视化与音频处理</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/javascript/">javascript</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2018/02/03/audiocontext/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="使用 audioContext 演奏音乐">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-02-03T14:08:26.000Z">2018-02-03</time></div>
+                    <a href="/2018/02/03/audiocontext/" class="has-link-black-ter is-size-6">使用 audioContext 演奏音乐</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/javascript/">javascript</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2017/10/29/nirethink/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="使用 electron 编写 rethinkdb 管理软件">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2017-10-28T23:20:27.000Z">2017-10-28</time></div>
+                    <a href="/2017/10/29/nirethink/" class="has-link-black-ter is-size-6">使用 electron 编写 rethinkdb 管理软件</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/作品/">作品</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2017/08/31/react-typescript-template/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="react-typescript-template">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2017-08-30T21:30:17.000Z">2017-08-30</time></div>
+                    <a href="/2017/08/31/react-typescript-template/" class="has-link-black-ter is-size-6">react-typescript-template</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/typescript/">typescript</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/10/">
+                <span class="level-start">
+                    <span class="level-item">十月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/06/">
+                <span class="level-start">
+                    <span class="level-item">六月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/01/">
+                <span class="level-start">
+                    <span class="level-item">一月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/12/">
+                <span class="level-start">
+                    <span class="level-item">十二月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/10/">
+                <span class="level-start">
+                    <span class="level-item">十月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/09/">
+                <span class="level-start">
+                    <span class="level-item">九月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">16</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/01/">
+                <span class="level-start">
+                    <span class="level-item">一月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ES6/">
+                        <span class="tag">ES6</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ES7/">
+                        <span class="tag">ES7</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/angularjs/">
+                        <span class="tag">angularjs</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/canvas/">
+                        <span class="tag">canvas</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/cli/">
+                        <span class="tag">cli</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/compiler/">
+                        <span class="tag">compiler</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/css/">
+                        <span class="tag">css</span>
+                        <span class="tag is-grey">8</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/electron/">
+                        <span class="tag">electron</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/go/">
+                        <span class="tag">go</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/http/">
+                        <span class="tag">http</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/javascript/">
+                        <span class="tag">javascript</span>
+                        <span class="tag is-grey">37</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/lib/">
+                        <span class="tag">lib</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/mongodb/">
+                        <span class="tag">mongodb</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/node-js/">
+                        <span class="tag">node.js</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/npm/">
+                        <span class="tag">npm</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/other/">
+                        <span class="tag">other</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/react/">
+                        <span class="tag">react</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/template/">
+                        <span class="tag">template</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/typescript/">
+                        <span class="tag">typescript</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/vue/">
+                        <span class="tag">vue</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/websocket/">
+                        <span class="tag">websocket</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/作品/">
+                        <span class="tag">作品</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/教程/">
+                        <span class="tag">教程</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/杂/">
+                        <span class="tag">杂</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/算法/">
+                        <span class="tag">算法</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/配置/">
+                        <span class="tag">配置</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/音频/">
+                        <span class="tag">音频</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.jpg" alt="Go学习笔记" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 GaryChang&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

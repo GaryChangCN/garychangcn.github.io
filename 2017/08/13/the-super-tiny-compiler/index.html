@@ -1,0 +1,1702 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+<title>the-super-tiny-compiler - GaryChang的自留地</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="很简单，这个文章就是 the-super-tiny-compiler 的翻译 我 fork 后仓库地址为 the-super-tiny-compiler-cn">
+<meta name="keywords" content="compiler">
+<meta property="og:type" content="article">
+<meta property="og:title" content="the-super-tiny-compiler">
+<meta property="og:url" content="http://www.garychang.com/2017/08/13/the-super-tiny-compiler/index.html">
+<meta property="og:site_name" content="GaryChang的自留地">
+<meta property="og:description" content="很简单，这个文章就是 the-super-tiny-compiler 的翻译 我 fork 后仓库地址为 the-super-tiny-compiler-cn">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://www.garychang.com/images/og_image.png">
+<meta property="og:updated_time" content="2019-07-22T13:23:15.638Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="the-super-tiny-compiler">
+<meta name="twitter:description" content="很简单，这个文章就是 the-super-tiny-compiler 的翻译 我 fork 后仓库地址为 the-super-tiny-compiler-cn">
+<meta name="twitter:image" content="http://www.garychang.com/images/og_image.png">
+<meta name="twitter:creator" content="@garychangcn">
+
+
+
+
+
+
+
+<link rel="icon" href="/favicon.ico">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-76064421-3"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-76064421-3');
+</script>
+
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.jpg" alt="the-super-tiny-compiler" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">Home</a>
+                
+                <a class="navbar-item" href="/archives">Archives</a>
+                
+                <a class="navbar-item" href="/categories">Categories</a>
+                
+                <a class="navbar-item" href="/tags">Tags</a>
+                
+                <a class="navbar-item" href="/about">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-08-12T23:10:44.000Z">2017-08-12</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/翻译/">翻译</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    34 分钟 读完 (大约 5069 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                the-super-tiny-compiler
+            
+        </h1>
+        <div class="content">
+            <p>很简单，这个文章就是 <a href="https://github.com/thejameskyle/the-super-tiny-compiler" target="_blank" rel="noopener">the-super-tiny-compiler</a> 的翻译</p>
+<p>我 fork 后仓库地址为 <a href="https://github.com/GaryChangCN/the-super-tiny-compiler" target="_blank" rel="noopener">the-super-tiny-compiler-cn</a></p>
+<a id="more"></a>
+
+<figure class="highlight js hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br><span class="line">431</span><br><span class="line">432</span><br><span class="line">433</span><br><span class="line">434</span><br><span class="line">435</span><br><span class="line">436</span><br><span class="line">437</span><br><span class="line">438</span><br><span class="line">439</span><br><span class="line">440</span><br><span class="line">441</span><br><span class="line">442</span><br><span class="line">443</span><br><span class="line">444</span><br><span class="line">445</span><br><span class="line">446</span><br><span class="line">447</span><br><span class="line">448</span><br><span class="line">449</span><br><span class="line">450</span><br><span class="line">451</span><br><span class="line">452</span><br><span class="line">453</span><br><span class="line">454</span><br><span class="line">455</span><br><span class="line">456</span><br><span class="line">457</span><br><span class="line">458</span><br><span class="line">459</span><br><span class="line">460</span><br><span class="line">461</span><br><span class="line">462</span><br><span class="line">463</span><br><span class="line">464</span><br><span class="line">465</span><br><span class="line">466</span><br><span class="line">467</span><br><span class="line">468</span><br><span class="line">469</span><br><span class="line">470</span><br><span class="line">471</span><br><span class="line">472</span><br><span class="line">473</span><br><span class="line">474</span><br><span class="line">475</span><br><span class="line">476</span><br><span class="line">477</span><br><span class="line">478</span><br><span class="line">479</span><br><span class="line">480</span><br><span class="line">481</span><br><span class="line">482</span><br><span class="line">483</span><br><span class="line">484</span><br><span class="line">485</span><br><span class="line">486</span><br><span class="line">487</span><br><span class="line">488</span><br><span class="line">489</span><br><span class="line">490</span><br><span class="line">491</span><br><span class="line">492</span><br><span class="line">493</span><br><span class="line">494</span><br><span class="line">495</span><br><span class="line">496</span><br><span class="line">497</span><br><span class="line">498</span><br><span class="line">499</span><br><span class="line">500</span><br><span class="line">501</span><br><span class="line">502</span><br><span class="line">503</span><br><span class="line">504</span><br><span class="line">505</span><br><span class="line">506</span><br><span class="line">507</span><br><span class="line">508</span><br><span class="line">509</span><br><span class="line">510</span><br><span class="line">511</span><br><span class="line">512</span><br><span class="line">513</span><br><span class="line">514</span><br><span class="line">515</span><br><span class="line">516</span><br><span class="line">517</span><br><span class="line">518</span><br><span class="line">519</span><br><span class="line">520</span><br><span class="line">521</span><br><span class="line">522</span><br><span class="line">523</span><br><span class="line">524</span><br><span class="line">525</span><br><span class="line">526</span><br><span class="line">527</span><br><span class="line">528</span><br><span class="line">529</span><br><span class="line">530</span><br><span class="line">531</span><br><span class="line">532</span><br><span class="line">533</span><br><span class="line">534</span><br><span class="line">535</span><br><span class="line">536</span><br><span class="line">537</span><br><span class="line">538</span><br><span class="line">539</span><br><span class="line">540</span><br><span class="line">541</span><br><span class="line">542</span><br><span class="line">543</span><br><span class="line">544</span><br><span class="line">545</span><br><span class="line">546</span><br><span class="line">547</span><br><span class="line">548</span><br><span class="line">549</span><br><span class="line">550</span><br><span class="line">551</span><br><span class="line">552</span><br><span class="line">553</span><br><span class="line">554</span><br><span class="line">555</span><br><span class="line">556</span><br><span class="line">557</span><br><span class="line">558</span><br><span class="line">559</span><br><span class="line">560</span><br><span class="line">561</span><br><span class="line">562</span><br><span class="line">563</span><br><span class="line">564</span><br><span class="line">565</span><br><span class="line">566</span><br><span class="line">567</span><br><span class="line">568</span><br><span class="line">569</span><br><span class="line">570</span><br><span class="line">571</span><br><span class="line">572</span><br><span class="line">573</span><br><span class="line">574</span><br><span class="line">575</span><br><span class="line">576</span><br><span class="line">577</span><br><span class="line">578</span><br><span class="line">579</span><br><span class="line">580</span><br><span class="line">581</span><br><span class="line">582</span><br><span class="line">583</span><br><span class="line">584</span><br><span class="line">585</span><br><span class="line">586</span><br><span class="line">587</span><br><span class="line">588</span><br><span class="line">589</span><br><span class="line">590</span><br><span class="line">591</span><br><span class="line">592</span><br><span class="line">593</span><br><span class="line">594</span><br><span class="line">595</span><br><span class="line">596</span><br><span class="line">597</span><br><span class="line">598</span><br><span class="line">599</span><br><span class="line">600</span><br><span class="line">601</span><br><span class="line">602</span><br><span class="line">603</span><br><span class="line">604</span><br><span class="line">605</span><br><span class="line">606</span><br><span class="line">607</span><br><span class="line">608</span><br><span class="line">609</span><br><span class="line">610</span><br><span class="line">611</span><br><span class="line">612</span><br><span class="line">613</span><br><span class="line">614</span><br><span class="line">615</span><br><span class="line">616</span><br><span class="line">617</span><br><span class="line">618</span><br><span class="line">619</span><br><span class="line">620</span><br><span class="line">621</span><br><span class="line">622</span><br><span class="line">623</span><br><span class="line">624</span><br><span class="line">625</span><br><span class="line">626</span><br><span class="line">627</span><br><span class="line">628</span><br><span class="line">629</span><br><span class="line">630</span><br><span class="line">631</span><br><span class="line">632</span><br><span class="line">633</span><br><span class="line">634</span><br><span class="line">635</span><br><span class="line">636</span><br><span class="line">637</span><br><span class="line">638</span><br><span class="line">639</span><br><span class="line">640</span><br><span class="line">641</span><br><span class="line">642</span><br><span class="line">643</span><br><span class="line">644</span><br><span class="line">645</span><br><span class="line">646</span><br><span class="line">647</span><br><span class="line">648</span><br><span class="line">649</span><br><span class="line">650</span><br><span class="line">651</span><br><span class="line">652</span><br><span class="line">653</span><br><span class="line">654</span><br><span class="line">655</span><br><span class="line">656</span><br><span class="line">657</span><br><span class="line">658</span><br><span class="line">659</span><br><span class="line">660</span><br><span class="line">661</span><br><span class="line">662</span><br><span class="line">663</span><br><span class="line">664</span><br><span class="line">665</span><br><span class="line">666</span><br><span class="line">667</span><br><span class="line">668</span><br><span class="line">669</span><br><span class="line">670</span><br><span class="line">671</span><br><span class="line">672</span><br><span class="line">673</span><br><span class="line">674</span><br><span class="line">675</span><br><span class="line">676</span><br><span class="line">677</span><br><span class="line">678</span><br><span class="line">679</span><br><span class="line">680</span><br><span class="line">681</span><br><span class="line">682</span><br><span class="line">683</span><br><span class="line">684</span><br><span class="line">685</span><br><span class="line">686</span><br><span class="line">687</span><br><span class="line">688</span><br><span class="line">689</span><br><span class="line">690</span><br><span class="line">691</span><br><span class="line">692</span><br><span class="line">693</span><br><span class="line">694</span><br><span class="line">695</span><br><span class="line">696</span><br><span class="line">697</span><br><span class="line">698</span><br><span class="line">699</span><br><span class="line">700</span><br><span class="line">701</span><br><span class="line">702</span><br><span class="line">703</span><br><span class="line">704</span><br><span class="line">705</span><br><span class="line">706</span><br><span class="line">707</span><br><span class="line">708</span><br><span class="line">709</span><br><span class="line">710</span><br><span class="line">711</span><br><span class="line">712</span><br><span class="line">713</span><br><span class="line">714</span><br><span class="line">715</span><br><span class="line">716</span><br><span class="line">717</span><br><span class="line">718</span><br><span class="line">719</span><br><span class="line">720</span><br><span class="line">721</span><br><span class="line">722</span><br><span class="line">723</span><br><span class="line">724</span><br><span class="line">725</span><br><span class="line">726</span><br><span class="line">727</span><br><span class="line">728</span><br><span class="line">729</span><br><span class="line">730</span><br><span class="line">731</span><br><span class="line">732</span><br><span class="line">733</span><br><span class="line">734</span><br><span class="line">735</span><br><span class="line">736</span><br><span class="line">737</span><br><span class="line">738</span><br><span class="line">739</span><br><span class="line">740</span><br><span class="line">741</span><br><span class="line">742</span><br><span class="line">743</span><br><span class="line">744</span><br><span class="line">745</span><br><span class="line">746</span><br><span class="line">747</span><br><span class="line">748</span><br><span class="line">749</span><br><span class="line">750</span><br><span class="line">751</span><br><span class="line">752</span><br><span class="line">753</span><br><span class="line">754</span><br><span class="line">755</span><br><span class="line">756</span><br><span class="line">757</span><br><span class="line">758</span><br><span class="line">759</span><br><span class="line">760</span><br><span class="line">761</span><br><span class="line">762</span><br><span class="line">763</span><br><span class="line">764</span><br><span class="line">765</span><br><span class="line">766</span><br><span class="line">767</span><br><span class="line">768</span><br><span class="line">769</span><br><span class="line">770</span><br><span class="line">771</span><br><span class="line">772</span><br><span class="line">773</span><br><span class="line">774</span><br><span class="line">775</span><br><span class="line">776</span><br><span class="line">777</span><br><span class="line">778</span><br><span class="line">779</span><br><span class="line">780</span><br><span class="line">781</span><br><span class="line">782</span><br><span class="line">783</span><br><span class="line">784</span><br><span class="line">785</span><br><span class="line">786</span><br><span class="line">787</span><br><span class="line">788</span><br><span class="line">789</span><br><span class="line">790</span><br><span class="line">791</span><br><span class="line">792</span><br><span class="line">793</span><br><span class="line">794</span><br><span class="line">795</span><br><span class="line">796</span><br><span class="line">797</span><br><span class="line">798</span><br><span class="line">799</span><br><span class="line">800</span><br><span class="line">801</span><br><span class="line">802</span><br><span class="line">803</span><br><span class="line">804</span><br><span class="line">805</span><br><span class="line">806</span><br><span class="line">807</span><br><span class="line">808</span><br><span class="line">809</span><br><span class="line">810</span><br><span class="line">811</span><br><span class="line">812</span><br><span class="line">813</span><br><span class="line">814</span><br><span class="line">815</span><br><span class="line">816</span><br><span class="line">817</span><br><span class="line">818</span><br><span class="line">819</span><br><span class="line">820</span><br><span class="line">821</span><br><span class="line">822</span><br><span class="line">823</span><br><span class="line">824</span><br><span class="line">825</span><br><span class="line">826</span><br><span class="line">827</span><br><span class="line">828</span><br><span class="line">829</span><br><span class="line">830</span><br><span class="line">831</span><br><span class="line">832</span><br><span class="line">833</span><br><span class="line">834</span><br><span class="line">835</span><br><span class="line">836</span><br><span class="line">837</span><br><span class="line">838</span><br><span class="line">839</span><br><span class="line">840</span><br><span class="line">841</span><br><span class="line">842</span><br><span class="line">843</span><br><span class="line">844</span><br><span class="line">845</span><br><span class="line">846</span><br><span class="line">847</span><br><span class="line">848</span><br><span class="line">849</span><br><span class="line">850</span><br><span class="line">851</span><br><span class="line">852</span><br><span class="line">853</span><br><span class="line">854</span><br><span class="line">855</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">* 今天我们准备一起写个编译器。但是不是其他的一些编译器。。。是一个超级小巧的编译器！这个编译器小到</span></span><br><span class="line"><span class="hljs-comment">* 如果你删除这个文件所有注释的话只剩不到200行代码</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 我们准备吧一些 类似于 lisp 语法的函数编译成类似于 c 语法的函数</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 如果你对他们其中一个或者全部了解，我下面将给你们一个简洁</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 如果我们有两个函数 `add` 和 `substract` 我们书写方式如下</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">*                  LISP                      C</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">*   2 + 2          (add 2 2)                 add(2, 2)</span></span><br><span class="line"><span class="hljs-comment">*   4 - 2          (subtract 4 2)            subtract(4, 2)</span></span><br><span class="line"><span class="hljs-comment">*   2 + (4 - 2)    (add 2 (subtract 4 2))    add(2, subtract(4, 2))</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 是不是很简单</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 确切来说我们要编译的几部是完整的 lisp 或者 c 的语法，但是这个编译器还有有足够的语法去证明其是一个</span></span><br><span class="line"><span class="hljs-comment">* 现代的编译器</span></span><br><span class="line"><span class="hljs-comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">* 大部分编译器把编译过着三个主要步骤：解析、转换、生成代码</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 1. *解析* 把初始代码用更抽象的方式来表达</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 2. *转换* 把抽象的语法变成编译器想要的样子</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 3. *代码生成* 根据转换后的代码来生成新的代码</span></span><br><span class="line"><span class="hljs-comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">* 解析过程</span></span><br><span class="line"><span class="hljs-comment">* -------</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 解析过程通过分为两个阶段：词法分析和语法分析</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 1. *词法分析* 把初始代码分解成很多部分，每个 token 被用标记器或者词法分析器来标识</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">*    token 是一段由用来描述把语法分割成块后的小对象组成的数组。他可以是数字、标记、</span></span><br><span class="line"><span class="hljs-comment">*    标点符号、操作符或者其他东西</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 2. 语法分析* 把 token 重新格式化成语法段互相之间的关系可以被表示的样子，可以理解为</span></span><br><span class="line"><span class="hljs-comment">*    抽象语法树的中间态</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">*    抽象语法树（AST) 是一种已递归的方式来表示代码同时又能展示出代码的巨量信息。</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 例如下面的语法</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">*   (add 2 (subtract 4 2))</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* Tokens 会类似于下面代码</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">*   [</span></span><br><span class="line"><span class="hljs-comment">*     &#123; type: 'paren',  value: '('        &#125;,</span></span><br><span class="line"><span class="hljs-comment">*     &#123; type: 'name',   value: 'add'      &#125;,</span></span><br><span class="line"><span class="hljs-comment">*     &#123; type: 'number', value: '2'        &#125;,</span></span><br><span class="line"><span class="hljs-comment">*     &#123; type: 'paren',  value: '('        &#125;,</span></span><br><span class="line"><span class="hljs-comment">*     &#123; type: 'name',   value: 'subtract' &#125;,</span></span><br><span class="line"><span class="hljs-comment">*     &#123; type: 'number', value: '4'        &#125;,</span></span><br><span class="line"><span class="hljs-comment">*     &#123; type: 'number', value: '2'        &#125;,</span></span><br><span class="line"><span class="hljs-comment">*     &#123; type: 'paren',  value: ')'        &#125;,</span></span><br><span class="line"><span class="hljs-comment">*     &#123; type: 'paren',  value: ')'        &#125;,</span></span><br><span class="line"><span class="hljs-comment">*   ]</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 抽象语法树类似于以下代码</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">*   &#123;</span></span><br><span class="line"><span class="hljs-comment">*     type: 'Program',</span></span><br><span class="line"><span class="hljs-comment">*     body: [&#123;</span></span><br><span class="line"><span class="hljs-comment">*       type: 'CallExpression',</span></span><br><span class="line"><span class="hljs-comment">*       name: 'add',</span></span><br><span class="line"><span class="hljs-comment">*       params: [&#123;</span></span><br><span class="line"><span class="hljs-comment">*         type: 'NumberLiteral',</span></span><br><span class="line"><span class="hljs-comment">*         value: '2',</span></span><br><span class="line"><span class="hljs-comment">*       &#125;, &#123;</span></span><br><span class="line"><span class="hljs-comment">*         type: 'CallExpression',</span></span><br><span class="line"><span class="hljs-comment">*         name: 'subtract',</span></span><br><span class="line"><span class="hljs-comment">*         params: [&#123;</span></span><br><span class="line"><span class="hljs-comment">*           type: 'NumberLiteral',</span></span><br><span class="line"><span class="hljs-comment">*           value: '4',</span></span><br><span class="line"><span class="hljs-comment">*         &#125;, &#123;</span></span><br><span class="line"><span class="hljs-comment">*           type: 'NumberLiteral',</span></span><br><span class="line"><span class="hljs-comment">*           value: '2',</span></span><br><span class="line"><span class="hljs-comment">*         &#125;]</span></span><br><span class="line"><span class="hljs-comment">*       &#125;]</span></span><br><span class="line"><span class="hljs-comment">*     &#125;]</span></span><br><span class="line"><span class="hljs-comment">*   &#125;</span></span><br><span class="line"><span class="hljs-comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">* 转换</span></span><br><span class="line"><span class="hljs-comment">* --------------</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 编译器的下一个阶段是转换。这阶段会再次改变把上一步得到的的抽象语法树，他可以操作相同的语言</span></span><br><span class="line"><span class="hljs-comment">* 的抽象语法书或者把其翻译成一个完整的新语言</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 下面我们来看我们将如何转换一个抽象语法树</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 你可以已经注意到我们的抽象语法树看起来非常简单。其中每抽象语法树节点都有 type 属性。每个</span></span><br><span class="line"><span class="hljs-comment">* 节点都声明了一个属性来描述这个独立的节点</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 我们现在有个类型为 NumberLiteral 的节点：</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">*   &#123;</span></span><br><span class="line"><span class="hljs-comment">*     type: 'NumberLiteral',</span></span><br><span class="line"><span class="hljs-comment">*     value: '2',</span></span><br><span class="line"><span class="hljs-comment">*   &#125;</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 或者有个类型为 CallExpression 的节点：</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">*   &#123;</span></span><br><span class="line"><span class="hljs-comment">*     type: 'CallExpression',</span></span><br><span class="line"><span class="hljs-comment">*     name: 'subtract',</span></span><br><span class="line"><span class="hljs-comment">*     params: [...nested nodes go here...],</span></span><br><span class="line"><span class="hljs-comment">*   &#125;</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 当转换抽象语法树的时候，我们可以通过 添加/删除/替换 节点的属性来操作节点。</span></span><br><span class="line"><span class="hljs-comment">* 我们可以添加新的节点，删除节点，或者我们我们通过当前抽象语法树来创建一个新的</span></span><br><span class="line"><span class="hljs-comment">* 抽象语法树。</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 一旦我们选择好了要编译成目标语言，我们就要专注于创建一个针对这个目标语言的特殊的</span></span><br><span class="line"><span class="hljs-comment">* 抽象语法树。</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 遍历</span></span><br><span class="line"><span class="hljs-comment">* ---------</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 我了给这些节点创建个导航，我们需要使用深度优先遍历这个抽象语法树。</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">*   &#123;</span></span><br><span class="line"><span class="hljs-comment">*     type: 'Program',</span></span><br><span class="line"><span class="hljs-comment">*     body: [&#123;</span></span><br><span class="line"><span class="hljs-comment">*       type: 'CallExpression',</span></span><br><span class="line"><span class="hljs-comment">*       name: 'add',</span></span><br><span class="line"><span class="hljs-comment">*       params: [&#123;</span></span><br><span class="line"><span class="hljs-comment">*         type: 'NumberLiteral',</span></span><br><span class="line"><span class="hljs-comment">*         value: '2'</span></span><br><span class="line"><span class="hljs-comment">*       &#125;, &#123;</span></span><br><span class="line"><span class="hljs-comment">*         type: 'CallExpression',</span></span><br><span class="line"><span class="hljs-comment">*         name: 'subtract',</span></span><br><span class="line"><span class="hljs-comment">*         params: [&#123;</span></span><br><span class="line"><span class="hljs-comment">*           type: 'NumberLiteral',</span></span><br><span class="line"><span class="hljs-comment">*           value: '4'</span></span><br><span class="line"><span class="hljs-comment">*         &#125;, &#123;</span></span><br><span class="line"><span class="hljs-comment">*           type: 'NumberLiteral',</span></span><br><span class="line"><span class="hljs-comment">*           value: '2'</span></span><br><span class="line"><span class="hljs-comment">*         &#125;]</span></span><br><span class="line"><span class="hljs-comment">*       &#125;]</span></span><br><span class="line"><span class="hljs-comment">*     &#125;]</span></span><br><span class="line"><span class="hljs-comment">*   &#125;</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 所以，对于上面的抽象语法树，我们应该这样做：</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">*   1. Program - 从抽象语法树的最顶层开始</span></span><br><span class="line"><span class="hljs-comment">*   2. CallExpression (add) - 移到 Program 的 body 的第一个元素上</span></span><br><span class="line"><span class="hljs-comment">*   3. NumberLiteral (2) - 移动到 CallExpression's 的 params 第一个参数元素上</span></span><br><span class="line"><span class="hljs-comment">*   4. CallExpression (subtract) - 移动到 CallExpression's 的第二个参数元素上</span></span><br><span class="line"><span class="hljs-comment">*   5. NumberLiteral (4) - 移动到 CallExpression's 第一个参数元素上</span></span><br><span class="line"><span class="hljs-comment">*   6. NumberLiteral (2) - 移动到 CallExpression's 第二个参数元素上</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 如果我们直接操作抽象语法树而不是单独创建一个抽象语法树,我们可能需要说明这里所有的首相概念。</span></span><br><span class="line"><span class="hljs-comment">* 但是对于我们来说 “参观” 一遍这些节点就足够了。</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 这里我用 “参观” 这个词的原因是这里是一种代表操作对象结构的元素的一种方法</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 参观者</span></span><br><span class="line"><span class="hljs-comment">* --------</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 这里我们有个基础的想法，创建一个 “参观者” 对象，其包含从不同节点类型传过来的方法</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">*   var visitor = &#123;</span></span><br><span class="line"><span class="hljs-comment">*     NumberLiteral() &#123;&#125;,</span></span><br><span class="line"><span class="hljs-comment">*     CallExpression() &#123;&#125;,</span></span><br><span class="line"><span class="hljs-comment">*   &#125;;</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 当我们遍历这个抽象语法树的时候，我们可以随时通过 “参观者” 调用方法无论何时我们 “进入” </span></span><br><span class="line"><span class="hljs-comment">* 相匹配的节点</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 为了使上述行为生效，我们需要传入 node 节点和 parent 节点的引用作为参数。</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">*   var visitor = &#123;</span></span><br><span class="line"><span class="hljs-comment">*     NumberLiteral(node, parent) &#123;&#125;,</span></span><br><span class="line"><span class="hljs-comment">*     CallExpression(node, parent) &#123;&#125;,</span></span><br><span class="line"><span class="hljs-comment">*   &#125;;</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 然后我们还是需要有种方式来推出。设想一下我们的树结构是这样一种结构</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">*   - Program</span></span><br><span class="line"><span class="hljs-comment">*     - CallExpression</span></span><br><span class="line"><span class="hljs-comment">*       - NumberLiteral</span></span><br><span class="line"><span class="hljs-comment">*       - CallExpression</span></span><br><span class="line"><span class="hljs-comment">*         - NumberLiteral</span></span><br><span class="line"><span class="hljs-comment">*         - NumberLiteral</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 当我们便利到最下面的时候，我们需要接触到最后的分支。当我们遍历完每个树的分支后</span></span><br><span class="line"><span class="hljs-comment">* 我们需要从中退出。所以，向下遍历我们需要 “进入”，返回时候我们需要 “退出”。</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">*   -&gt; Program (enter)</span></span><br><span class="line"><span class="hljs-comment">*     -&gt; CallExpression (enter)</span></span><br><span class="line"><span class="hljs-comment">*       -&gt; Number Literal (enter)</span></span><br><span class="line"><span class="hljs-comment">*       &lt;- Number Literal (exit)</span></span><br><span class="line"><span class="hljs-comment">*       -&gt; Call Expression (enter)</span></span><br><span class="line"><span class="hljs-comment">*          -&gt; Number Literal (enter)</span></span><br><span class="line"><span class="hljs-comment">*          &lt;- Number Literal (exit)</span></span><br><span class="line"><span class="hljs-comment">*          -&gt; Number Literal (enter)</span></span><br><span class="line"><span class="hljs-comment">*          &lt;- Number Literal (exit)</span></span><br><span class="line"><span class="hljs-comment">*       &lt;- CallExpression (exit)</span></span><br><span class="line"><span class="hljs-comment">*     &lt;- CallExpression (exit)</span></span><br><span class="line"><span class="hljs-comment">*   &lt;- Program (exit)</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 为了支持以上，我们 “参观者” 最终结果如下：</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">*   var visitor = &#123;</span></span><br><span class="line"><span class="hljs-comment">*     NumberLiteral: &#123;</span></span><br><span class="line"><span class="hljs-comment">*       enter(node, parent) &#123;&#125;,</span></span><br><span class="line"><span class="hljs-comment">*       exit(node, parent) &#123;&#125;,</span></span><br><span class="line"><span class="hljs-comment">*     &#125;</span></span><br><span class="line"><span class="hljs-comment">*   &#125;;</span></span><br><span class="line"><span class="hljs-comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">* 代码生成</span></span><br><span class="line"><span class="hljs-comment">* ---------------</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 这个编译器最后一部分是代码生成。有些时候编译器会在转换的过程里面做这件事，但是大部门代码生成器</span></span><br><span class="line"><span class="hljs-comment">* 仅仅意味着把我们的抽象语法树编程最终代码</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 代码生成器可以通过很多种方式来工作，一些编译器会重复使用早前的 “token” ，另一些会生成一个代码</span></span><br><span class="line"><span class="hljs-comment">* 片段来代表这段代码，然后可以线性的打印出这些节点，但是这里我可以告诉大家，我们会使用我们刚刚创建</span></span><br><span class="line"><span class="hljs-comment">* 的抽象语法树来生成代码</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 我们的代码生成器会有效的 “打印” 抽象语法树上所有不同类型的节点，同时也会递归打印出这些代码变为</span></span><br><span class="line"><span class="hljs-comment">* 字符串。</span></span><br><span class="line"><span class="hljs-comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">* 之后，我们就可以开始了，熊这个编译器的每个部分开始。</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 事实上，不是所有的编译器都和我这里叙述的编译器类似。每个编译器都有不同的目的，所以他们可能有</span></span><br><span class="line"><span class="hljs-comment">* 比我叙述的编译器拥有更多的步骤。</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 但是现在你可以战歌一个更高的角度来概括一个编译器会长什么样。</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 我已经标书这么多了，现在你准备好去写一个自己的编译器了吧？</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 开个玩笑，我还是会在这里和你一起完成这个编译器的 :P</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 所以，我们开始吧。。。</span></span><br><span class="line"><span class="hljs-comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">* ============================================================================</span></span><br><span class="line"><span class="hljs-comment">*                                   (/^▽^)/</span></span><br><span class="line"><span class="hljs-comment">*                                THE TOKENIZER!</span></span><br><span class="line"><span class="hljs-comment">* ============================================================================</span></span><br><span class="line"><span class="hljs-comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">* 我们开始解析过程的第一阶段，使用 tokenizer 词法分析。</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 这一步要做的是字符串变成每项由 token 组成的数组</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">*   (add 2 (subtract 4 2))   =&gt;   [&#123; type: 'paren', value: '(' &#125;, ...]</span></span><br><span class="line"><span class="hljs-comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 我们从接受一个名为 input 的字符串开始，之后将设置两个东西</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">tokenizer</span>(<span class="hljs-params">input</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// `current` 变量用来追踪我们现在在代码中的的位置，类似于光标</span></span><br><span class="line"><span class="hljs-keyword">let</span> current = <span class="hljs-number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// `tokens` 数组用来存贮我们的 token</span></span><br><span class="line"><span class="hljs-keyword">let</span> tokens = [];</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 我们从创建一个 while 循环开始，然后按着我们需要的长度来递增 current 变量</span></span><br><span class="line"><span class="hljs-comment">//</span></span><br><span class="line"><span class="hljs-comment">// 我们这样做的原因是 current 增加可能是多次的并且由于我们 token 的长度是任意的，所以</span></span><br><span class="line"><span class="hljs-comment">// 其增加的长度也是任意的。</span></span><br><span class="line"><span class="hljs-keyword">while</span> (current &lt; input.length) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 我们同事来存贮 input 字符串的当前值</span></span><br><span class="line">    <span class="hljs-keyword">let</span> char = input[current];</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 首先要租的事情是检查圆括号，之后将会被用到 `CallExpression` 中。</span></span><br><span class="line">    <span class="hljs-comment">// 我们要检查是不是有左边开括号</span></span><br><span class="line">    <span class="hljs-keyword">if</span> (char === <span class="hljs-string">'('</span>) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 如果是的，我们会把一个有 key 为 type 值为 paren 和 key 为 value 值为 (</span></span><br><span class="line">    <span class="hljs-comment">// 的对象推入到 tokens 中</span></span><br><span class="line">    tokens.push(&#123;</span><br><span class="line">        type: <span class="hljs-string">'paren'</span>,</span><br><span class="line">        value: <span class="hljs-string">'('</span>,</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 之后递增 `current`</span></span><br><span class="line">    current++;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 然后进入下次循环</span></span><br><span class="line">    <span class="hljs-keyword">continue</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 之后我们要寻找右括号，然后重复上文的动作</span></span><br><span class="line">    <span class="hljs-keyword">if</span> (char === <span class="hljs-string">')'</span>) &#123;</span><br><span class="line">    tokens.push(&#123;</span><br><span class="line">        type: <span class="hljs-string">'paren'</span>,</span><br><span class="line">        value: <span class="hljs-string">')'</span>,</span><br><span class="line">    &#125;);</span><br><span class="line">    current++;</span><br><span class="line">    <span class="hljs-keyword">continue</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 移动后我们将检查空格及空白字符串，若匹配到则不作任何处理，光标继续后移</span></span><br><span class="line">    <span class="hljs-keyword">let</span> WHITESPACE = <span class="hljs-regexp">/\s/</span>;</span><br><span class="line">    <span class="hljs-keyword">if</span> (WHITESPACE.test(char)) &#123;</span><br><span class="line">    current++;</span><br><span class="line">    <span class="hljs-keyword">continue</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 之后的 token 类型是 number 。这和我们刚刚处理的不同，因为我们需要截取一个整个 number </span></span><br><span class="line">    <span class="hljs-comment">// 来作为 token</span></span><br><span class="line">    <span class="hljs-comment">//</span></span><br><span class="line">    <span class="hljs-comment">//   (add 123 456)</span></span><br><span class="line">    <span class="hljs-comment">//        ^^^ ^^^</span></span><br><span class="line">    <span class="hljs-comment">//        Only two separate tokens</span></span><br><span class="line">    <span class="hljs-comment">//</span></span><br><span class="line">    <span class="hljs-comment">// 所以我们重新创建一个循环，当遇到第一个 number 是婚后</span></span><br><span class="line">    <span class="hljs-keyword">let</span> NUMBERS = <span class="hljs-regexp">/[0-9]/</span>;</span><br><span class="line">    <span class="hljs-keyword">if</span> (NUMBERS.test(char)) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 我们创建一个 value 字符串来储存字符</span></span><br><span class="line">    <span class="hljs-keyword">let</span> value = <span class="hljs-string">''</span>;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 之后我们创建一个循环来把连续的 number 储存在 value 中并增加 current 的值</span></span><br><span class="line">    <span class="hljs-keyword">while</span> (NUMBERS.test(char)) &#123;</span><br><span class="line">        value += char;</span><br><span class="line">        char = input[++current];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 之后我们把 number 类型的 token 储存起来</span></span><br><span class="line">    tokens.push(&#123; <span class="hljs-attr">type</span>: <span class="hljs-string">'number'</span>, value &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 再进行下一次循环</span></span><br><span class="line">    <span class="hljs-keyword">continue</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 我们同样支持用双引号包裹的字符串</span></span><br><span class="line">    <span class="hljs-comment">//</span></span><br><span class="line">    <span class="hljs-comment">//   (concat "foo" "bar")</span></span><br><span class="line">    <span class="hljs-comment">//            ^^^   ^^^ string tokens</span></span><br><span class="line">    <span class="hljs-comment">//</span></span><br><span class="line">    <span class="hljs-comment">// 我们先开始检查左边的双引号</span></span><br><span class="line">    <span class="hljs-keyword">if</span> (char === <span class="hljs-string">'"'</span>) &#123;</span><br><span class="line">    <span class="hljs-comment">// 使用 value 变量来创建字符串 token</span></span><br><span class="line">    <span class="hljs-keyword">let</span> value = <span class="hljs-string">''</span>;</span><br><span class="line"></span><br><span class="line">    char = input[++current];</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 之后我们会储存每个字符直到下一个双引号</span></span><br><span class="line">    <span class="hljs-keyword">while</span> (char !== <span class="hljs-string">'"'</span>) &#123;</span><br><span class="line">        value += char;</span><br><span class="line">        char = input[++current];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    char = input[++current];</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 把字符串 token 储存起来</span></span><br><span class="line">    tokens.push(&#123; <span class="hljs-attr">type</span>: <span class="hljs-string">'string'</span>, value &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">continue</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 最后一中 token 类型是命名 token，其实是作为 lisp 函数名的</span></span><br><span class="line">    <span class="hljs-comment">//</span></span><br><span class="line">    <span class="hljs-comment">//   (add 2 4)</span></span><br><span class="line">    <span class="hljs-comment">//    ^^^</span></span><br><span class="line">    <span class="hljs-comment">//    Name token</span></span><br><span class="line">    <span class="hljs-comment">//</span></span><br><span class="line">    <span class="hljs-keyword">let</span> LETTERS = <span class="hljs-regexp">/[a-z]/i</span>;</span><br><span class="line">    <span class="hljs-keyword">if</span> (LETTERS.test(char)) &#123;</span><br><span class="line">    <span class="hljs-keyword">let</span> value = <span class="hljs-string">''</span>;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 我们讲再次循环每个单词然后把他们储存到 value 中</span></span><br><span class="line">    <span class="hljs-keyword">while</span> (LETTERS.test(char)) &#123;</span><br><span class="line">        value += char;</span><br><span class="line">        char = input[++current];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 把 name 类型保存起来，之后进入下次循环</span></span><br><span class="line">    tokens.push(&#123; <span class="hljs-attr">type</span>: <span class="hljs-string">'name'</span>, value &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">continue</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 最后如果没有匹配到任何特征，则会抛出错误</span></span><br><span class="line">    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">TypeError</span>(<span class="hljs-string">'I dont know what this character is: '</span> + char);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 最后，返回这个 tokens 数组</span></span><br><span class="line"><span class="hljs-keyword">return</span> tokens;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">* ============================================================================</span></span><br><span class="line"><span class="hljs-comment">*                                 ヽ/❀o ل͜ o\ﾉ</span></span><br><span class="line"><span class="hljs-comment">*                                   解析器!!!</span></span><br><span class="line"><span class="hljs-comment">* ============================================================================</span></span><br><span class="line"><span class="hljs-comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">* 解析器是把刚刚得到的 token 数组解析成抽象语法树</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">*   [&#123; type: 'paren', value: '(' &#125;, ...]   =&gt;   &#123; type: 'Program', body: [...] &#125;</span></span><br><span class="line"><span class="hljs-comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 好了，我们这里定义一个 parser 函数，接受 tokens 数组</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">parser</span>(<span class="hljs-params">tokens</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 我们再次用一个 current 变量当作指针</span></span><br><span class="line"><span class="hljs-keyword">let</span> current = <span class="hljs-number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 但是这次我们用递归来代替 while 循环，所以这里我们定义了一个 walk 函数</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">walk</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 早函数内部我们根据 current 指针未知来获取 token</span></span><br><span class="line">    <span class="hljs-keyword">let</span> token = tokens[current];</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 现在开始把不同类型的 token 分割成不同的代码片段</span></span><br><span class="line">    <span class="hljs-comment">// 从 number 类型的 token 开始</span></span><br><span class="line">    <span class="hljs-comment">//</span></span><br><span class="line">    <span class="hljs-comment">// 我们检测是否有 number 类型的 token</span></span><br><span class="line">    <span class="hljs-keyword">if</span> (token.type === <span class="hljs-string">'number'</span>) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 如果检测到， 则把 current 加 1</span></span><br><span class="line">    current++;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 之后我们会返回一个新的抽象语法树节点，类型为 NumberLiteral 值为 token 的值</span></span><br><span class="line">    <span class="hljs-keyword">return</span> &#123;</span><br><span class="line">        type: <span class="hljs-string">'NumberLiteral'</span>,</span><br><span class="line">        value: token.value,</span><br><span class="line">    &#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 同 number 类型， string 类型会返回一个类型为 StringLiteral 新的抽象语法树节点</span></span><br><span class="line">    <span class="hljs-keyword">if</span> (token.type === <span class="hljs-string">'string'</span>) &#123;</span><br><span class="line">    current++;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">return</span> &#123;</span><br><span class="line">        type: <span class="hljs-string">'StringLiteral'</span>,</span><br><span class="line">        value: token.value,</span><br><span class="line">    &#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 之后我们需要寻找 CallExpressions 类型，所以我们从能匹配到左括号且类型为 paren 开始</span></span><br><span class="line">    <span class="hljs-keyword">if</span> (</span><br><span class="line">    token.type === <span class="hljs-string">'paren'</span> &amp;&amp;</span><br><span class="line">    token.value === <span class="hljs-string">'('</span></span><br><span class="line">    ) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 我们将会往后移动 current 指针来跳过 括号</span></span><br><span class="line">    token = tokens[++current];</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 我们创建一个类型为 CallExpressions 的基础节点，之后我们将其 name 字段设置成当前 token</span></span><br><span class="line">    <span class="hljs-comment">// 的 value 值</span></span><br><span class="line">    <span class="hljs-keyword">let</span> node = &#123;</span><br><span class="line">        type: <span class="hljs-string">'CallExpression'</span>,</span><br><span class="line">        name: token.value,</span><br><span class="line">        params: [],</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 之后再次移动 current 指针来跳过 name token</span></span><br><span class="line">    token = tokens[++current];</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 现在我们希望循环每个 token 从左括号开始到右括号来作为 CallExpressions 的参数</span></span><br><span class="line">    <span class="hljs-comment">//</span></span><br><span class="line">    <span class="hljs-comment">// 现在我们进入递归之中，为了防止无限的递归调用，我们需要一个结束的标志点</span></span><br><span class="line">    <span class="hljs-comment">//</span></span><br><span class="line">    <span class="hljs-comment">// 为了解释上述，来看我们的 Lisp 代码，你可以看到 add 函数的参数是一个 number 类型和</span></span><br><span class="line">    <span class="hljs-comment">// 一个 CallExpressions ，并且其有自己的返回值</span></span><br><span class="line">    <span class="hljs-comment">//</span></span><br><span class="line">    <span class="hljs-comment">//   (add 2 (subtract 4 2))</span></span><br><span class="line">    <span class="hljs-comment">//</span></span><br><span class="line">    <span class="hljs-comment">// 你还会注意到我们的 tokens 数组会有很多右括号类型的 token</span></span><br><span class="line">    <span class="hljs-comment">//</span></span><br><span class="line">    <span class="hljs-comment">//   [</span></span><br><span class="line">    <span class="hljs-comment">//     &#123; type: 'paren',  value: '('        &#125;,</span></span><br><span class="line">    <span class="hljs-comment">//     &#123; type: 'name',   value: 'add'      &#125;,</span></span><br><span class="line">    <span class="hljs-comment">//     &#123; type: 'number', value: '2'        &#125;,</span></span><br><span class="line">    <span class="hljs-comment">//     &#123; type: 'paren',  value: '('        &#125;,</span></span><br><span class="line">    <span class="hljs-comment">//     &#123; type: 'name',   value: 'subtract' &#125;,</span></span><br><span class="line">    <span class="hljs-comment">//     &#123; type: 'number', value: '4'        &#125;,</span></span><br><span class="line">    <span class="hljs-comment">//     &#123; type: 'number', value: '2'        &#125;,</span></span><br><span class="line">    <span class="hljs-comment">//     &#123; type: 'paren',  value: ')'        &#125;, &lt;&lt;&lt; Closing parenthesis</span></span><br><span class="line">    <span class="hljs-comment">//     &#123; type: 'paren',  value: ')'        &#125;, &lt;&lt;&lt; Closing parenthesis</span></span><br><span class="line">    <span class="hljs-comment">//   ]</span></span><br><span class="line">    <span class="hljs-comment">//</span></span><br><span class="line">    <span class="hljs-comment">// 我们将递归调用 walk 函数来移动 current 指针直到遍历完所有的 CallExpressions</span></span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 所以我们创建一个 while循环，从左括号开始，直到匹配到第一个右括号才会结束</span></span><br><span class="line">    <span class="hljs-keyword">while</span> (</span><br><span class="line">        (token.type !== <span class="hljs-string">'paren'</span>) ||</span><br><span class="line">        (token.type === <span class="hljs-string">'paren'</span> &amp;&amp; token.value !== <span class="hljs-string">')'</span>)</span><br><span class="line">    ) &#123;</span><br><span class="line">        <span class="hljs-comment">// 我们调用 walk 函数，其会返回一个节点，我们会将这个节点推入到 node.params 中</span></span><br><span class="line">        node.params.push(walk());</span><br><span class="line">        token = tokens[current];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 最后我们会移动 current 指针一直到右括号</span></span><br><span class="line">    current++;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// And return the node.</span></span><br><span class="line">    <span class="hljs-keyword">return</span> node;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 同样的，如果我们没有匹配到任何类型我们也会抛出错误</span></span><br><span class="line">    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">TypeError</span>(token.type);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 现在我们开始创建抽象语法树，其会有一个类型为 program 的根节点</span></span><br><span class="line"><span class="hljs-keyword">let</span> ast = &#123;</span><br><span class="line">    type: <span class="hljs-string">'Program'</span>,</span><br><span class="line">    body: [],</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 之后我们启动 walk 函数，把值推入到 ast 的body 中</span></span><br><span class="line"><span class="hljs-comment">//</span></span><br><span class="line"><span class="hljs-comment">// 之所以在 while 循环内部做这些事情，是因为有的函数不是嵌套的，可能是线性的</span></span><br><span class="line"><span class="hljs-comment">//</span></span><br><span class="line"><span class="hljs-comment">//   (add 2 2)</span></span><br><span class="line"><span class="hljs-comment">//   (subtract 4 2)</span></span><br><span class="line"><span class="hljs-comment">//</span></span><br><span class="line"><span class="hljs-keyword">while</span> (current &lt; tokens.length) &#123;</span><br><span class="line">    ast.body.push(walk());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 在解析器的最后我们将返回这个抽象语法树</span></span><br><span class="line"><span class="hljs-keyword">return</span> ast;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">* ============================================================================</span></span><br><span class="line"><span class="hljs-comment">*                                 ⌒(❀&gt;◞౪◟&lt;❀)⌒</span></span><br><span class="line"><span class="hljs-comment">*                               THE TRAVERSER!!!</span></span><br><span class="line"><span class="hljs-comment">* ============================================================================</span></span><br><span class="line"><span class="hljs-comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">* 现在我们已经得到了抽象语法树，但是我们系统能在一个 visitor 中获取到任意一个节点。我们需要</span></span><br><span class="line"><span class="hljs-comment">* 一个方法当匹配到想要的节点时候会触发这个方法</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">*   traverse(ast, &#123;</span></span><br><span class="line"><span class="hljs-comment">*     Program(node, parent) &#123;</span></span><br><span class="line"><span class="hljs-comment">*       // ...</span></span><br><span class="line"><span class="hljs-comment">*     &#125;,</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">*     CallExpression(node, parent) &#123;</span></span><br><span class="line"><span class="hljs-comment">*       // ...</span></span><br><span class="line"><span class="hljs-comment">*     &#125;,</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">*     NumberLiteral(node, parent) &#123;</span></span><br><span class="line"><span class="hljs-comment">*       // ...</span></span><br><span class="line"><span class="hljs-comment">*     &#125;,</span></span><br><span class="line"><span class="hljs-comment">*   &#125;);</span></span><br><span class="line"><span class="hljs-comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 所以我们定义了 一个 traverser 函数，其接受 ast 和 visitor 两个参数，</span></span><br><span class="line"><span class="hljs-comment">// 在函数内部内有两个函数</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">traverser</span>(<span class="hljs-params">ast, visitor</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// traverseArray 函数允许我们遍历完整个数组，并调用接下来定义的 traverseNode 函数</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">traverseArray</span>(<span class="hljs-params">array, parent</span>) </span>&#123;</span><br><span class="line">    array.forEach(<span class="hljs-function"><span class="hljs-params">child</span> =&gt;</span> &#123;</span><br><span class="line">    traverseNode(child, parent);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// `traverseNode` 接受 node 参数 和 node 的 parent 参数，所以我们可以把两者传给 visitor</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">traverseNode</span>(<span class="hljs-params">node, parent</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 我们从 visitor 存在的方法开始（node 的类型）类作为 methods 变量</span></span><br><span class="line">    <span class="hljs-keyword">let</span> methods = visitor[node.type];</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 其如果存在并且存在 enter 方法，则调用这个方法，并把 node 和 parent 作为参数传入</span></span><br><span class="line">    <span class="hljs-keyword">if</span> (methods &amp;&amp; methods.enter) &#123;</span><br><span class="line">    methods.enter(node, parent);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 之后我们讲根据不同的节点类型类做不同的事情</span></span><br><span class="line">    <span class="hljs-keyword">switch</span> (node.type) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 在开始的网时候，我我们最顶层的是一个名为 Program 的对象，其有一个body属性来储存 </span></span><br><span class="line">    <span class="hljs-comment">// nodes 数组，我们调用 traverseArray 函数来把其传入进该数组</span></span><br><span class="line">    <span class="hljs-comment">//</span></span><br><span class="line">    <span class="hljs-comment">// （记住 traverseArray 函数会调用 traverseNode 函数，所以我们可以递归来遍历整个树）</span></span><br><span class="line">    <span class="hljs-keyword">case</span> <span class="hljs-string">'Program'</span>:</span><br><span class="line">        traverseArray(node.body, node);</span><br><span class="line">        <span class="hljs-keyword">break</span>;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 之后我们对 CallExpression 类型做相同的事情，并且返回其 参数</span></span><br><span class="line">    <span class="hljs-keyword">case</span> <span class="hljs-string">'CallExpression'</span>:</span><br><span class="line">        traverseArray(node.params, node);</span><br><span class="line">        <span class="hljs-keyword">break</span>;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 在这里， NumberLiteral 类型和 StringLiteral 类型没有后代元素，所以不做处理</span></span><br><span class="line">    <span class="hljs-keyword">case</span> <span class="hljs-string">'NumberLiteral'</span>:</span><br><span class="line">    <span class="hljs-keyword">case</span> <span class="hljs-string">'StringLiteral'</span>:</span><br><span class="line">        <span class="hljs-keyword">break</span>;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 同样的，没有匹配到节点类型，则会抛出错误</span></span><br><span class="line">    <span class="hljs-keyword">default</span>:</span><br><span class="line">        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">TypeError</span>(node.type);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 如果其还存在 exit 方法，我们则调用该方法并把 node 和 parent 当参数传入</span></span><br><span class="line">    <span class="hljs-keyword">if</span> (methods &amp;&amp; methods.exit) &#123;</span><br><span class="line">    methods.exit(node, parent);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 最后我们调用 tarverserNode 函数并传入 ast 树作为 node 参数，之所以没有 parent 参数，</span></span><br><span class="line"><span class="hljs-comment">// 是因为我们从最顶层开始</span></span><br><span class="line">traverseNode(ast, <span class="hljs-literal">null</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">* ============================================================================</span></span><br><span class="line"><span class="hljs-comment">*                                   ⁽(◍˃̵͈̑ᴗ˂̵͈̑)⁽</span></span><br><span class="line"><span class="hljs-comment">*                                    转换器!!!</span></span><br><span class="line"><span class="hljs-comment">* ============================================================================</span></span><br><span class="line"><span class="hljs-comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">* 下一步，转换器，我们的转换器将通过把抽象语法树和 visitor 作为 traverse 函数参数来产生一个</span></span><br><span class="line"><span class="hljs-comment">* 新的抽象语法树</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* ----------------------------------------------------------------------------</span></span><br><span class="line"><span class="hljs-comment">*   原始 AST                          |   转换后的 AST</span></span><br><span class="line"><span class="hljs-comment">* ----------------------------------------------------------------------------</span></span><br><span class="line"><span class="hljs-comment">*   &#123;                                |   &#123;</span></span><br><span class="line"><span class="hljs-comment">*     type: 'Program',               |     type: 'Program',</span></span><br><span class="line"><span class="hljs-comment">*     body: [&#123;                       |     body: [&#123;</span></span><br><span class="line"><span class="hljs-comment">*       type: 'CallExpression',      |       type: 'ExpressionStatement',</span></span><br><span class="line"><span class="hljs-comment">*       name: 'add',                 |       expression: &#123;</span></span><br><span class="line"><span class="hljs-comment">*       params: [&#123;                   |         type: 'CallExpression',</span></span><br><span class="line"><span class="hljs-comment">*         type: 'NumberLiteral',     |         callee: &#123;</span></span><br><span class="line"><span class="hljs-comment">*         value: '2'                 |           type: 'Identifier',</span></span><br><span class="line"><span class="hljs-comment">*       &#125;, &#123;                         |           name: 'add'</span></span><br><span class="line"><span class="hljs-comment">*         type: 'CallExpression',    |         &#125;,</span></span><br><span class="line"><span class="hljs-comment">*         name: 'subtract',          |         arguments: [&#123;</span></span><br><span class="line"><span class="hljs-comment">*         params: [&#123;                 |           type: 'NumberLiteral',</span></span><br><span class="line"><span class="hljs-comment">*           type: 'NumberLiteral',   |           value: '2'</span></span><br><span class="line"><span class="hljs-comment">*           value: '4'               |         &#125;, &#123;</span></span><br><span class="line"><span class="hljs-comment">*         &#125;, &#123;                       |           type: 'CallExpression',</span></span><br><span class="line"><span class="hljs-comment">*           type: 'NumberLiteral',   |           callee: &#123;</span></span><br><span class="line"><span class="hljs-comment">*           value: '2'               |             type: 'Identifier',</span></span><br><span class="line"><span class="hljs-comment">*         &#125;]                         |             name: 'subtract'</span></span><br><span class="line"><span class="hljs-comment">*       &#125;]                           |           &#125;,</span></span><br><span class="line"><span class="hljs-comment">*     &#125;]                             |           arguments: [&#123;</span></span><br><span class="line"><span class="hljs-comment">*   &#125;                                |             type: 'NumberLiteral',</span></span><br><span class="line"><span class="hljs-comment">*                                    |             value: '4'</span></span><br><span class="line"><span class="hljs-comment">* ---------------------------------- |           &#125;, &#123;</span></span><br><span class="line"><span class="hljs-comment">*                                    |             type: 'NumberLiteral',</span></span><br><span class="line"><span class="hljs-comment">*                                    |             value: '2'</span></span><br><span class="line"><span class="hljs-comment">*                                    |           &#125;]</span></span><br><span class="line"><span class="hljs-comment">*  (sorry the other one is longer.)  |         &#125;</span></span><br><span class="line"><span class="hljs-comment">*                                    |       &#125;</span></span><br><span class="line"><span class="hljs-comment">*                                    |     &#125;]</span></span><br><span class="line"><span class="hljs-comment">*                                    |   &#125;</span></span><br><span class="line"><span class="hljs-comment">* ----------------------------------------------------------------------------</span></span><br><span class="line"><span class="hljs-comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 所以我们的转换器接受 lisp 的抽象语法树</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">transformer</span>(<span class="hljs-params">ast</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 我们像以前一样创建一个有 Program 节点的新 ast</span></span><br><span class="line"><span class="hljs-keyword">let</span> newAst = &#123;</span><br><span class="line">    type: <span class="hljs-string">'Program'</span>,</span><br><span class="line">    body: [],</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 之后我会使用一点 hack的方法，我们将使用一个名为 context 的属性在我们的父节点上然后我们可以</span></span><br><span class="line"><span class="hljs-comment">// 把节点放到其父元素的的 context 上。按正常的方法，你可以把这步做的更好，但是我们的目的是把事情</span></span><br><span class="line"><span class="hljs-comment">// 做的简单</span></span><br><span class="line"><span class="hljs-comment">//</span></span><br><span class="line"><span class="hljs-comment">// 仅仅需要记住 context 只是在新的 ast 树中对老的 ast 的引用</span></span><br><span class="line">ast._context = newAst.body;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 开始调用我们之前创建的 traverser 函数</span></span><br><span class="line">traverser(ast, &#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 第一个 visitor 方法接受任何 NumberLiteral</span></span><br><span class="line">    NumberLiteral: &#123;</span><br><span class="line">    <span class="hljs-comment">// 我们将在 enter 方法中获取他</span></span><br><span class="line">    enter(node, parent) &#123;</span><br><span class="line">        <span class="hljs-comment">// 我们讲创建一个同样名为 NumberLiteral 的新街点然后推送到父元素的 context 中</span></span><br><span class="line">        parent._context.push(&#123;</span><br><span class="line">        type: <span class="hljs-string">'NumberLiteral'</span>,</span><br><span class="line">        value: node.value,</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 之后我们有 StringLiteral</span></span><br><span class="line">    StringLiteral: &#123;</span><br><span class="line">    enter(node, parent) &#123;</span><br><span class="line">        parent._context.push(&#123;</span><br><span class="line">        type: <span class="hljs-string">'StringLiteral'</span>,</span><br><span class="line">        value: node.value,</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 之后是 CallExpression</span></span><br><span class="line">    CallExpression: &#123;</span><br><span class="line">    enter(node, parent) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-comment">// 我们创建一个名为 CallExpression 的新节点，其有嵌套的 Identifier</span></span><br><span class="line">        <span class="hljs-keyword">let</span> expression = &#123;</span><br><span class="line">        type: <span class="hljs-string">'CallExpression'</span>,</span><br><span class="line">        callee: &#123;</span><br><span class="line">            type: <span class="hljs-string">'Identifier'</span>,</span><br><span class="line">            name: node.name,</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="hljs-built_in">arguments</span>: [],</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-comment">// 之后我们将定义新的 context在原始的 CallExpression 节点，其代表着</span></span><br><span class="line">        <span class="hljs-comment">// expression 的参数列表，所以我们可以把新 expression 添加进参数列表</span></span><br><span class="line">        node._context = expression.arguments;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-comment">// 之后我们会检查父元素是不是 CallExpression</span></span><br><span class="line">        <span class="hljs-comment">// 如果不是的话。。。</span></span><br><span class="line">        <span class="hljs-keyword">if</span> (parent.type !== <span class="hljs-string">'CallExpression'</span>) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-comment">// 我们将会用 ExpressionStatement 把 CallExpression 节点包裹起来</span></span><br><span class="line">        <span class="hljs-comment">// 这样做的原因是最 js 顶层的 CallExpression 时隔真实的语法声明 </span></span><br><span class="line">        expression = &#123;</span><br><span class="line">            type: <span class="hljs-string">'ExpressionStatement'</span>,</span><br><span class="line">            expression: expression,</span><br><span class="line">        &#125;;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-comment">// 最后我们把 CallExpression （或 ExpressionStatement ） 推入到父元素的 context中</span></span><br><span class="line">        parent._context.push(expression);</span><br><span class="line">    &#125;,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 最后我们把这个新的抽象语法树返回即可</span></span><br><span class="line"><span class="hljs-keyword">return</span> newAst;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">* ============================================================================</span></span><br><span class="line"><span class="hljs-comment">*                               ヾ（〃＾∇＾）ﾉ♪</span></span><br><span class="line"><span class="hljs-comment">*                            代码生成器!!!!</span></span><br><span class="line"><span class="hljs-comment">* ============================================================================</span></span><br><span class="line"><span class="hljs-comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">* 现在，让我们进入最后一步：代码生成器</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">* 我们的代码生成器将会递归调用自己来以正确的字符串形式打印出树的每个节点</span></span><br><span class="line"><span class="hljs-comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">codeGenerator</span>(<span class="hljs-params">node</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 我们根据节点的类型来操作</span></span><br><span class="line"><span class="hljs-keyword">switch</span> (node.type) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 如果遇到了 Program 节点，我们将会对其 body 中每个节点来使用代码生成器函数</span></span><br><span class="line">    <span class="hljs-comment">// 来输出目标代码，最后是把代码换行</span></span><br><span class="line">    <span class="hljs-keyword">case</span> <span class="hljs-string">'Program'</span>:</span><br><span class="line">    <span class="hljs-keyword">return</span> node.body.map(codeGenerator)</span><br><span class="line">        .join(<span class="hljs-string">'\n'</span>);</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 对于 ExpressionStatement 我们会调用代码生成器在嵌套的语法端上，并在末尾加上分号</span></span><br><span class="line">    <span class="hljs-keyword">case</span> <span class="hljs-string">'ExpressionStatement'</span>:</span><br><span class="line">    <span class="hljs-keyword">return</span> (</span><br><span class="line">        codeGenerator(node.expression) +</span><br><span class="line">        <span class="hljs-string">';'</span> <span class="hljs-comment">// &lt;&lt; (...因为我们希望代码能显示的好看一点)</span></span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 对于 CallExpression 我们将会打印出其 callee 和左括号，我们讲遍历参数列表，并把每项传入到</span></span><br><span class="line">    <span class="hljs-comment">// 代码生成器中，并用逗号分割，最后加上右括号</span></span><br><span class="line">    <span class="hljs-keyword">case</span> <span class="hljs-string">'CallExpression'</span>:</span><br><span class="line">    <span class="hljs-keyword">return</span> (</span><br><span class="line">        codeGenerator(node.callee) +</span><br><span class="line">        <span class="hljs-string">'('</span> +</span><br><span class="line">        node.arguments.map(codeGenerator)</span><br><span class="line">        .join(<span class="hljs-string">', '</span>) +</span><br><span class="line">        <span class="hljs-string">')'</span></span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 对于标识符，我们只需要返回其 name 即可</span></span><br><span class="line">    <span class="hljs-keyword">case</span> <span class="hljs-string">'Identifier'</span>:</span><br><span class="line">    <span class="hljs-keyword">return</span> node.name;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 对于 NumberLiteral 我们只需要返回其值即可</span></span><br><span class="line">    <span class="hljs-keyword">case</span> <span class="hljs-string">'NumberLiteral'</span>:</span><br><span class="line">    <span class="hljs-keyword">return</span> node.value;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 对于 StringLiteral 我们要在两端加上双引号</span></span><br><span class="line">    <span class="hljs-keyword">case</span> <span class="hljs-string">'StringLiteral'</span>:</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-string">'"'</span> + node.value + <span class="hljs-string">'"'</span>;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 最后如果我们没有匹配到任何一项，则抛出异常</span></span><br><span class="line">    <span class="hljs-keyword">default</span>:</span><br><span class="line">    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">TypeError</span>(node.type);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">* ============================================================================</span></span><br><span class="line"><span class="hljs-comment">*                                  (۶* ‘ヮ’)۶”</span></span><br><span class="line"><span class="hljs-comment">*                         !!!!!!!!编译器!!!!!!!!</span></span><br><span class="line"><span class="hljs-comment">* ============================================================================</span></span><br><span class="line"><span class="hljs-comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">* 完工！我们创建好了我们的编译器函数，现在我们把上述过程列出来</span></span><br><span class="line"><span class="hljs-comment">*</span></span><br><span class="line"><span class="hljs-comment">*   1. input  =&gt; tokenizer   =&gt; tokens</span></span><br><span class="line"><span class="hljs-comment">*   2. tokens =&gt; parser      =&gt; ast</span></span><br><span class="line"><span class="hljs-comment">*   3. ast    =&gt; transformer =&gt; newAst</span></span><br><span class="line"><span class="hljs-comment">*   4. newAst =&gt; generator   =&gt; output</span></span><br><span class="line"><span class="hljs-comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">compiler</span>(<span class="hljs-params">input</span>) </span>&#123;</span><br><span class="line"><span class="hljs-keyword">let</span> tokens = tokenizer(input);</span><br><span class="line"><span class="hljs-keyword">let</span> ast    = parser(tokens);</span><br><span class="line"><span class="hljs-keyword">let</span> newAst = transformer(ast);</span><br><span class="line"><span class="hljs-keyword">let</span> output = codeGenerator(newAst);</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 简单的输出就好了</span></span><br><span class="line"><span class="hljs-keyword">return</span> output;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">* ============================================================================</span></span><br><span class="line"><span class="hljs-comment">*                                   (๑˃̵ᴗ˂̵)و</span></span><br><span class="line"><span class="hljs-comment">* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!结束了!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</span></span><br><span class="line"><span class="hljs-comment">* ============================================================================</span></span><br><span class="line"><span class="hljs-comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 现在，仅仅导出所有东西</span></span><br><span class="line"><span class="hljs-built_in">module</span>.exports = &#123;</span><br><span class="line">tokenizer,</span><br><span class="line">parser,</span><br><span class="line">traverser,</span><br><span class="line">transformer,</span><br><span class="line">codeGenerator,</span><br><span class="line">compiler,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/compiler/">compiler</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2017/08/28/zara/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">zara websocket based rpc lib</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2017/07/26/multiRoomChat/">
+                <span class="level-item">多房间聊天室</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/images/logo.jpg" alt="GaryChange">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        GaryChange
+                    </p>
+                    
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>北京</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        65
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        8
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        27
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/garychangcn" target="_blank">
+                关注我</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/garychangcn">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Twitter" href="https://twitter.com/garychangcn">
+                
+                <i class="fab fa-twitter"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Weibo" href="https://weibo.com/u/5342844904">
+                
+                <i class="fab fa-weibo"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            友链
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="http://blog.jxdjayden.cn/" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">jxdjayden</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">blog.jxdjayden.cn</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://jacobchang.cn" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">jacob</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">jacobchang.cn</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://blog.e10t.net" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">e10t</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">blog.e10t.net</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/css/">
+            <span class="level-start">
+                <span class="level-item">css</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/javascript/">
+            <span class="level-start">
+                <span class="level-item">javascript</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">24</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/react/">
+            <span class="level-start">
+                <span class="level-item">react</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/typescript/">
+            <span class="level-start">
+                <span class="level-item">typescript</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/作品/">
+            <span class="level-start">
+                <span class="level-item">作品</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">14</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/学习笔记/">
+            <span class="level-start">
+                <span class="level-item">学习笔记</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/杂/">
+            <span class="level-start">
+                <span class="level-item">杂</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/翻译/">
+            <span class="level-start">
+                <span class="level-item">翻译</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/ES6/" style="font-size: 17.14px;">ES6</a> <a href="/tags/ES7/" style="font-size: 10px;">ES7</a> <a href="/tags/angularjs/" style="font-size: 11.43px;">angularjs</a> <a href="/tags/canvas/" style="font-size: 11.43px;">canvas</a> <a href="/tags/cli/" style="font-size: 10px;">cli</a> <a href="/tags/compiler/" style="font-size: 10px;">compiler</a> <a href="/tags/css/" style="font-size: 18.57px;">css</a> <a href="/tags/electron/" style="font-size: 10px;">electron</a> <a href="/tags/go/" style="font-size: 10px;">go</a> <a href="/tags/http/" style="font-size: 10px;">http</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/lib/" style="font-size: 10px;">lib</a> <a href="/tags/mongodb/" style="font-size: 11.43px;">mongodb</a> <a href="/tags/node-js/" style="font-size: 12.86px;">node.js</a> <a href="/tags/npm/" style="font-size: 12.86px;">npm</a> <a href="/tags/other/" style="font-size: 12.86px;">other</a> <a href="/tags/react/" style="font-size: 14.29px;">react</a> <a href="/tags/template/" style="font-size: 10px;">template</a> <a href="/tags/typescript/" style="font-size: 10px;">typescript</a> <a href="/tags/vue/" style="font-size: 12.86px;">vue</a> <a href="/tags/websocket/" style="font-size: 12.86px;">websocket</a> <a href="/tags/作品/" style="font-size: 17.14px;">作品</a> <a href="/tags/教程/" style="font-size: 10px;">教程</a> <a href="/tags/杂/" style="font-size: 10px;">杂</a> <a href="/tags/算法/" style="font-size: 15.71px;">算法</a> <a href="/tags/配置/" style="font-size: 11.43px;">配置</a> <a href="/tags/音频/" style="font-size: 12.86px;">音频</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2018/02/03/audioencode/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="音频编码与容器关系">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-02-03T14:15:49.000Z">2018-02-03</time></div>
+                    <a href="/2018/02/03/audioencode/" class="has-link-black-ter is-size-6">音频编码与容器关系</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/杂/">杂</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2018/02/03/audiovisible/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="音频可视化与音频处理">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-02-03T14:12:25.000Z">2018-02-03</time></div>
+                    <a href="/2018/02/03/audiovisible/" class="has-link-black-ter is-size-6">音频可视化与音频处理</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/javascript/">javascript</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2018/02/03/audiocontext/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="使用 audioContext 演奏音乐">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-02-03T14:08:26.000Z">2018-02-03</time></div>
+                    <a href="/2018/02/03/audiocontext/" class="has-link-black-ter is-size-6">使用 audioContext 演奏音乐</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/javascript/">javascript</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2017/10/29/nirethink/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="使用 electron 编写 rethinkdb 管理软件">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2017-10-28T23:20:27.000Z">2017-10-28</time></div>
+                    <a href="/2017/10/29/nirethink/" class="has-link-black-ter is-size-6">使用 electron 编写 rethinkdb 管理软件</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/作品/">作品</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2017/08/31/react-typescript-template/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="react-typescript-template">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2017-08-30T21:30:17.000Z">2017-08-30</time></div>
+                    <a href="/2017/08/31/react-typescript-template/" class="has-link-black-ter is-size-6">react-typescript-template</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/typescript/">typescript</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/10/">
+                <span class="level-start">
+                    <span class="level-item">十月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/06/">
+                <span class="level-start">
+                    <span class="level-item">六月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/01/">
+                <span class="level-start">
+                    <span class="level-item">一月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/12/">
+                <span class="level-start">
+                    <span class="level-item">十二月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/10/">
+                <span class="level-start">
+                    <span class="level-item">十月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/09/">
+                <span class="level-start">
+                    <span class="level-item">九月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">16</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/01/">
+                <span class="level-start">
+                    <span class="level-item">一月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ES6/">
+                        <span class="tag">ES6</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ES7/">
+                        <span class="tag">ES7</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/angularjs/">
+                        <span class="tag">angularjs</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/canvas/">
+                        <span class="tag">canvas</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/cli/">
+                        <span class="tag">cli</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/compiler/">
+                        <span class="tag">compiler</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/css/">
+                        <span class="tag">css</span>
+                        <span class="tag is-grey">8</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/electron/">
+                        <span class="tag">electron</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/go/">
+                        <span class="tag">go</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/http/">
+                        <span class="tag">http</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/javascript/">
+                        <span class="tag">javascript</span>
+                        <span class="tag is-grey">37</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/lib/">
+                        <span class="tag">lib</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/mongodb/">
+                        <span class="tag">mongodb</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/node-js/">
+                        <span class="tag">node.js</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/npm/">
+                        <span class="tag">npm</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/other/">
+                        <span class="tag">other</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/react/">
+                        <span class="tag">react</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/template/">
+                        <span class="tag">template</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/typescript/">
+                        <span class="tag">typescript</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/vue/">
+                        <span class="tag">vue</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/websocket/">
+                        <span class="tag">websocket</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/作品/">
+                        <span class="tag">作品</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/教程/">
+                        <span class="tag">教程</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/杂/">
+                        <span class="tag">杂</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/算法/">
+                        <span class="tag">算法</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/配置/">
+                        <span class="tag">配置</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/音频/">
+                        <span class="tag">音频</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2018/02/03/audioencode/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="音频编码与容器关系">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-02-03T14:15:49.000Z">2018-02-03</time></div>
+                    <a href="/2018/02/03/audioencode/" class="has-link-black-ter is-size-6">音频编码与容器关系</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/杂/">杂</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2018/02/03/audiovisible/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="音频可视化与音频处理">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-02-03T14:12:25.000Z">2018-02-03</time></div>
+                    <a href="/2018/02/03/audiovisible/" class="has-link-black-ter is-size-6">音频可视化与音频处理</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/javascript/">javascript</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2018/02/03/audiocontext/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="使用 audioContext 演奏音乐">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-02-03T14:08:26.000Z">2018-02-03</time></div>
+                    <a href="/2018/02/03/audiocontext/" class="has-link-black-ter is-size-6">使用 audioContext 演奏音乐</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/javascript/">javascript</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2017/10/29/nirethink/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="使用 electron 编写 rethinkdb 管理软件">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2017-10-28T23:20:27.000Z">2017-10-28</time></div>
+                    <a href="/2017/10/29/nirethink/" class="has-link-black-ter is-size-6">使用 electron 编写 rethinkdb 管理软件</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/作品/">作品</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2017/08/31/react-typescript-template/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="react-typescript-template">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2017-08-30T21:30:17.000Z">2017-08-30</time></div>
+                    <a href="/2017/08/31/react-typescript-template/" class="has-link-black-ter is-size-6">react-typescript-template</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/typescript/">typescript</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/10/">
+                <span class="level-start">
+                    <span class="level-item">十月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/06/">
+                <span class="level-start">
+                    <span class="level-item">六月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/01/">
+                <span class="level-start">
+                    <span class="level-item">一月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/12/">
+                <span class="level-start">
+                    <span class="level-item">十二月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/10/">
+                <span class="level-start">
+                    <span class="level-item">十月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/09/">
+                <span class="level-start">
+                    <span class="level-item">九月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">16</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/01/">
+                <span class="level-start">
+                    <span class="level-item">一月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ES6/">
+                        <span class="tag">ES6</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ES7/">
+                        <span class="tag">ES7</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/angularjs/">
+                        <span class="tag">angularjs</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/canvas/">
+                        <span class="tag">canvas</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/cli/">
+                        <span class="tag">cli</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/compiler/">
+                        <span class="tag">compiler</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/css/">
+                        <span class="tag">css</span>
+                        <span class="tag is-grey">8</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/electron/">
+                        <span class="tag">electron</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/go/">
+                        <span class="tag">go</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/http/">
+                        <span class="tag">http</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/javascript/">
+                        <span class="tag">javascript</span>
+                        <span class="tag is-grey">37</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/lib/">
+                        <span class="tag">lib</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/mongodb/">
+                        <span class="tag">mongodb</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/node-js/">
+                        <span class="tag">node.js</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/npm/">
+                        <span class="tag">npm</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/other/">
+                        <span class="tag">other</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/react/">
+                        <span class="tag">react</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/template/">
+                        <span class="tag">template</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/typescript/">
+                        <span class="tag">typescript</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/vue/">
+                        <span class="tag">vue</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/websocket/">
+                        <span class="tag">websocket</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/作品/">
+                        <span class="tag">作品</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/教程/">
+                        <span class="tag">教程</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/杂/">
+                        <span class="tag">杂</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/算法/">
+                        <span class="tag">算法</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/配置/">
+                        <span class="tag">配置</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/音频/">
+                        <span class="tag">音频</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.jpg" alt="the-super-tiny-compiler" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 GaryChang&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

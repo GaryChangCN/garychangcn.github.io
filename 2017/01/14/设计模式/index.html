@@ -1,0 +1,1839 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+<title>js设计模式 - GaryChang的自留地</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="目录 前言 单体模式 工厂模式 迭代器模式 装饰者模式 策略模式 外观模式 代理模式 中介者模式 观察者模式">
+<meta name="keywords" content="other">
+<meta property="og:type" content="article">
+<meta property="og:title" content="js设计模式">
+<meta property="og:url" content="http://www.garychang.com/2017/01/14/设计模式/index.html">
+<meta property="og:site_name" content="GaryChang的自留地">
+<meta property="og:description" content="目录 前言 单体模式 工厂模式 迭代器模式 装饰者模式 策略模式 外观模式 代理模式 中介者模式 观察者模式">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://www.garychang.com/images/og_image.png">
+<meta property="og:updated_time" content="2019-07-22T13:23:15.640Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="js设计模式">
+<meta name="twitter:description" content="目录 前言 单体模式 工厂模式 迭代器模式 装饰者模式 策略模式 外观模式 代理模式 中介者模式 观察者模式">
+<meta name="twitter:image" content="http://www.garychang.com/images/og_image.png">
+<meta name="twitter:creator" content="@garychangcn">
+
+
+
+
+
+
+
+<link rel="icon" href="/favicon.ico">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-76064421-3"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-76064421-3');
+</script>
+
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.jpg" alt="js设计模式" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">Home</a>
+                
+                <a class="navbar-item" href="/archives">Archives</a>
+                
+                <a class="navbar-item" href="/categories">Categories</a>
+                
+                <a class="navbar-item" href="/tags">Tags</a>
+                
+                <a class="navbar-item" href="/about">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-01-13T20:33:51.000Z">2017-01-13</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/学习笔记/">学习笔记</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    24 分钟 读完 (大约 3598 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                js设计模式
+            
+        </h1>
+        <div class="content">
+            <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="#前言">前言</a></li>
+<li><a href="#单体模式">单体模式</a></li>
+<li><a href="#工厂模式">工厂模式</a></li>
+<li><a href="#迭代器模式">迭代器模式</a></li>
+<li><a href="#装饰者模式">装饰者模式</a></li>
+<li><a href="#策略模式">策略模式</a></li>
+<li><a href="#外观模式">外观模式</a></li>
+<li><a href="#代理模式">代理模式</a></li>
+<li><a href="#中介者模式">中介者模式</a></li>
+<li><a href="#观察者模式">观察者模式</a></li>
+</ul>
+<a id="more"></a>
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文参考于《javascript模式》，因此会大量内容会和书中相同，手上有这本书的朋友可以直接看书。因为我的记忆习惯是抄书，所以我会先抄写下来再发到博客上。</p>
+<h2 id="单体模式"><a href="#单体模式" class="headerlink" title="单体模式"></a>单体模式</h2><p>单体模式思想在于保证一个特定类仅有一个实例，意味着当你第二次使用同一个类创建信对象时，应得到和第一次创建对象完全相同。</p>
+<h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Universe</span>(<span class="hljs-params"></span>)</span>&#123;</span><br><span class="line">    <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> Universe.instance===<span class="hljs-string">"object"</span>)&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> Universe.instance; <span class="hljs-comment">//防止被篡改</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-keyword">this</span>.xx=<span class="hljs-string">"xx"</span>;</span><br><span class="line">    Universe.instance=<span class="hljs-keyword">this</span>;</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">var</span> uni=<span class="hljs-keyword">new</span> Universe();</span><br><span class="line"><span class="hljs-keyword">var</span> uni2=<span class="hljs-keyword">new</span> Universe();</span><br><span class="line">uni===uni2; <span class="hljs-comment">//true</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><p>instance 属性暴露。</p>
+<h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><p>使用闭包</p>
+<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Universe</span>(<span class="hljs-params"></span>)</span>&#123;</span><br><span class="line">    <span class="hljs-keyword">var</span> instance=<span class="hljs-keyword">this</span>; <span class="hljs-comment">//缓存this</span></span><br><span class="line">    <span class="hljs-keyword">this</span>.xx=<span class="hljs-string">"xx"</span>;</span><br><span class="line">    Universe=<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>&#123; <span class="hljs-comment">//重写此构造函数</span></span><br><span class="line">        <span class="hljs-keyword">return</span> instance; </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">var</span> uni=<span class="hljs-keyword">new</span> Universe();</span><br><span class="line"><span class="hljs-keyword">var</span> uni2=<span class="hljs-keyword">new</span> Universe();</span><br><span class="line">uni===uni2; <span class="hljs-comment">//true</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="缺点-1"><a href="#缺点-1" class="headerlink" title="缺点"></a>缺点</h4><p>因为重写了构造函数，constructor 还是指向了老的构造函数,且实例化后在添加原型属性也是不一样的。如下</p>
+<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> uni = <span class="hljs-keyword">new</span> Universe();</span><br><span class="line">Universe.prototype.a = <span class="hljs-number">1</span></span><br><span class="line"><span class="hljs-keyword">var</span> uni2 = <span class="hljs-keyword">new</span> Universe();</span><br><span class="line"><span class="hljs-built_in">console</span>.log(uni === uni2) <span class="hljs-comment">//true</span></span><br><span class="line"><span class="hljs-built_in">console</span>.log(uni.a) <span class="hljs-comment">//undefinded</span></span><br><span class="line"><span class="hljs-built_in">console</span>.log(uni2.a) <span class="hljs-comment">//undefinded</span></span><br><span class="line"><span class="hljs-built_in">console</span>.log(uni.constructor === Universe); <span class="hljs-comment">//false</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="方法三"><a href="#方法三" class="headerlink" title="方法三"></a>方法三</h3><p>解决方法二问题。</p>
+<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Universe</span>(<span class="hljs-params"></span>)</span>&#123;</span><br><span class="line">    <span class="hljs-keyword">var</span> instance;</span><br><span class="line">    Universe=<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Universe</span>(<span class="hljs-params"></span>)</span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> instance ;</span><br><span class="line">    &#125;</span><br><span class="line">    Universe.prototype=<span class="hljs-keyword">this</span>; <span class="hljs-comment">//保存原型属性</span></span><br><span class="line">    instance=<span class="hljs-keyword">new</span> Universe();</span><br><span class="line">    instance.constructor=Universe;</span><br><span class="line">    instance.xx=<span class="hljs-string">"xx"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="方法四"><a href="#方法四" class="headerlink" title="方法四"></a>方法四</h3><p>自运行函数。</p>
+<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> Universe;</span><br><span class="line">(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>&#123;</span><br><span class="line">    <span class="hljs-keyword">var</span> instance;</span><br><span class="line">    Universe=<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Universe</span>(<span class="hljs-params"></span>)</span>&#123;</span><br><span class="line">        <span class="hljs-keyword">if</span>(instance)&#123;</span><br><span class="line">            <span class="hljs-keyword">return</span> instance;</span><br><span class="line">        &#125;</span><br><span class="line">        instance=<span class="hljs-keyword">this</span>;</span><br><span class="line">        <span class="hljs-keyword">this</span>.xx=<span class="hljs-string">"xx"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">var</span> uni = <span class="hljs-keyword">new</span> Universe();</span><br><span class="line">Universe.prototype.a = <span class="hljs-number">1</span></span><br><span class="line"><span class="hljs-keyword">var</span> uni2 = <span class="hljs-keyword">new</span> Universe();</span><br><span class="line"><span class="hljs-built_in">console</span>.log(uni === uni2) <span class="hljs-comment">//true</span></span><br><span class="line"><span class="hljs-built_in">console</span>.log(uni.a)   <span class="hljs-comment">//1</span></span><br><span class="line"><span class="hljs-built_in">console</span>.log(uni2.a)  <span class="hljs-comment">//1</span></span><br><span class="line"><span class="hljs-built_in">console</span>.log(uni.constructor === Universe);  <span class="hljs-comment">//true</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h2><p>工厂模式是为了创建对象。</p>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><ul>
+<li>公共构造函数 CarMaker</li>
+<li>名为factory的CarMaker静态方法来创建car对象</li>
+</ul>
+<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> corolla=CarMaker.factory(<span class="hljs-string">'compact'</span>);</span><br><span class="line"><span class="hljs-keyword">var</span> solstice=CarMaker.factory(<span class="hljs-string">'convertible'</span>);</span><br><span class="line"><span class="hljs-keyword">var</span> cherokee=CarMaker.factory(<span class="hljs-string">'suv'</span>);</span><br><span class="line">corolla.drive() <span class="hljs-comment">//I have 4 doors</span></span><br><span class="line">solstice.drive() <span class="hljs-comment">//I have 2 doors</span></span><br><span class="line">cherokee.drive() <span class="hljs-comment">//I have 6 doors</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h4><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">CarMaker</span>(<span class="hljs-params"></span>) </span>&#123;&#125;</span><br><span class="line">CarMaker.prototype.drive = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-string">"I have "</span> + <span class="hljs-keyword">this</span>.doors + <span class="hljs-string">" doors"</span>;</span><br><span class="line">&#125;</span><br><span class="line">CarMaker.compact = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">this</span>.doors = <span class="hljs-number">4</span>;</span><br><span class="line">&#125;</span><br><span class="line">CarMaker.convertible = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">this</span>.doors = <span class="hljs-number">2</span></span><br><span class="line">&#125;</span><br><span class="line">CarMaker.suv = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">this</span>.doors = <span class="hljs-number">6</span>;</span><br><span class="line">&#125;</span><br><span class="line">CarMaker.factory = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">type</span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> CarMaker[type] !== <span class="hljs-string">"function"</span>) &#123;</span><br><span class="line">        <span class="hljs-keyword">throw</span> <span class="hljs-string">"Error"</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> CarMaker[type].prototype.drive !== <span class="hljs-string">"function"</span>) &#123;</span><br><span class="line">        CarMaker[type].prototype = <span class="hljs-keyword">new</span> CarMaker();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-keyword">var</span> newCar = <span class="hljs-keyword">new</span> CarMaker[type]();</span><br><span class="line">    <span class="hljs-keyword">return</span> newCar;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-keyword">var</span> corolla = CarMaker.factory(<span class="hljs-string">'compact'</span>);</span><br><span class="line"><span class="hljs-built_in">console</span>.log(corolla.drive()); <span class="hljs-comment">//I have 4 doors</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="内置工厂对象"><a href="#内置工厂对象" class="headerlink" title="内置工厂对象"></a>内置工厂对象</h3><p>Object() 构造函数即为内置工厂对象。</p>
+<h2 id="迭代器模式"><a href="#迭代器模式" class="headerlink" title="迭代器模式"></a>迭代器模式</h2><p>有一个包含某种数据集合的对象，该数据可能存储在一个复杂数据结构内部，而要提供一个简单方法讷讷感访问到数据结构中没一个元素。</p>
+<ul>
+<li>next() 下一个</li>
+<li>hasNext() 是否有下一个</li>
+<li>reWind() 重置指针</li>
+<li>current() 返回当前</li>
+</ul>
+<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> agg = (<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">var</span> index = <span class="hljs-number">0</span>;</span><br><span class="line">    <span class="hljs-keyword">var</span> data = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>];</span><br><span class="line">    <span class="hljs-keyword">var</span> length = data.length;</span><br><span class="line">    <span class="hljs-keyword">return</span> &#123;</span><br><span class="line">        next: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123; <span class="hljs-comment">//这里是从第一个数据开始输出 本例中为 1</span></span><br><span class="line">            <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.hasNext()) &#123;</span><br><span class="line">                <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-keyword">var</span> element = data[index];</span><br><span class="line">            index++;</span><br><span class="line">            <span class="hljs-keyword">return</span> element;</span><br><span class="line">        &#125;,</span><br><span class="line">        hasNext: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">            <span class="hljs-keyword">return</span> index &lt; length;</span><br><span class="line">        &#125;,</span><br><span class="line">        reWind: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">            index = <span class="hljs-number">0</span>;</span><br><span class="line">        &#125;,</span><br><span class="line">        current: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">            <span class="hljs-keyword">return</span> data[index];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">while</span> (agg.hasNext()) &#123;</span><br><span class="line">    <span class="hljs-built_in">console</span>.log(agg.next()); <span class="hljs-comment">//1,2,3,4,5,6</span></span><br><span class="line">&#125;</span><br><span class="line">agg.reWind();  <span class="hljs-comment">//此时重置指针到0</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="装饰者模式"><a href="#装饰者模式" class="headerlink" title="装饰者模式"></a>装饰者模式</h2><p>可以在运行时候添加附加功能到对象中，他的一个方便特征在于其预期行为的可定制和可配置特性。</p>
+<p><strong>例子</strong> 假设在开发一个销售商品的Web应用，每一笔信销售都是一个人新的 sale 对象。该对象“知道”有关项目的价格，并可以通过 getPrice() 方法返回加个。<br>根据不同情况，可以用额外的功能装饰此对象。<br>假设客户在魁北克省，买房需要支付联邦税和魁北克省税，则此时需要调用联邦税装饰者和魁北克省税装饰者。</p>
+<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> sale=<span class="hljs-keyword">new</span> Sale(<span class="hljs-number">100</span>);</span><br><span class="line">sale=sale.decorate(<span class="hljs-string">"fedtax"</span>); <span class="hljs-comment">//联邦税</span></span><br><span class="line">sale=sale.decorate(<span class="hljs-string">"quebec"</span>); <span class="hljs-comment">//魁北克省税</span></span><br><span class="line">sale=sale.decorate(<span class="hljs-string">"miney"</span>); <span class="hljs-comment">//转为美元格式</span></span><br><span class="line">sale.getPrice(); <span class="hljs-comment">//返回价格</span></span><br></pre></td></tr></table></figure>
+
+<p>并且装饰是可选的，例如不再魁北克省有可能没有省税。</p>
+<h3 id="方法一-1"><a href="#方法一-1" class="headerlink" title="方法一"></a>方法一</h3><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Sale</span>(<span class="hljs-params">price</span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">this</span>.price = price;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Sale.prototype.getPrice = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.price;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Sale.decorators = &#123;&#125;; <span class="hljs-comment">//储存装饰者的对象</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">//装饰者</span></span><br><span class="line"></span><br><span class="line">Sale.decorators.fedtax = &#123;</span><br><span class="line">    getPrice: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">var</span> price = <span class="hljs-keyword">this</span>.uber.getPrice();</span><br><span class="line">        <span class="hljs-keyword">return</span> price * <span class="hljs-number">0.8</span>; <span class="hljs-comment">//对price进行处理</span></span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Sale.decorators.quebec = &#123;</span><br><span class="line">    getPrice: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">var</span> price = <span class="hljs-keyword">this</span>.uber.getPrice();</span><br><span class="line">        <span class="hljs-keyword">return</span> price * <span class="hljs-number">0.7</span>; <span class="hljs-comment">//对price进行处理</span></span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Sale.decorators.money = &#123;</span><br><span class="line">    getPrice: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">var</span> price = <span class="hljs-keyword">this</span>.uber.getPrice();</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-string">"$"</span> + price * <span class="hljs-number">0.9</span>; <span class="hljs-comment">//对price进行处理</span></span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">/*decorate() 方法</span></span><br><span class="line"><span class="hljs-comment">调用装饰者方法 sale.=sale.decorate("fedtax");</span></span><br><span class="line"><span class="hljs-comment">fedtax字符串对应 Sale.decorators中的对象属性。新装饰对象 newobj 将继承目前我们所拥有的对象，这就是ixiangthis</span></span><br><span class="line"><span class="hljs-comment">为了完成继承部分代码，此时需要一个临时构造函数，先设置 newobj 的 uber 属性，以便于自对象可以访问到父对象。之后从装饰者中</span></span><br><span class="line"><span class="hljs-comment">将所有的额外属性复制到新装饰的对象 newobj 中，最后返回 newobj。</span></span><br><span class="line"><span class="hljs-comment">*/</span></span><br><span class="line"></span><br><span class="line">Sale.prototype.decorate = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">decorate</span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">var</span> F = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;&#125;;</span><br><span class="line">    <span class="hljs-keyword">var</span> overrides = <span class="hljs-keyword">this</span>.constructor.decorators[decorate]; <span class="hljs-comment">//获取装饰者对象</span></span><br><span class="line">    F.prototype = <span class="hljs-keyword">this</span>;</span><br><span class="line">    <span class="hljs-keyword">var</span> newobj = <span class="hljs-keyword">new</span> F();</span><br><span class="line">    newobj.uber = F.prototype;</span><br><span class="line">    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> key <span class="hljs-keyword">in</span> overrides) &#123;</span><br><span class="line">        <span class="hljs-keyword">if</span> (overrides.hasOwnProperty) &#123; <span class="hljs-comment">//判断对象是不是自身的</span></span><br><span class="line">            newobj[key] = overrides[key];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-keyword">return</span> newobj;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">var</span> sale = <span class="hljs-keyword">new</span> Sale(<span class="hljs-number">100</span>);</span><br><span class="line">sale = sale.decorate(<span class="hljs-string">"fedtax"</span>); <span class="hljs-comment">//联邦税</span></span><br><span class="line">sale = sale.decorate(<span class="hljs-string">"quebec"</span>); <span class="hljs-comment">//魁北克省税</span></span><br><span class="line">sale = sale.decorate(<span class="hljs-string">"money"</span>); <span class="hljs-comment">//转为美元格式</span></span><br><span class="line"><span class="hljs-built_in">console</span>.log(sale.getPrice()); <span class="hljs-comment">//$50.4</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="方法二-1"><a href="#方法二-1" class="headerlink" title="方法二"></a>方法二</h3><p>此方法使用列表实现，而且相对来说比较好理解一点。本质就是把装饰者名称保存到一个列表中并且一次调用此列表中的方法。</p>
+<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Sale</span>(<span class="hljs-params">price</span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">this</span>.price = price;</span><br><span class="line">    <span class="hljs-keyword">this</span>.decorateList = [];</span><br><span class="line">&#125;</span><br><span class="line">Sale.decorators = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">Sale.decorators.fedtax = &#123;</span><br><span class="line">    getPrice: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">price</span>) </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">var</span> price = <span class="hljs-keyword">this</span>.uber.getPrice();</span><br><span class="line">        <span class="hljs-keyword">return</span> price * <span class="hljs-number">0.8</span>; <span class="hljs-comment">//对price进行处理</span></span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Sale.decorators.quebec = &#123;</span><br><span class="line">    getPrice: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">price</span>) </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">var</span> price = <span class="hljs-keyword">this</span>.uber.getPrice();</span><br><span class="line">        <span class="hljs-keyword">return</span> price * <span class="hljs-number">0.7</span>; <span class="hljs-comment">//对price进行处理</span></span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Sale.decorators.money = &#123;</span><br><span class="line">    getPrice: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">price</span>) </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">var</span> price = <span class="hljs-keyword">this</span>.uber.getPrice();</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-string">"$"</span> + price * <span class="hljs-number">0.9</span>; <span class="hljs-comment">//对price进行处理</span></span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Sale.prototype.decorate = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">decorator</span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">this</span>.decorateList.push(decorator);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Sale.prototype.getPrice = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">var</span> price = <span class="hljs-keyword">this</span>.price;</span><br><span class="line">    <span class="hljs-keyword">this</span>.decorateList.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">name</span>) </span>&#123;</span><br><span class="line">        price = Sale.decorators[name].getPrice(price);</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="hljs-keyword">return</span> price;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">var</span> sale = <span class="hljs-keyword">new</span> Sale(<span class="hljs-number">100</span>);</span><br><span class="line">sale = sale.decorate(<span class="hljs-string">"fedtax"</span>); <span class="hljs-comment">//联邦税</span></span><br><span class="line">sale = sale.decorate(<span class="hljs-string">"quebec"</span>); <span class="hljs-comment">//魁北克省税</span></span><br><span class="line">sale = sale.decorate(<span class="hljs-string">"money"</span>); <span class="hljs-comment">//转为美元格式</span></span><br><span class="line"><span class="hljs-built_in">console</span>.log(sale.getPrice()); <span class="hljs-comment">//$50.4</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h2><p>策略模式支持在运行时候选择算法。例如用在表单验证问题上，可以创建一个具有 validate() 方法的验证器对象，无论表单具体类型是什么，该方法都会被调用，<br>并且返回结果或者错误信息。</p>
+<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> validator = &#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 所有可以的验证规则处理类存放的地方，后面会单独定义</span></span><br><span class="line">    types: &#123;&#125;,</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 验证类型所对应的错误消息</span></span><br><span class="line">    messages: [],</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 当然需要使用的验证类型</span></span><br><span class="line">    config: &#123;&#125;,</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 暴露的公开验证方法</span></span><br><span class="line">    <span class="hljs-comment">// 传入的参数是 key =&gt; value对</span></span><br><span class="line">    validate: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">data</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">var</span> i, msg, type, checker, result_ok;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-comment">// 清空所有的错误信息</span></span><br><span class="line">        <span class="hljs-keyword">this</span>.messages = [];</span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">for</span> (i <span class="hljs-keyword">in</span> data) &#123;</span><br><span class="line">            <span class="hljs-keyword">if</span> (data.hasOwnProperty(i)) &#123;</span><br><span class="line"></span><br><span class="line">                type = <span class="hljs-keyword">this</span>.config[i];  <span class="hljs-comment">// 根据key查询是否有存在的验证规则</span></span><br><span class="line">                checker = <span class="hljs-keyword">this</span>.types[type]; <span class="hljs-comment">// 获取验证规则的验证类</span></span><br><span class="line"></span><br><span class="line">                <span class="hljs-keyword">if</span> (!type) &#123;</span><br><span class="line">                    <span class="hljs-keyword">continue</span>; <span class="hljs-comment">// 如果验证规则不存在，则不处理</span></span><br><span class="line">                &#125;</span><br><span class="line">                <span class="hljs-keyword">if</span> (!checker) &#123; <span class="hljs-comment">// 如果验证规则类不存在，抛出异常</span></span><br><span class="line">                    <span class="hljs-keyword">throw</span> &#123;</span><br><span class="line">                        name: <span class="hljs-string">"ValidationError"</span>,</span><br><span class="line">                        message: <span class="hljs-string">"No handler to validate type "</span> + type</span><br><span class="line">                    &#125;;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                result_ok = checker.validate(data[i]); <span class="hljs-comment">// 使用查到到的单个验证类进行验证</span></span><br><span class="line">                <span class="hljs-keyword">if</span> (!result_ok) &#123;</span><br><span class="line">                    msg = <span class="hljs-string">"Invalid value for *"</span> + i + <span class="hljs-string">"*, "</span> + checker.instructions;</span><br><span class="line">                    <span class="hljs-keyword">this</span>.messages.push(msg);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.hasErrors();</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// helper</span></span><br><span class="line">    hasErrors: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.messages.length !== <span class="hljs-number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">//然后剩下的工作，就是定义types里存放的各种验证类了</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 验证给定的值是否不为空</span></span><br><span class="line">validator.types.isNonEmpty = &#123;</span><br><span class="line">    validate: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">value</span>) </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> value !== <span class="hljs-string">""</span>;</span><br><span class="line">    &#125;,</span><br><span class="line">    instructions: <span class="hljs-string">"传入的值不能为空"</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 验证给定的值是否是数字</span></span><br><span class="line">validator.types.isNumber = &#123;</span><br><span class="line">    validate: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">value</span>) </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> !<span class="hljs-built_in">isNaN</span>(value);</span><br><span class="line">    &#125;,</span><br><span class="line">    instructions: <span class="hljs-string">"传入的值只能是合法的数字，例如：1, 3.14 or 2010"</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 验证给定的值是否只是字母或数字</span></span><br><span class="line">validator.types.isAlphaNum = &#123;</span><br><span class="line">    validate: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">value</span>) </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> !<span class="hljs-regexp">/[^a-z0-9]/i</span>.test(value);</span><br><span class="line">    &#125;,</span><br><span class="line">    instructions: <span class="hljs-string">"传入的值只能保护字母和数字，不能包含特殊字符"</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="hljs-comment">//使用的时候，我们首先要定义需要验证的数据集合，然后还需要定义每种数据需要验证的规则类型，代码如下：</span></span><br><span class="line"><span class="hljs-keyword">var</span> data = &#123;</span><br><span class="line">    first_name: <span class="hljs-string">"Tom"</span>,</span><br><span class="line">    last_name: <span class="hljs-string">"Xu"</span>,</span><br><span class="line">    age: <span class="hljs-string">"unknown"</span>,</span><br><span class="line">    username: <span class="hljs-string">"TomXu"</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">validator.config = &#123;</span><br><span class="line">    first_name: <span class="hljs-string">'isNonEmpty'</span>,</span><br><span class="line">    age: <span class="hljs-string">'isNumber'</span>,</span><br><span class="line">    username: <span class="hljs-string">'isAlphaNum'</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">//最后获取验证结果 </span></span><br><span class="line"></span><br><span class="line">validator.validate(data);</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">if</span> (validator.hasErrors()) &#123;</span><br><span class="line">    <span class="hljs-built_in">console</span>.log(validator.messages.join(<span class="hljs-string">"\n"</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>策略模式定义及例子实现参考与《javascript模式》及 <a href="http://www.cnblogs.com/TomXu/archive/2012/03/05/2358552.html" target="_blank" rel="noopener">汤姆大叔的博客</a></p>
+<h2 id="外观模式"><a href="#外观模式" class="headerlink" title="外观模式"></a>外观模式</h2><p>外观模式即让多个方法一起被调用</p>
+<p>例如。 stopPropagation() 和 preventDefault() 兼容性一起调用。</p>
+<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> myEvent = &#123;</span><br><span class="line">    stop: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> e.preventDefault() === <span class="hljs-string">"function"</span>) &#123;</span><br><span class="line">            e.preventDefault();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> e.stopPropagation() === <span class="hljs-string">"function"</span>) &#123;</span><br><span class="line">            e.stopPropagation();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-comment">//for IE</span></span><br><span class="line">        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> e.returnValue === <span class="hljs-string">"boolean"</span>) &#123;</span><br><span class="line">            e.returnValue = <span class="hljs-literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> e.cancelBubble === <span class="hljs-string">"boolean"</span>) &#123;</span><br><span class="line">            e.cancelBubble = <span class="hljs-literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="代理模式"><a href="#代理模式" class="headerlink" title="代理模式"></a>代理模式</h2><p>在代理模式中，一个对象充当另外一个对象的接口，和外观模式区别是：外观模式是合并调用多个方法。<br>代理模式是介于对象的客户端和对象本身之间，并且对该对象的访问进行保护。</p>
+<h3 id="包裹例子"><a href="#包裹例子" class="headerlink" title="包裹例子"></a>包裹例子</h3><p>现在有个包裹，卖家要把这个包裹寄给gary，则需要通过快递公司寄过来，此时快递公司就是一个 <code>proxy</code> </p>
+<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> package = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">receiver</span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">this</span>.receiver = receiver;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-keyword">var</span> seller = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">package</span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">this</span>.package = package;</span><br><span class="line">    <span class="hljs-keyword">this</span>.send = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">gift</span>) </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> package.receiver + <span class="hljs-string">"你的包裹:"</span> + gift;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-keyword">var</span> express = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">package</span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">this</span>.package = package;</span><br><span class="line">    <span class="hljs-keyword">this</span>.send = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">packageName</span>) </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> seller(package).send(packageName);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">//调用</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">var</span> ems = <span class="hljs-keyword">new</span> express(<span class="hljs-keyword">new</span> package(<span class="hljs-string">"gary"</span>));</span><br><span class="line"><span class="hljs-built_in">console</span>.log(ems.send(<span class="hljs-string">"键盘"</span>)); <span class="hljs-comment">//gary你的包裹:键盘</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="论坛权限管理例子"><a href="#论坛权限管理例子" class="headerlink" title="论坛权限管理例子"></a>论坛权限管理例子</h3><p>本例子参考与 <a href="http://www.tuicool.com/articles/eyqeUjn" target="_blank" rel="noopener">大熊君</a></p>
+<ul>
+<li>权限列表<ul>
+<li>发帖 1</li>
+<li>帖子审核 2</li>
+<li>删帖 3</li>
+<li>留言、回复 4</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>用户</th>
+<th>代码</th>
+<th>权限</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>注册用户</td>
+<td>001</td>
+<td>1 4</td>
+</tr>
+<tr>
+<td>论坛管理员</td>
+<td>002</td>
+<td>2 3 4</td>
+</tr>
+<tr>
+<td>系统管理员</td>
+<td>003</td>
+<td>1 2 3 4</td>
+</tr>
+<tr>
+<td>游客</td>
+<td>000</td>
+<td>null</td>
+</tr>
+</tbody></table>
+<h4 id="用户类"><a href="#用户类" class="headerlink" title="用户类"></a>用户类</h4><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">User</span>(<span class="hljs-params">name, code</span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">this</span>.name = name;</span><br><span class="line">    <span class="hljs-keyword">this</span>.code = code;</span><br><span class="line">&#125;</span><br><span class="line">User.prototype.getName = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.name;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">User.prototype.getCode = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.code;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">User.prototype.post = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-comment">//发帖功能</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">User.prototype.remove = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-comment">// 删帖功能</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">User.prototype.check = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-comment">//审核</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">User.prototype.comment = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-comment">//留言回复</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="论坛类"><a href="#论坛类" class="headerlink" title="论坛类"></a>论坛类</h4><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Forum</span>(<span class="hljs-params">user</span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">this</span>.user=user;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Forum.prototype.getUser = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.user;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Forum.prototype.post = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">var</span> code=<span class="hljs-keyword">this</span>.user.getCode();</span><br><span class="line">    <span class="hljs-keyword">if</span>(code==<span class="hljs-string">"001"</span>||code==<span class="hljs-string">"003"</span>)&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.user.post();</span><br><span class="line">    &#125;<span class="hljs-keyword">else</span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Forum.prototype.remove = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">var</span> code=<span class="hljs-keyword">this</span>.user.getCode();</span><br><span class="line">    <span class="hljs-keyword">if</span>(code==<span class="hljs-string">"002"</span>||code==<span class="hljs-string">"003"</span>)&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.user.remove();</span><br><span class="line">    &#125;<span class="hljs-keyword">else</span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Forum.prototype.check = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">var</span> code=<span class="hljs-keyword">this</span>.user.getCode();</span><br><span class="line">    <span class="hljs-keyword">if</span>(code==<span class="hljs-string">"002"</span>||code==<span class="hljs-string">"003"</span>)&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.user.check();</span><br><span class="line">    &#125;<span class="hljs-keyword">else</span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Forum.prototype.comment = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">var</span> code=<span class="hljs-keyword">this</span>.user.getCode();</span><br><span class="line">    <span class="hljs-keyword">if</span>(code==<span class="hljs-string">"001"</span>||code==<span class="hljs-string">"002"</span>||code==<span class="hljs-string">"003"</span>)&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.user.comment();</span><br><span class="line">    &#125;<span class="hljs-keyword">else</span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h4><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">new</span> Forum(<span class="hljs-keyword">new</span> User(<span class="hljs-string">"administartor"</span>,<span class="hljs-string">"003"</span>));</span><br></pre></td></tr></table></figure>
+
+<h2 id="中介者模式"><a href="#中介者模式" class="headerlink" title="中介者模式"></a>中介者模式</h2><p>中介者模式可以让多个对象之间松耦合，并降低维护成本</p>
+<p>例如：游戏程序，两名玩家分别给与半分钟时间来竞争决出胜负（谁按键的次数多胜出，这里玩家1按1，玩家2按0）</p>
+<ul>
+<li>计分板（scoreboard)</li>
+<li>中介者 （mediator)</li>
+</ul>
+<p>中介者知道所有其他对象的信息。他与输入设备（此时是键盘）进行通信并处理键盘上的按键时间，之后还将消息通知玩家。玩家玩游戏同时（每一分都更新自己分数）还要<br>通知中介者他所做的事情。中介者将更新后的分数传达给计分板。</p>
+<p>除了中介者莫有对象知道其他对象。</p>
+<h3 id="图示"><a href="#图示" class="headerlink" title="图示"></a>图示</h3><!-- ![图示](http://oj7lzlt0w.bkt.clouddn.com/mediatorpattern.jpg) -->
+
+<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Player</span>(<span class="hljs-params">name</span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">this</span>.points = <span class="hljs-number">0</span>;</span><br><span class="line">    <span class="hljs-keyword">this</span>.name = name;</span><br><span class="line">&#125;</span><br><span class="line">Player.prototype.play = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">this</span>.points += <span class="hljs-number">1</span>;</span><br><span class="line">    mediator.played();</span><br><span class="line">&#125;;</span><br><span class="line"><span class="hljs-keyword">var</span> scoreboard = &#123;</span><br><span class="line">    element: <span class="hljs-string">"这里是获取的element用于展示分数"</span>,</span><br><span class="line">    update: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">score</span>) </span>&#123; <span class="hljs-comment">//更新分数</span></span><br><span class="line">        <span class="hljs-keyword">var</span> msg;</span><br><span class="line">        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> key <span class="hljs-keyword">in</span> score) &#123;</span><br><span class="line">            <span class="hljs-keyword">if</span> (score.hasOwnProperty(key)) &#123;</span><br><span class="line">                msg += score[key];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">this</span>.element.innerText = msg;</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">var</span> mediator = &#123;</span><br><span class="line">    players: &#123;&#125;, <span class="hljs-comment">//玩家对象</span></span><br><span class="line">    setup: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">var</span> players = <span class="hljs-keyword">this</span>.players;</span><br><span class="line">        players.home = <span class="hljs-keyword">new</span> Player(<span class="hljs-string">"home"</span>);</span><br><span class="line">        players.guest = <span class="hljs-keyword">new</span> Player(<span class="hljs-string">'guest'</span>);</span><br><span class="line">    &#125;,</span><br><span class="line">    played: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">var</span> players = <span class="hljs-keyword">this</span>.players;</span><br><span class="line">        <span class="hljs-keyword">var</span> score = &#123;</span><br><span class="line">            home: players.home.points,</span><br><span class="line">            guest: players.guest.points</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    keypress: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>&#123;</span><br><span class="line">        e = e || <span class="hljs-built_in">window</span>.event;</span><br><span class="line">        <span class="hljs-keyword">if</span> (e.which === <span class="hljs-number">49</span>) &#123; <span class="hljs-comment">//or keycode   对应按键 1</span></span><br><span class="line">            mediator.players.home.play();</span><br><span class="line">            <span class="hljs-keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">if</span> (e.which === <span class="hljs-number">48</span>) &#123; <span class="hljs-comment">// 对应按键 0</span></span><br><span class="line">            mediator.player.guest.play();</span><br><span class="line">            <span class="hljs-keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">//运行</span></span><br><span class="line"></span><br><span class="line">mediator.setup();</span><br><span class="line"><span class="hljs-built_in">window</span>.onkeypress = mediator.keypress;</span><br><span class="line">setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123; <span class="hljs-comment">//设置30秒游戏时间</span></span><br><span class="line">    <span class="hljs-built_in">window</span>.onkeypress = <span class="hljs-literal">null</span>;</span><br><span class="line">    alert(<span class="hljs-string">"game end"</span>);</span><br><span class="line">&#125;, <span class="hljs-number">30000</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="观察者模式"><a href="#观察者模式" class="headerlink" title="观察者模式"></a>观察者模式</h2><p>观察者模式在 javascript 中使用非常广泛。所有的浏览器时间就是该模式的实现，node.js中的events也是此模式实现。<br>此模式另一个名称是 <code>订阅/发布模式</code> 。<br>设计这种模式原因是促进形成松散耦合，在这种模式中，并不是一个对象调用另一个对象的方法，而是一个对象订阅另一个对象的<br>特定活动并在状态改编后获得通知。订阅者因此也成为观察者，而被观察的对象成为发布者或者主题。当发生了一个重要事件时候<br>发布者会通知（调用）所有订阅者并且可能经常已事件对象的形式传递消息。</p>
+<h3 id="例子-1"><a href="#例子-1" class="headerlink" title="例子"></a>例子</h3><p>我之前有篇文章即是观察者模式例子</p>
+<p><a href="/2016/12/15/nodejsEventEmitter/">nodejs的EventEmitter</a></p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><h3 id="1-单体模式"><a href="#1-单体模式" class="headerlink" title="1.单体模式"></a><a href="#单体模式">1.单体模式</a></h3><p>针对一个类仅创建一个对象。</p>
+<h3 id="2-工厂模式"><a href="#2-工厂模式" class="headerlink" title="2.工厂模式"></a><a href="#工厂模式">2.工厂模式</a></h3><p>根据字符串制定类型在运行时创建对象的方法。</p>
+<h3 id="3-迭代器模式"><a href="#3-迭代器模式" class="headerlink" title="3.迭代器模式"></a><a href="#迭代器模式">3.迭代器模式</a></h3><p>提供一个API来遍历或者操作复杂的自定义数据结构。</p>
+<h3 id="4-装饰者模式"><a href="#4-装饰者模式" class="headerlink" title="4.装饰者模式"></a><a href="#装饰者模式">4.装饰者模式</a></h3><p>通过从预定义装饰者对象中添加功能，从而在运行时侯调整对象</p>
+<h3 id="5-策略模式"><a href="#5-策略模式" class="headerlink" title="5.策略模式"></a><a href="#策略模式">5.策略模式</a></h3><p>在悬在最佳策略以处理特定任务的时候仍然保持相同的接口。</p>
+<h3 id="6-外观模式"><a href="#6-外观模式" class="headerlink" title="6.外观模式"></a><a href="#外观模式">6.外观模式</a></h3><p>通过把常用方法包装到一个新方法中，从来提供一个更为便利的API。</p>
+<h3 id="7-代理模式"><a href="#7-代理模式" class="headerlink" title="7.代理模式"></a><a href="#代理模式">7.代理模式</a></h3><p>通过包装一个对象从而控制对它的访问，其中主要方法是将方位聚集为租或者<br>仅当真正必要时侯才执行访问，从未避免高昂的操作开销。</p>
+<h3 id="8-终结者模式"><a href="#8-终结者模式" class="headerlink" title="8.终结者模式"></a><a href="#中介者模式">8.终结者模式</a></h3><p>通过是你的对象之间相互不直接“通话”，而是通过一个中介者对子昂进行通信，<br>从而形成松散耦合。</p>
+<h3 id="9-观察者模式"><a href="#9-观察者模式" class="headerlink" title="9.观察者模式"></a><a href="#观察者模式">9.观察者模式</a></h3><p>通过创建“可观察”的对象，当发生一个感兴趣的事件时可将改时间通告给所有观察者<br>从而形成松散耦合。</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/other/">other</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2017/01/21/paipaidai-spider/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">拍拍贷爬虫</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2017/01/11/gulpBrowsersync/">
+                <span class="level-item">gulp配合BrowserSync实现实时刷新</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/images/logo.jpg" alt="GaryChange">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        GaryChange
+                    </p>
+                    
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>北京</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        65
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        8
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        27
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/garychangcn" target="_blank">
+                关注我</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/garychangcn">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Twitter" href="https://twitter.com/garychangcn">
+                
+                <i class="fab fa-twitter"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Weibo" href="https://weibo.com/u/5342844904">
+                
+                <i class="fab fa-weibo"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            友链
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="http://blog.jxdjayden.cn/" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">jxdjayden</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">blog.jxdjayden.cn</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://jacobchang.cn" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">jacob</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">jacobchang.cn</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://blog.e10t.net" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">e10t</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">blog.e10t.net</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/css/">
+            <span class="level-start">
+                <span class="level-item">css</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/javascript/">
+            <span class="level-start">
+                <span class="level-item">javascript</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">24</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/react/">
+            <span class="level-start">
+                <span class="level-item">react</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/typescript/">
+            <span class="level-start">
+                <span class="level-item">typescript</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/作品/">
+            <span class="level-start">
+                <span class="level-item">作品</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">14</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/学习笔记/">
+            <span class="level-start">
+                <span class="level-item">学习笔记</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/杂/">
+            <span class="level-start">
+                <span class="level-item">杂</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/翻译/">
+            <span class="level-start">
+                <span class="level-item">翻译</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/ES6/" style="font-size: 17.14px;">ES6</a> <a href="/tags/ES7/" style="font-size: 10px;">ES7</a> <a href="/tags/angularjs/" style="font-size: 11.43px;">angularjs</a> <a href="/tags/canvas/" style="font-size: 11.43px;">canvas</a> <a href="/tags/cli/" style="font-size: 10px;">cli</a> <a href="/tags/compiler/" style="font-size: 10px;">compiler</a> <a href="/tags/css/" style="font-size: 18.57px;">css</a> <a href="/tags/electron/" style="font-size: 10px;">electron</a> <a href="/tags/go/" style="font-size: 10px;">go</a> <a href="/tags/http/" style="font-size: 10px;">http</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/lib/" style="font-size: 10px;">lib</a> <a href="/tags/mongodb/" style="font-size: 11.43px;">mongodb</a> <a href="/tags/node-js/" style="font-size: 12.86px;">node.js</a> <a href="/tags/npm/" style="font-size: 12.86px;">npm</a> <a href="/tags/other/" style="font-size: 12.86px;">other</a> <a href="/tags/react/" style="font-size: 14.29px;">react</a> <a href="/tags/template/" style="font-size: 10px;">template</a> <a href="/tags/typescript/" style="font-size: 10px;">typescript</a> <a href="/tags/vue/" style="font-size: 12.86px;">vue</a> <a href="/tags/websocket/" style="font-size: 12.86px;">websocket</a> <a href="/tags/作品/" style="font-size: 17.14px;">作品</a> <a href="/tags/教程/" style="font-size: 10px;">教程</a> <a href="/tags/杂/" style="font-size: 10px;">杂</a> <a href="/tags/算法/" style="font-size: 15.71px;">算法</a> <a href="/tags/配置/" style="font-size: 11.43px;">配置</a> <a href="/tags/音频/" style="font-size: 12.86px;">音频</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2018/02/03/audioencode/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="音频编码与容器关系">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-02-03T14:15:49.000Z">2018-02-03</time></div>
+                    <a href="/2018/02/03/audioencode/" class="has-link-black-ter is-size-6">音频编码与容器关系</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/杂/">杂</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2018/02/03/audiovisible/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="音频可视化与音频处理">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-02-03T14:12:25.000Z">2018-02-03</time></div>
+                    <a href="/2018/02/03/audiovisible/" class="has-link-black-ter is-size-6">音频可视化与音频处理</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/javascript/">javascript</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2018/02/03/audiocontext/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="使用 audioContext 演奏音乐">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-02-03T14:08:26.000Z">2018-02-03</time></div>
+                    <a href="/2018/02/03/audiocontext/" class="has-link-black-ter is-size-6">使用 audioContext 演奏音乐</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/javascript/">javascript</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2017/10/29/nirethink/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="使用 electron 编写 rethinkdb 管理软件">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2017-10-28T23:20:27.000Z">2017-10-28</time></div>
+                    <a href="/2017/10/29/nirethink/" class="has-link-black-ter is-size-6">使用 electron 编写 rethinkdb 管理软件</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/作品/">作品</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2017/08/31/react-typescript-template/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="react-typescript-template">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2017-08-30T21:30:17.000Z">2017-08-30</time></div>
+                    <a href="/2017/08/31/react-typescript-template/" class="has-link-black-ter is-size-6">react-typescript-template</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/typescript/">typescript</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/10/">
+                <span class="level-start">
+                    <span class="level-item">十月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/06/">
+                <span class="level-start">
+                    <span class="level-item">六月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/01/">
+                <span class="level-start">
+                    <span class="level-item">一月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/12/">
+                <span class="level-start">
+                    <span class="level-item">十二月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/10/">
+                <span class="level-start">
+                    <span class="level-item">十月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/09/">
+                <span class="level-start">
+                    <span class="level-item">九月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">16</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/01/">
+                <span class="level-start">
+                    <span class="level-item">一月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ES6/">
+                        <span class="tag">ES6</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ES7/">
+                        <span class="tag">ES7</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/angularjs/">
+                        <span class="tag">angularjs</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/canvas/">
+                        <span class="tag">canvas</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/cli/">
+                        <span class="tag">cli</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/compiler/">
+                        <span class="tag">compiler</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/css/">
+                        <span class="tag">css</span>
+                        <span class="tag is-grey">8</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/electron/">
+                        <span class="tag">electron</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/go/">
+                        <span class="tag">go</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/http/">
+                        <span class="tag">http</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/javascript/">
+                        <span class="tag">javascript</span>
+                        <span class="tag is-grey">37</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/lib/">
+                        <span class="tag">lib</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/mongodb/">
+                        <span class="tag">mongodb</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/node-js/">
+                        <span class="tag">node.js</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/npm/">
+                        <span class="tag">npm</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/other/">
+                        <span class="tag">other</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/react/">
+                        <span class="tag">react</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/template/">
+                        <span class="tag">template</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/typescript/">
+                        <span class="tag">typescript</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/vue/">
+                        <span class="tag">vue</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/websocket/">
+                        <span class="tag">websocket</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/作品/">
+                        <span class="tag">作品</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/教程/">
+                        <span class="tag">教程</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/杂/">
+                        <span class="tag">杂</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/算法/">
+                        <span class="tag">算法</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/配置/">
+                        <span class="tag">配置</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/音频/">
+                        <span class="tag">音频</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2018/02/03/audioencode/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="音频编码与容器关系">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-02-03T14:15:49.000Z">2018-02-03</time></div>
+                    <a href="/2018/02/03/audioencode/" class="has-link-black-ter is-size-6">音频编码与容器关系</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/杂/">杂</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2018/02/03/audiovisible/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="音频可视化与音频处理">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-02-03T14:12:25.000Z">2018-02-03</time></div>
+                    <a href="/2018/02/03/audiovisible/" class="has-link-black-ter is-size-6">音频可视化与音频处理</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/javascript/">javascript</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2018/02/03/audiocontext/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="使用 audioContext 演奏音乐">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-02-03T14:08:26.000Z">2018-02-03</time></div>
+                    <a href="/2018/02/03/audiocontext/" class="has-link-black-ter is-size-6">使用 audioContext 演奏音乐</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/javascript/">javascript</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2017/10/29/nirethink/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="使用 electron 编写 rethinkdb 管理软件">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2017-10-28T23:20:27.000Z">2017-10-28</time></div>
+                    <a href="/2017/10/29/nirethink/" class="has-link-black-ter is-size-6">使用 electron 编写 rethinkdb 管理软件</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/作品/">作品</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2017/08/31/react-typescript-template/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="react-typescript-template">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2017-08-30T21:30:17.000Z">2017-08-30</time></div>
+                    <a href="/2017/08/31/react-typescript-template/" class="has-link-black-ter is-size-6">react-typescript-template</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/typescript/">typescript</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/10/">
+                <span class="level-start">
+                    <span class="level-item">十月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/06/">
+                <span class="level-start">
+                    <span class="level-item">六月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/01/">
+                <span class="level-start">
+                    <span class="level-item">一月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/12/">
+                <span class="level-start">
+                    <span class="level-item">十二月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/10/">
+                <span class="level-start">
+                    <span class="level-item">十月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/09/">
+                <span class="level-start">
+                    <span class="level-item">九月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">16</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/01/">
+                <span class="level-start">
+                    <span class="level-item">一月 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ES6/">
+                        <span class="tag">ES6</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ES7/">
+                        <span class="tag">ES7</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/angularjs/">
+                        <span class="tag">angularjs</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/canvas/">
+                        <span class="tag">canvas</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/cli/">
+                        <span class="tag">cli</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/compiler/">
+                        <span class="tag">compiler</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/css/">
+                        <span class="tag">css</span>
+                        <span class="tag is-grey">8</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/electron/">
+                        <span class="tag">electron</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/go/">
+                        <span class="tag">go</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/http/">
+                        <span class="tag">http</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/javascript/">
+                        <span class="tag">javascript</span>
+                        <span class="tag is-grey">37</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/lib/">
+                        <span class="tag">lib</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/mongodb/">
+                        <span class="tag">mongodb</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/node-js/">
+                        <span class="tag">node.js</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/npm/">
+                        <span class="tag">npm</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/other/">
+                        <span class="tag">other</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/react/">
+                        <span class="tag">react</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/template/">
+                        <span class="tag">template</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/typescript/">
+                        <span class="tag">typescript</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/vue/">
+                        <span class="tag">vue</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/websocket/">
+                        <span class="tag">websocket</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/作品/">
+                        <span class="tag">作品</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/教程/">
+                        <span class="tag">教程</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/杂/">
+                        <span class="tag">杂</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/算法/">
+                        <span class="tag">算法</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/配置/">
+                        <span class="tag">配置</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/音频/">
+                        <span class="tag">音频</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.jpg" alt="js设计模式" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 GaryChang&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
