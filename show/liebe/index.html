@@ -61,9 +61,9 @@
     }
 
     const main = () => {
+        const time = parser(new Date().getTime() - startTime)
+        document.getElementById('clock').innerText = time
         setTimeout(() => {
-            const time = parser(new Date().getTime() - startTime)
-            document.getElementById('clock').innerText = time
             main()
         }, 1000)
     }
